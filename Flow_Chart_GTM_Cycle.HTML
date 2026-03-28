@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team SOPs — Launchpad & Retention</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #e0ddd4;
+    --green-dark: #1d4e3a;
+    --green-mid: #2d7a5a;
+    --green-light: #e8f2ed;
+    --amber: #92570a;
+    --amber-light: #fef3e2;
+    --red: #8b1a1a;
+    --red-light: #fef0f0;
+    --blue: #1a3a6b;
+    --blue-light: #ebf2fb;
+    --purple: #4a2d8a;
+    --purple-light: #f2eef9;
+    --gray: #5a5950;
+    --gray-light: #f2f1eb;
+    --yellow-light: #fffbe6;
+    --text: #1a1917;
+    --text2: #5a5950;
+    --text3: #9b9890;
+    --arrow: #c5c2b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 40px 32px;
+  }
+
+  .page-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--green-dark);
+  }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--green-dark);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .flows-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .flow-full {
+    grid-column: 1 / -1;
+  }
+
+  .flow-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .flow-header {
+    background: var(--green-dark);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .flow-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .flow-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .flow-body {
+    padding: 20px;
+  }
+
+  /* Steps */
+  .step {
+    display: flex;
+    gap: 12px;
+    position: relative;
+  }
+
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 36px;
+    flex-shrink: 0;
+  }
+
+  .step-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    border: 1.5px solid;
+  }
+
+  .step-line {
+    width: 1.5px;
+    flex: 1;
+    min-height: 12px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  .step-content {
+    flex: 1;
+    padding-bottom: 16px;
+  }
+
+  .step-day {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+
+  .step-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .step-action {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .step-goal {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 10px;
+    font-style: italic;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Color variants */
+  .c-green .step-dot { background: var(--green-light); border-color: var(--green-mid); color: var(--green-dark); }
+  .c-green .step-day { color: var(--green-dark); }
+  .c-green .step-name { color: var(--green-dark); }
+
+  .c-amber .step-dot { background: var(--amber-light); border-color: var(--amber); color: var(--amber); }
+  .c-amber .step-day { color: var(--amber); }
+  .c-amber .step-name { color: var(--amber); }
+
+  .c-red .step-dot { background: var(--red-light); border-color: var(--red); color: var(--red); }
+  .c-red .step-day { color: var(--red); }
+  .c-red .step-name { color: var(--red); }
+
+  .c-blue .step-dot { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+  .c-blue .step-day { color: var(--blue); }
+  .c-blue .step-name { color: var(--blue); }
+
+  .c-purple .step-dot { background: var(--purple-light); border-color: var(--purple); color: var(--purple); }
+  .c-purple .step-day { color: var(--purple); }
+  .c-purple .step-name { color: var(--purple); }
+
+  .c-gray .step-dot { background: var(--gray-light); border-color: var(--border); color: var(--gray); }
+  .c-gray .step-day { color: var(--gray); }
+  .c-gray .step-name { color: var(--gray); }
+
+  /* Star badge */
+  .star-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    background: var(--yellow-light);
+    color: var(--amber);
+    border: 1px solid #f0d890;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* Bucket legend */
+  .bucket-legend {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .bucket-pill {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-family: 'DM Mono', monospace;
+  }
+  .bp-a { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); }
+  .bp-b { background: var(--blue-light); color: var(--blue); border-color: #93b8e8; }
+  .bp-c { background: var(--gray-light); color: var(--gray); border-color: var(--border); }
+
+  /* Horizontal flow for feedback */
+  .hflow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .hstep {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .hstep-from {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .hstep-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .hstep-desc {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .hstep-freq {
+    margin-top: 6px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text3);
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  /* Completion + PSA side by side handled by grid */
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">Team SOPs — Launchpad & Retention</div>
+  <div class="page-sub">All teams under Shreyashi &nbsp;|&nbsp; Neovarsity &nbsp;|&nbsp; GTN Plan 2026–27</div>
+</div>
+
+<div class="flows-grid">
+
+  <!-- FLOW 1: SALE TO BATCH START -->
+  <div class="flow-section">
+    <div class="flow-header">
+      <div class="flow-num">1</div>
+      <div class="flow-title">Sale to Batch Start</div>
+    </div>
+    <div class="flow-body">
+
+      <div class="step c-green">
+        <div class="step-left"><div class="step-dot">BDA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Sale Closure</div>
+          <div class="step-name">BDA closes + hands over</div>
+          <div class="step-action">Close sale within refund window. Introduce PSA personally — one message, warm handoff. Not a cold pass-off.</div>
+          <div class="step-goal">Before refund window closes</div>
+        </div>
+      </div>
+
+      <div class="step c-green">
+        <div class="step-left"><div class="step-dot">BDA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Daily (ongoing)</div>
+          <div class="step-name">BDA engagement visibility</div>
+          <div class="step-action">Check dashboard: Active / Yellow / Red per learner. Reach out to Red first using original sales relationship. Reference sales conversation, not a script.</div>
+          <div class="step-goal">Daily</div>
+        </div>
+      </div>
+
+      <div class="step c-blue">
+        <div class="step-left"><div class="step-dot">PSA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Pre-batch</div>
+          <div class="step-name">PSA sends 3 content pieces</div>
+          <div class="step-action">(a) What to expect Week 1 &nbsp; (b) Previous batch success story &nbsp; (c) Welcome from instructor</div>
+          <div class="step-goal">Between closure and batch start</div>
+        </div>
+      </div>
+
+      <div class="step c-blue">
+        <div class="step-left"><div class="step-dot">PSA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Day 0</div>
+          <div class="step-name">Batch readiness</div>
+          <div class="step-action">Create WA group. Confirm batch access and profile setup complete.</div>
+          <div class="step-goal">24hrs before batch start</div>
+        </div>
+      </div>
+
+      <div class="step c-purple">
+        <div class="step-left"><div class="step-dot">LPA</div></div>
+        <div class="step-content">
+          <div class="step-day">Pre-batch</div>
+          <div class="step-name">LPA prep</div>
+          <div class="step-action">Receive learner data from PSA. Review goal, track, BDA notes. Know the learner before Day 1.</div>
+          <div class="step-goal">Before Day 1</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FLOW 3: ESCALATION -->
+  <div class="flow-section">
+    <div class="flow-header">
+      <div class="flow-num">3</div>
+      <div class="flow-title">Escalation Matrix — Unresponsive Learner</div>
+    </div>
+    <div class="flow-body">
+
+      <div class="step c-amber">
+        <div class="step-left"><div class="step-dot">LPA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Day 1 EOD — soft flag</div>
+          <div class="step-name">No welcome response</div>
+          <div class="step-action">Mark yellow in tracker. Informal heads-up to PSA. No formal action yet.</div>
+          <div class="step-goal">Monitor to Day 3</div>
+        </div>
+      </div>
+
+      <div class="step c-green">
+        <div class="step-left"><div class="step-dot">LPA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Day 3 — formal flag</div>
+          <div class="step-name">LPA flags to PSA</div>
+          <div class="step-action">Formally flag unresponsive learner. PSA sends WA message.</div>
+          <div class="step-goal">Move to Day 5 if no response</div>
+        </div>
+      </div>
+
+      <div class="step c-blue">
+        <div class="step-left"><div class="step-dot">PSA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Day 5</div>
+          <div class="step-name">PSA direct call</div>
+          <div class="step-action">PSA makes a direct call — not WA. One attempt.</div>
+          <div class="step-goal">Move to Day 7 if no response</div>
+        </div>
+      </div>
+
+      <div class="step c-red">
+        <div class="step-left"><div class="step-dot">BDA</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-day">Day 7</div>
+          <div class="step-name">BDA personal outreach</div>
+          <div class="step-action">BDA uses original sales relationship for one personal outreach. Reference the sales conversation.</div>
+          <div class="step-goal">Move to Day 10 if no response</div>
+        </div>
+      </div>
+
+      <div class="step c-purple">
+        <div class="step-left"><div class="step-dot">MGR</div></div>
+        <div class="step-content">
+          <div class="step-day">Day 10 — decision point</div>
+          <div class="step-name">Shreyashi flags as high risk</div>
+          <div class="step-action">Decision: active intervention or accept as likely refund. Log outcome.</div>
+          <div class="step-goal">Case closed</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FLOW 2: 28-DAY LAUNCHPAD (full width) -->
+  <div class="flow-section flow-full">
+    <div class="flow-header">
+      <div class="flow-num">2</div>
+      <div class="flow-title">Launchpad Team — 28-Day Learner Journey (LPA)</div>
+    </div>
+    <div class="flow-body">
+
+      <div class="bucket-legend">
+        <div class="bucket-pill bp-a">Bucket A — Daily contact (50 learners)</div>
+        <div class="bucket-pill bp-b">Bucket B — Every 3rd day (50 learners)</div>
+        <div class="bucket-pill bp-c">Bucket C — Every 7th day (50 learners)</div>
+        <span style="font-size:10px;color:var(--text3);align-self:center;font-style:italic;">Compare GTN across buckets from Aug 2026 to lock best cadence</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px;">
+
+        <div>
+          <!-- Pre-batch to Day 5 -->
+          <div class="step c-purple">
+            <div class="step-left"><div class="step-dot">LPA</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Pre-batch</div>
+              <div class="step-name">Prep</div>
+              <div class="step-action">Review learner data: goal, track, BDA notes. Know the learner before first contact.</div>
+            </div>
+          </div>
+          <div class="step c-purple">
+            <div class="step-left"><div class="step-dot">D1</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 1</div>
+              <div class="step-name">Why I Joined Card <span class="star-badge">★ Key</span></div>
+              <div class="step-action">Capture: (1) Current situation, (2) Goal in 12 months, (3) Why they said yes. Store. Reference at Day 10 + 21.</div>
+              <div class="step-goal">Personal thread across 28 days</div>
+            </div>
+          </div>
+          <div class="step c-purple">
+            <div class="step-left"><div class="step-dot">D1</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 1</div>
+              <div class="step-name">Welcome + MnG</div>
+              <div class="step-action">Personal welcome referencing learner's goal. Share MnG recordings.</div>
+              <div class="step-goal">Immediate value on Day 1</div>
+            </div>
+          </div>
+          <div class="step c-amber">
+            <div class="step-left"><div class="step-dot">D1</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 1 EOD</div>
+              <div class="step-name">Soft Flag</div>
+              <div class="step-action">No response to welcome? Mark yellow in tracker. Informal PSA heads-up.</div>
+              <div class="step-goal">Catch risk before Day 3</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D1</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 1</div>
+              <div class="step-name">First Win Setup</div>
+              <div class="step-action">When learner completes first task — LPA sends personal message within 24hrs. Individual, not a batch message.</div>
+              <div class="step-goal">First win creates momentum</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D3</div></div>
+            <div class="step-content">
+              <div class="step-day">Day 3</div>
+              <div class="step-name">Task 1 — Career Profile</div>
+              <div class="step-action">Assign career profile evaluation. Award coins. Formally flag non-responders to PSA. Escalation matrix starts.</div>
+              <div class="step-goal">First activity signal</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Day 5 to Day 15 -->
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D5</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 5</div>
+              <div class="step-name">Task 2 — AI Mock</div>
+              <div class="step-action">Assign AI Mock Interview. Share Cortex recorded course for learner's track.</div>
+              <div class="step-goal">Engagement before refund risk peaks</div>
+            </div>
+          </div>
+          <div class="step c-blue">
+            <div class="step-left"><div class="step-dot">D5</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 5</div>
+              <div class="step-name">Peer Intro</div>
+              <div class="step-action">LPA introduces 2-3 learners from same track to each other in WA. Reduces isolation.</div>
+              <div class="step-goal">Cohort connection</div>
+            </div>
+          </div>
+          <div class="step c-purple">
+            <div class="step-left"><div class="step-dot">D7</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 7</div>
+              <div class="step-name">Progress Celebration <span class="star-badge">★ Key</span></div>
+              <div class="step-action">Batch WA message: tasks done across cohort, top 3 coin earners named, one standout response shared.</div>
+              <div class="step-goal">Cohort identity + peer competition</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D10</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 10</div>
+              <div class="step-name">Task 3 — Resume Review</div>
+              <div class="step-action">Assign resume review. Reference Why I Joined Card — connect to their 12-month goal.</div>
+              <div class="step-goal">Reinforce personal relevance</div>
+            </div>
+          </div>
+          <div class="step c-blue">
+            <div class="step-left"><div class="step-dot">D14</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 14</div>
+              <div class="step-name">Goal Check-in</div>
+              <div class="step-action">LPA revisits Why I Joined Card with learner. "You said X, here is where you are." Mid-point emotional anchor.</div>
+              <div class="step-goal">Prevent mid-point dropout</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D14</div></div>
+            <div class="step-content">
+              <div class="step-day">Day 14</div>
+              <div class="step-name">Coins — Exceptional</div>
+              <div class="step-action">Award coins to standout performers. Public recognition in WA group.</div>
+              <div class="step-goal">Motivation at mid-point</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Day 15 to Day 28 + Ongoing -->
+          <div class="step c-purple">
+            <div class="step-left"><div class="step-dot">D15</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 15</div>
+              <div class="step-name">Manager Check-in <span class="star-badge">★ Key</span></div>
+              <div class="step-action">Shreyashi drops into WA group with one human message. e.g. "Halfway through, proud of this batch." Learners screenshot this.</div>
+              <div class="step-goal">Leadership trust signal</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D21</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 21</div>
+              <div class="step-name">Task 4 — MG Prep</div>
+              <div class="step-action">MG Preparation. Reference Why I Joined Card: "You said X, here is how far you have come."</div>
+              <div class="step-goal">Emotional payoff of 3-week journey</div>
+            </div>
+          </div>
+          <div class="step c-blue">
+            <div class="step-left"><div class="step-dot">D28</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 28</div>
+              <div class="step-name">Week 4 Momentum</div>
+              <div class="step-action">"You have made it to Week 4, here is what is coming in the program." Forward-looking. Reduces end-of-Launchpad drop anxiety.</div>
+              <div class="step-goal">Bridge to main program</div>
+            </div>
+          </div>
+          <div class="step c-green">
+            <div class="step-left"><div class="step-dot">D28</div><div class="step-line"></div></div>
+            <div class="step-content">
+              <div class="step-day">Day 28</div>
+              <div class="step-name">Handoff</div>
+              <div class="step-action">Log each learner: Active / At-risk / Churned. Handoff to main program support with context. No Day 30 cliff.</div>
+              <div class="step-goal">Clean handoff</div>
+            </div>
+          </div>
+          <div class="step c-gray">
+            <div class="step-left"><div class="step-dot">↻</div></div>
+            <div class="step-content">
+              <div class="step-day">Ongoing</div>
+              <div class="step-name">Feedback Loop</div>
+              <div class="step-action">Log BDA pitch mismatches. Log lead source of unresponsive learners. Weekly summary to Shreyashi for BDA + Marketing.</div>
+              <div class="step-goal">Insights flow upstream</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOW 4: FEEDBACK LOOPS (full width) -->
+  <div class="flow-section flow-full">
+    <div class="flow-header">
+      <div class="flow-num">4</div>
+      <div class="flow-title">Feedback Loops</div>
+    </div>
+    <div class="flow-body">
+      <div class="hflow">
+        <div class="hstep">
+          <div class="hstep-from">LPA → BDA</div>
+          <div class="hstep-name">Pitch Quality</div>
+          <div class="hstep-desc">Learners with wrong expectations. BDA name + what was miscommunicated during the sales call.</div>
+          <div class="hstep-freq">Weekly</div>
+        </div>
+        <div class="hstep">
+          <div class="hstep-from">LPA → Marketing</div>
+          <div class="hstep-name">Lead Quality</div>
+          <div class="hstep-desc">Lead source of unresponsive learners. Which sources have lowest Week 1 engagement rates.</div>
+          <div class="hstep-freq">Monthly</div>
+        </div>
+        <div class="hstep">
+          <div class="hstep-from">PSA → LPA</div>
+          <div class="hstep-name">Re-engagement</div>
+          <div class="hstep-desc">Which escalated learners came back active. What worked — call vs WA vs BDA outreach.</div>
+          <div class="hstep-freq">Per case + monthly</div>
+        </div>
+        <div class="hstep">
+          <div class="hstep-from">LPA → Shreyashi</div>
+          <div class="hstep-name">Cohort Health</div>
+          <div class="hstep-desc">Active %, at-risk %, coins distributed, task completion rate, bucket comparison across A / B / C.</div>
+          <div class="hstep-freq">Weekly</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
