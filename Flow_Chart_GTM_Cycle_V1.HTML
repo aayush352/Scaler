@@ -104,7 +104,7 @@ svg text { font-family: 'DM Sans', sans-serif; }
 
 <!-- Shreyashi hub -->
 <rect x="415" y="112" width="180" height="34" rx="17" fill="#1d4e3a" opacity="0.85"/>
-<text x="505" y="133" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">SHREYASHI (GM Sales)</text>
+<text x="505" y="133" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">SHREYASHI</text>
 
 <!-- Branch left to Completion Team -->
 <path d="M450 146 C450 168 120 168 120 190" stroke="#1d4e3a" stroke-width="1.5" fill="none" marker-end="url(#mg)"/>
@@ -127,9 +127,9 @@ svg text { font-family: 'DM Sans', sans-serif; }
 
 <!-- Step 2: Manager verify within 7 days -->
 <rect x="22" y="268" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="120" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">2. Manager: Verify within</text>
-<text x="120" y="301" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">7 days of sale</text>
-<text x="120" y="315" text-anchor="middle" font-size="8" fill="#5a5950">Completion team confirms</text>
+<text x="120" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">2. Ensure completion of order</text>
+<text x="120" y="301" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">within 7 days at Manager level</text>
+<text x="120" y="315" text-anchor="middle" font-size="8" fill="#5a5950">Verified by Completion Team</text>
 
 <line x1="120" y1="322" x2="120" y2="342" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
 
@@ -190,11 +190,14 @@ svg text { font-family: 'DM Sans', sans-serif; }
 <path d="M438 302 C453 302 465 302 465 530" stroke="#4a2d8a" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#mp)"/>
 <text x="456" y="418" font-size="8" fill="#4a2d8a" font-style="italic">introduces LPA</text>
 
-<!-- PSA Day 7 check-in (further down) -->
-<rect x="242" y="880" width="196" height="54" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="340" y="900" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA Day 7 Check-in</text>
-<text x="340" y="913" text-anchor="middle" font-size="8.5" fill="#1a3a6b">"How is first week?"</text>
-<text x="340" y="926" text-anchor="middle" font-size="8" fill="#5a5950">Log: positive / neutral / negative</text>
+<!-- PSA Weekly Check-in every 7th day — positioned at Day 7 level -->
+<rect x="242" y="1238" width="196" height="68" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="340" y="1258" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA Weekly Check-in</text>
+<text x="340" y="1271" text-anchor="middle" font-size="8.5" fill="#1a3a6b">Every 7th day (D7, D14, D21, D28)</text>
+<text x="340" y="1284" text-anchor="middle" font-size="8.5" fill="#1a3a6b">"How is the week going?"</text>
+<text x="340" y="1297" text-anchor="middle" font-size="8" fill="#5a5950">Log: positive / neutral / negative</text>
+<!-- connector from LPA Day 7 Progress Celebration to PSA check-in -->
+<line x1="462" y1="1267" x2="438" y2="1267" stroke="#1a3a6b" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#mb)"/>
 
 <!-- ═══════════════════════════════════════
      LPA MAIN TRUNK
@@ -206,7 +209,6 @@ svg text { font-family: 'DM Sans', sans-serif; }
 <text x="571" y="556" text-anchor="middle" font-size="8" fill="#5a5950">Know learner before Day 1</text>
 
 <line x1="571" y1="564" x2="571" y2="590" stroke="#4a2d8a" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#mp)"/>
-<text x="592" y="580" font-size="8" fill="#9b9890" font-style="italic">batch starts</text>
 
 <!-- ═══ DAY 1 Step 1: Share instructor WA message -->
 <rect x="462" y="592" width="218" height="54" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
@@ -329,11 +331,11 @@ svg text { font-family: 'DM Sans', sans-serif; }
 <line x1="571" y1="1214" x2="571" y2="1236" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- ═══ DAY 7: Progress Celebration ═══ -->
-<rect x="462" y="1238" width="218" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
+<rect x="462" y="1238" width="218" height="62" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
 <text x="571" y="1258" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 7 — Progress Celebration *</text>
 <text x="571" y="1271" text-anchor="middle" font-size="8.5" fill="#5a5950">Batch WA: tasks done, top 3 coin</text>
 <text x="571" y="1283" text-anchor="middle" font-size="8.5" fill="#5a5950">earners named, standout response</text>
-<text x="571" y="1295" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">cohort identity + peer competition</text>
+<text x="571" y="1295" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic" font-weight="500">cohort identity + peer competition</text>
 
 <line x1="571" y1="1296" x2="571" y2="1318" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
@@ -418,21 +420,25 @@ svg text { font-family: 'DM Sans', sans-serif; }
 <rect x="22" y="1922" width="874" height="20" rx="5" fill="#1d4e3a"/>
 <text x="459" y="1936" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" letter-spacing="0.5">FEEDBACK LOOPS — INSIGHTS FLOW BACK UPSTREAM</text>
 
-<rect x="22"  y="1950" width="200" height="36" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<rect x="22"  y="1950" width="200" height="44" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
 <text x="122" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to BDA — Pitch Quality</text>
-<text x="122" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Wrong expectations — BDA name + what was mis-sold  |  Weekly</text>
+<text x="122" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Wrong expectations logged</text>
+<text x="122" y="1989" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">BDA name + what was mis-sold | Weekly</text>
 
-<rect x="232" y="1950" width="200" height="36" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<rect x="232" y="1950" width="200" height="44" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
 <text x="332" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to Marketing — Lead Quality</text>
-<text x="332" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Lead source of unresponsive learners  |  Monthly</text>
+<text x="332" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Lead source of unresponsive</text>
+<text x="332" y="1989" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">Lowest W1 engagement | Monthly</text>
 
-<rect x="442" y="1950" width="214" height="36" rx="7" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<rect x="442" y="1950" width="214" height="44" rx="7" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
 <text x="549" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA to LPA — Re-engagement</text>
-<text x="549" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">What worked: call vs WA vs BDA  |  Per case + monthly</text>
+<text x="549" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Which escalated learners came back</text>
+<text x="549" y="1989" text-anchor="middle" font-size="8" fill="#1a3a6b" font-style="italic">What worked: call/WA/BDA | Monthly</text>
 
-<rect x="666" y="1950" width="230" height="36" rx="7" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<rect x="666" y="1950" width="230" height="44" rx="7" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
 <text x="781" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA to Shreyashi — Cohort Health</text>
-<text x="781" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Active %, at-risk %, coins, bucket A/B/C comparison  |  Weekly</text>
+<text x="781" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Active %, at-risk %, coins, tasks</text>
+<text x="781" y="1989" text-anchor="middle" font-size="8" fill="#4a2d8a" font-style="italic">Bucket A/B/C comparison | Weekly</text>
 
 <!-- Closed feedback loops going back up -->
 <path d="M122 1950 C122 1900 10 1900 10 1000 C10 400 22 350 22 340" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mf)"/>
