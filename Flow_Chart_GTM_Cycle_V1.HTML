@@ -27,29 +27,27 @@ h1 { font-size: 19px; font-weight: 600; color: #1d4e3a; margin-bottom: 3px; }
 .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #5a5950; }
 .leg-box { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 .leg-diamond { width: 11px; height: 11px; transform: rotate(45deg); border-radius: 2px; flex-shrink: 0; background:#fff3cd; border: 1.5px solid #b8860b; }
-.flow-wrap { overflow: auto; background: #fff; border-radius: 14px; border: 1px solid #e0ddd4; padding: 20px; }
+.flow-wrap { overflow: auto; background: #fff; border-radius: 14px; border: 1px solid #e0ddd4; padding: 24px; }
 svg text { font-family: 'DM Sans', sans-serif; }
 </style>
 </head>
 <body>
 
 <h1>Team SOPs — Launchpad & Retention</h1>
-<div class="subtitle">All teams under Shreyashi &nbsp;|&nbsp; Neovarsity &nbsp;|&nbsp; GTN Plan 2026-27</div>
+<div class="subtitle">All teams under Shreyashi &nbsp;|&nbsp; Neovarsity &nbsp;|&nbsp; GTN Plan 2026–27</div>
 
 <div class="legend">
-  <div class="leg-item"><div class="leg-box" style="background:#1d4e3a"></div> Start / End</div>
-  <div class="leg-item"><div class="leg-box" style="background:#e8f2ed;border:1.5px solid #2d7a5a"></div> BDA</div>
+  <div class="leg-item"><div class="leg-box" style="background:#1d4e3a"></div> Start / Hub</div>
+  <div class="leg-item"><div class="leg-box" style="background:#e8f2ed;border:1.5px solid #2d7a5a"></div> Completion Team</div>
   <div class="leg-item"><div class="leg-box" style="background:#ebf2fb;border:1.5px solid #1a3a6b"></div> PSA</div>
-  <div class="leg-item"><div class="leg-box" style="background:#f2eef9;border:1.5px solid #4a2d8a"></div> LPA</div>
-  <div class="leg-item"><div class="leg-box" style="background:#f2f1eb;border:1.5px solid #9b9890"></div> Completion Team</div>
-  <div class="leg-item"><div class="leg-box" style="background:#fef3e2;border:1.5px solid #92570a"></div> Flag / Warning</div>
+  <div class="leg-item"><div class="leg-box" style="background:#f2eef9;border:1.5px solid #4a2d8a"></div> LPA (Launchpad Team)</div>
   <div class="leg-item"><div class="leg-box" style="background:#fef0f0;border:1.5px solid #8b1a1a"></div> Escalation</div>
   <div class="leg-item"><div class="leg-diamond"></div> Decision</div>
   <div class="leg-item"><span style="color:#2d7a5a;font-size:13px">- -></span> Feedback loop</div>
 </div>
 
 <div class="flow-wrap">
-<svg width="1300" height="2100" viewBox="0 0 1300 2100" xmlns="http://www.w3.org/2000/svg">
+<svg width="1340" height="2000" viewBox="0 0 1340 2000" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="m0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
     <path d="M1 2L9 5L1 8" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -72,446 +70,411 @@ svg text { font-family: 'DM Sans', sans-serif; }
   <marker id="mf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
     <path d="M1 2L9 5L1 8" fill="none" stroke="#2d7a5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
-  <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#5a5950" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
 </defs>
 
-<!-- ═══════════════════════════════════════════════
-     LANE LABELS (vertical, at top)
-════════════════════════════════════════════════ -->
-<!-- BDA lane: x=30-200 -->
-<rect x="30" y="16" width="160" height="22" rx="5" fill="#e8f2ed"/>
-<text x="110" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4e3a">BDA</text>
+<!-- ═══════════════════════════════════════
+     LANE HEADERS
+═══════════════════════════════════════ -->
+<rect x="20"   y="16" width="200" height="22" rx="5" fill="#e8f2ed"/>
+<text x="120"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4e3a">Completion Team</text>
 
-<!-- PSA lane: x=230-410 -->
-<rect x="230" y="16" width="160" height="22" rx="5" fill="#ebf2fb"/>
-<text x="310" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1a3a6b">PSA</text>
+<rect x="240"  y="16" width="200" height="22" rx="5" fill="#ebf2fb"/>
+<text x="340"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1a3a6b">PSA</text>
 
-<!-- LPA lane: x=460-700 (wider - main trunk) -->
-<rect x="450" y="16" width="220" height="22" rx="5" fill="#f2eef9"/>
-<text x="560" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#4a2d8a">LPA (Launchpad Associate)</text>
+<rect x="460"  y="16" width="220" height="22" rx="5" fill="#f2eef9"/>
+<text x="570"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#4a2d8a">LPA (Launchpad Team)</text>
 
-<!-- Escalation lane: x=720-900 -->
-<rect x="700" y="16" width="180" height="22" rx="5" fill="#fef0f0"/>
-<text x="790" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#8b1a1a">Escalation Track</text>
-
-<!-- Completion lane: x=920-1100 -->
-<rect x="900" y="16" width="180" height="22" rx="5" fill="#f2f1eb" stroke="#d4d2ca" stroke-width="1"/>
-<text x="990" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#5a5950">Completion Team</text>
-
-<!-- Feedback lane: x=1110-1280 -->
-<rect x="1100" y="16" width="170" height="22" rx="5" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
-<text x="1185" y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4e3a">Feedback Loops</text>
+<rect x="700"  y="16" width="190" height="22" rx="5" fill="#fef0f0"/>
+<text x="795"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#8b1a1a">Escalation Track</text>
 
 <!-- Lane dividers -->
-<line x1="222" y1="44" x2="222" y2="2080" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="442" y1="44" x2="442" y2="2080" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="692" y1="44" x2="692" y2="2080" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="892" y1="44" x2="892" y2="2080" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="1092" y1="44" x2="1092" y2="2080" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="233"  y1="44" x2="233"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="453"  y1="44" x2="453"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="693"  y1="44" x2="693"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="900"  y1="44" x2="900"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
 
-<!-- ═══════════════════════════════════════════════
-     TOP CENTRE: SALE CLOSED
-════════════════════════════════════════════════ -->
-<!-- Centred across BDA+PSA+LPA columns: centre ~(30+700)/2 = 365 -->
-<rect x="300" y="52" width="130" height="32" rx="16" fill="#1d4e3a"/>
-<text x="365" y="72" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">SALE CLOSED</text>
+<!-- ═══════════════════════════════════════
+     TOP: SALE CLOSED centred
+═══════════════════════════════════════ -->
+<rect x="435" y="56" width="140" height="32" rx="16" fill="#1d4e3a"/>
+<text x="505" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">SALE CLOSED</text>
 
-<!-- From Sale Closed: 3 branches fan out -->
-<!-- Branch to BDA (left) -->
-<path d="M320 68 C240 68 160 68 160 100" stroke="#2d7a5a" stroke-width="1.5" fill="none" marker-end="url(#mg)"/>
-<!-- Branch to PSA (centre-left) -->
-<path d="M365 84 C365 92 310 92 310 100" stroke="#1a3a6b" stroke-width="1.5" fill="none" marker-end="url(#mb)"/>
-<!-- Branch to Completion (right) -->
-<path d="M410 68 C700 68 990 68 990 100" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#mc)"/>
+<!-- Down to Shreyashi hub -->
+<line x1="505" y1="88" x2="505" y2="110" stroke="#1d4e3a" stroke-width="2" marker-end="url(#mg)"/>
 
-<!-- ═══════════════════════════════════════════════
-     BDA COLUMN
-════════════════════════════════════════════════ -->
-<!-- BDA: Close + Hand over -->
-<rect x="38" y="102" width="148" height="52" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="112" y="120" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">BDA: Close + Hand over</text>
-<text x="112" y="133" text-anchor="middle" font-size="8.5" fill="#2d7a5a">Warm intro to PSA</text>
-<text x="112" y="146" text-anchor="middle" font-size="8.5" fill="#5a5950">one personal message</text>
+<!-- Shreyashi hub -->
+<rect x="415" y="112" width="180" height="34" rx="17" fill="#1d4e3a" opacity="0.85"/>
+<text x="505" y="133" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">SHREYASHI (GM Sales)</text>
 
-<!-- BDA arrow down to Daily Visibility -->
-<line x1="112" y1="154" x2="112" y2="176" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
+<!-- Branch left to Completion Team -->
+<path d="M450 146 C450 168 120 168 120 190" stroke="#1d4e3a" stroke-width="1.5" fill="none" marker-end="url(#mg)"/>
+<text x="290" y="163" text-anchor="middle" font-size="8.5" fill="#1d4e3a" font-weight="600">Completion Team</text>
 
-<!-- BDA: Daily Engagement Visibility -->
-<rect x="38" y="178" width="148" height="66" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="112" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Daily Visibility Dashboard</text>
-<rect x="46" y="203" width="132" height="16" rx="4" fill="#e8f2ed" stroke="#1d4e3a" stroke-width="0.5"/>
-<text x="112" y="215" text-anchor="middle" font-size="8" fill="#1d4e3a" font-weight="600">ACTIVE - no action</text>
-<rect x="46" y="221" width="132" height="16" rx="4" fill="#fef3e2" stroke="#92570a" stroke-width="0.5"/>
-<text x="112" y="233" text-anchor="middle" font-size="8" fill="#92570a" font-weight="600">YELLOW - monitor</text>
-<rect x="46" y="238" width="132" height="16" rx="4" fill="#fef0f0" stroke="#8b1a1a" stroke-width="0.5"/>
+<!-- Branch right to PSA -->
+<path d="M560 146 C560 168 340 168 340 190" stroke="#1a3a6b" stroke-width="1.5" fill="none" marker-end="url(#mb)"/>
+<text x="460" y="163" text-anchor="middle" font-size="8.5" fill="#1a3a6b" font-weight="600">PSA Team</text>
 
-<!-- Highlight RED as clickable/action -->
-<text x="112" y="250" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">RED - reach out today</text>
-
-<!-- ═══════════════════════════════════════════════
-     PSA COLUMN
-════════════════════════════════════════════════ -->
-<!-- PSA: 3 Pre-batch pieces -->
-<rect x="234" y="102" width="152" height="52" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="310" y="120" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">3 Pre-batch Content Pieces</text>
-<text x="310" y="133" text-anchor="middle" font-size="8" fill="#1a3a6b">(a) What to expect Week 1</text>
-<text x="310" y="146" text-anchor="middle" font-size="8" fill="#5a5950">(b) Success story  (c) Welcome</text>
-
-<line x1="310" y1="154" x2="310" y2="176" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
-
-<!-- PSA: WA group + batch readiness -->
-<rect x="234" y="178" width="152" height="44" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="310" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">WA Group + Readiness</text>
-<text x="310" y="209" text-anchor="middle" font-size="8.5" fill="#1a3a6b">Access confirmed</text>
-<text x="310" y="221" text-anchor="middle" font-size="8" fill="#5a5950">Profile setup complete</text>
-
-<line x1="310" y1="222" x2="310" y2="244" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
-
-<!-- PSA: Intro call to LPA -->
-<rect x="234" y="246" width="152" height="44" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="310" y="264" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">Introduction Call</text>
-<text x="310" y="277" text-anchor="middle" font-size="8.5" fill="#1a3a6b">Warm handoff to LPA</text>
-<text x="310" y="289" text-anchor="middle" font-size="8" fill="#5a5950">Reference learner goal</text>
-
-<!-- PSA → LPA arrow (intro) -->
-<path d="M386 268 C420 268 450 268 450 340" stroke="#4a2d8a" stroke-width="1.5" fill="none" marker-end="url(#mp)"/>
-<text x="428" y="305" font-size="8" fill="#4a2d8a" text-anchor="middle">intro to LPA</text>
-
-<!-- PSA Day 7 check-in (lower in PSA column) -->
-<rect x="234" y="890" width="152" height="44" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="310" y="908" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA Day 7 Check-in</text>
-<text x="310" y="921" text-anchor="middle" font-size="8.5" fill="#1a3a6b">"How is first week?"</text>
-<text x="310" y="933" text-anchor="middle" font-size="8" fill="#5a5950">Log: positive / neutral / neg</text>
-
-<!-- ═══════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      COMPLETION TEAM COLUMN
-════════════════════════════════════════════════ -->
-<!-- Completion: Incentivisation check -->
-<rect x="908" y="102" width="160" height="52" rx="8" fill="#f2f1eb" stroke="#9b9890" stroke-width="1.5"/>
-<text x="988" y="120" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">Incentivisation Check</text>
-<text x="988" y="133" text-anchor="middle" font-size="8.5" fill="#5a5950">Manager verifies within</text>
-<text x="988" y="146" text-anchor="middle" font-size="8.5" fill="#5a5950">7 days of sale closure</text>
+═══════════════════════════════════════ -->
+<!-- Step 1: BDA closes within refund window -->
+<rect x="22" y="192" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="120" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">1. BDA: Close within</text>
+<text x="120" y="225" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">refund window</text>
+<text x="120" y="239" text-anchor="middle" font-size="8" fill="#5a5950">Ensures incentivisation check</text>
 
-<line x1="988" y1="154" x2="988" y2="176" stroke="#9b9890" stroke-width="1.5" marker-end="url(#mc)"/>
+<line x1="120" y1="246" x2="120" y2="266" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
 
-<!-- Completion: Recordings on CRM -->
-<rect x="908" y="178" width="160" height="52" rx="8" fill="#f2f1eb" stroke="#9b9890" stroke-width="1.5"/>
-<text x="988" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">Recordings on CRM</text>
-<text x="988" y="209" text-anchor="middle" font-size="8.5" fill="#5a5950">Within 24hrs of each session</text>
-<text x="988" y="222" text-anchor="middle" font-size="8.5" fill="#5a5950">ensures no fake promises</text>
+<!-- Step 2: Manager verify within 7 days -->
+<rect x="22" y="268" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="120" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">2. Manager: Verify within</text>
+<text x="120" y="301" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">7 days of sale</text>
+<text x="120" y="315" text-anchor="middle" font-size="8" fill="#5a5950">Completion team confirms</text>
 
-<line x1="988" y1="230" x2="988" y2="252" stroke="#9b9890" stroke-width="1.5" marker-end="url(#mc)"/>
+<line x1="120" y1="322" x2="120" y2="342" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
 
-<!-- Completion: Daily unresponsive list → BDA -->
-<rect x="908" y="254" width="160" height="52" rx="8" fill="#f2f1eb" stroke="#9b9890" stroke-width="1.5"/>
-<text x="988" y="272" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">Daily Unresponsive List</text>
-<text x="988" y="285" text-anchor="middle" font-size="8.5" fill="#5a5950">Shared with BDA daily</text>
-<text x="988" y="298" text-anchor="middle" font-size="8.5" fill="#5a5950">for personal outreach</text>
+<!-- Step 3: Recordings present & accessible -->
+<rect x="22" y="344" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="120" y="364" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">3. Ensure all recordings</text>
+<text x="120" y="377" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">present & accessible</text>
+<text x="120" y="391" text-anchor="middle" font-size="8" fill="#5a5950">For Sales — within 24hrs of session</text>
 
-<!-- Completion → BDA feedback arrow -->
-<path d="M908 280 C600 280 280 280 186 246" stroke="#1d4e3a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mf)"/>
-<text x="560" y="272" text-anchor="middle" font-size="8" fill="#1d4e3a" font-style="italic">daily unresponsive list to BDA</text>
+<line x1="120" y1="398" x2="120" y2="418" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
 
-<!-- ═══════════════════════════════════════════════
-     LPA MAIN TRUNK — starts at y=340
-════════════════════════════════════════════════ -->
-<!-- LPA: Pre-batch prep -->
-<rect x="450" y="316" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="334" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA Pre-batch Prep</text>
-<text x="555" y="347" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Review: goal, track, BDA notes</text>
-<text x="555" y="359" text-anchor="middle" font-size="8" fill="#5a5950">Know learner before Day 1</text>
+<!-- Step 4: Daily visibility for BD Team -->
+<rect x="22" y="420" width="196" height="74" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="120" y="440" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">4. Daily Visibility to BD Team</text>
+<text x="120" y="453" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Incomplete + un-engaged orders</text>
+<!-- Sub-status pills -->
+<rect x="32" y="460" width="176" height="14" rx="4" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
+<text x="120" y="471" text-anchor="middle" font-size="7.5" fill="#92570a" font-weight="600">Data in sync with LP Team</text>
+<rect x="32" y="477" width="84" height="12" rx="3" fill="#fef0f0" stroke="#8b1a1a" stroke-width="0.5"/>
+<text x="74"  y="487" text-anchor="middle" font-size="7.5" fill="#8b1a1a" font-weight="600">RED — act today</text>
+<rect x="122" y="477" width="86" height="12" rx="3" fill="#fef3e2" stroke="#92570a" stroke-width="0.5"/>
+<text x="165" y="487" text-anchor="middle" font-size="7.5" fill="#92570a" font-weight="600">YELLOW — monitor</text>
 
-<!-- dashed: batch starts -->
-<line x1="555" y1="360" x2="555" y2="386" stroke="#4a2d8a" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#mp)"/>
-<text x="575" y="376" font-size="8" fill="#9b9890" font-style="italic">batch starts</text>
+<!-- Feedback arrow: Completion → BDA (left side loop) -->
+<path d="M22 457 C10 457 10 800 10 1200" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none"/>
+<text x="6" y="750" font-size="8" fill="#2d7a5a" font-style="italic" writing-mode="tb">daily visibility to BDA</text>
 
-<!-- ═══ DAY 1 ═══ -->
-<!-- Why I Joined Card (star — yellow highlight) -->
-<rect x="450" y="388" width="210" height="62" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="555" y="408" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 - Why I Joined Card *</text>
-<text x="555" y="421" text-anchor="middle" font-size="8.5" fill="#5a5950">(1) Current situation</text>
-<text x="555" y="433" text-anchor="middle" font-size="8.5" fill="#5a5950">(2) Goal in 12 months</text>
-<text x="555" y="445" text-anchor="middle" font-size="8.5" fill="#5a5950">(3) Why they said yes — store + ref D10/D21</text>
+<!-- ═══════════════════════════════════════
+     PSA COLUMN
+═══════════════════════════════════════ -->
+<!-- PSA Step 1: WA Group with learner + BDA -->
+<rect x="242" y="192" width="196" height="54" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="340" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">1. Create WA Group</text>
+<text x="340" y="225" text-anchor="middle" font-size="9" fill="#1a3a6b">with learner + BDA</text>
+<text x="340" y="239" text-anchor="middle" font-size="8" fill="#5a5950">in sync with BDA</text>
 
-<line x1="555" y1="450" x2="555" y2="472" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="340" y1="246" x2="340" y2="266" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
 
-<!-- Welcome + MnG -->
-<rect x="450" y="474" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="492" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 - Welcome + MnG</text>
-<text x="555" y="505" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Personal welcome, ref learner goal</text>
-<text x="555" y="517" text-anchor="middle" font-size="8" fill="#5a5950">Share MnG recordings</text>
+<!-- PSA Step 2: Introduction call + introduce LPA -->
+<rect x="242" y="268" width="196" height="64" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="340" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">2. Introduction Call</text>
+<text x="340" y="301" text-anchor="middle" font-size="8.5" fill="#1a3a6b">with learner</text>
+<rect x="252" y="308" width="176" height="16" rx="4" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
+<text x="340" y="319" text-anchor="middle" font-size="8" fill="#4a2d8a" font-weight="600">Introduce LPA (Launchpad Team)</text>
 
-<line x1="555" y1="518" x2="555" y2="540" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="340" y1="332" x2="340" y2="352" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
 
-<!-- DECISION: Responded by EOD? -->
-<polygon points="555,542 612,572 555,602 498,572" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="555" y="568" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Responded</text>
-<text x="555" y="581" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">by EOD?</text>
+<!-- PSA Step 3: Pre-batch content -->
+<rect x="242" y="354" width="196" height="74" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="340" y="374" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">3. Share Pre-batch Content</text>
+<rect x="252" y="381" width="176" height="14" rx="4" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="0.5"/>
+<text x="340" y="391" text-anchor="middle" font-size="8" fill="#1a3a6b">(a) What to expect in Week 1</text>
+<rect x="252" y="397" width="176" height="14" rx="4" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="0.5"/>
+<text x="340" y="407" text-anchor="middle" font-size="8" fill="#1a3a6b">(b) Success Stories</text>
+<text x="340" y="420" text-anchor="middle" font-size="8" fill="#5a5950">Between closure & batch start</text>
+
+<!-- PSA → LPA intro arrow -->
+<path d="M438 302 C453 302 465 302 465 530" stroke="#4a2d8a" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#mp)"/>
+<text x="456" y="418" font-size="8" fill="#4a2d8a" font-style="italic">introduces LPA</text>
+
+<!-- PSA Day 7 check-in (further down) -->
+<rect x="242" y="880" width="196" height="54" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="340" y="900" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA Day 7 Check-in</text>
+<text x="340" y="913" text-anchor="middle" font-size="8.5" fill="#1a3a6b">"How is first week?"</text>
+<text x="340" y="926" text-anchor="middle" font-size="8" fill="#5a5950">Log: positive / neutral / negative</text>
+
+<!-- ═══════════════════════════════════════
+     LPA MAIN TRUNK
+═══════════════════════════════════════ -->
+<!-- LPA introduced (starts after PSA intro) -->
+<rect x="462" y="510" width="218" height="54" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="530" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA: Introduced by PSA</text>
+<text x="571" y="543" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Reviews: goal, track, BDA notes</text>
+<text x="571" y="556" text-anchor="middle" font-size="8" fill="#5a5950">Know learner before Day 1</text>
+
+<line x1="571" y1="564" x2="571" y2="590" stroke="#4a2d8a" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#mp)"/>
+<text x="592" y="580" font-size="8" fill="#9b9890" font-style="italic">batch starts</text>
+
+<!-- ═══ DAY 1 Step 1: Share instructor WA message -->
+<rect x="462" y="592" width="218" height="54" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="612" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Share Instructor</text>
+<text x="571" y="625" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">WhatsApp Message</text>
+<text x="571" y="638" text-anchor="middle" font-size="8" fill="#5a5950">Message shared by instructors</text>
+
+<line x1="571" y1="646" x2="571" y2="668" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+
+<!-- ═══ DAY 1 Step 2: Why I Joined Card (YELLOW highlight) -->
+<rect x="462" y="670" width="218" height="74" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
+<text x="571" y="690" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Review Goal Track *</text>
+<rect x="472" y="697" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
+<text x="571" y="707" text-anchor="middle" font-size="8" fill="#5a5950">(1) Current situation</text>
+<rect x="472" y="713" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
+<text x="571" y="723" text-anchor="middle" font-size="8" fill="#5a5950">(2) Goal for next 12 months</text>
+<rect x="472" y="729" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
+<text x="571" y="739" text-anchor="middle" font-size="8" fill="#5a5950">(3) Why they said yes</text>
+
+<line x1="571" y1="744" x2="571" y2="766" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+
+<!-- ═══ DAY 1 Step 3: M&G Prep -->
+<rect x="462" y="768" width="218" height="64" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="788" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Prepare for M&G</text>
+<rect x="472" y="795" width="198" height="14" rx="3" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
+<text x="571" y="805" text-anchor="middle" font-size="8" fill="#4a2d8a">Share MnG recordings</text>
+<rect x="472" y="811" width="198" height="14" rx="3" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
+<text x="571" y="821" text-anchor="middle" font-size="8" fill="#4a2d8a">Share related video</text>
+
+<line x1="571" y1="832" x2="571" y2="854" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+
+<!-- DECISION: Responded? -->
+<polygon points="571,856 628,886 571,916 514,886" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+<text x="571" y="882" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Responded</text>
+<text x="571" y="895" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">by EOD?</text>
 
 <!-- YES -->
-<line x1="555" y1="602" x2="555" y2="624" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="565" y="616" font-size="8.5" fill="#1d4e3a" font-weight="600">YES</text>
+<line x1="571" y1="916" x2="571" y2="938" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
+<text x="581" y="930" font-size="8.5" fill="#1d4e3a" font-weight="600">YES</text>
 
-<!-- NO branch → soft flag (right) -->
-<path d="M612 572 L700 572" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
-<text x="656" y="565" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">NO</text>
+<!-- NO → Soft Flag -->
+<path d="M628 886 L703 886" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
+<text x="665" y="879" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">NO</text>
 
-<!-- ESC: Day 1 EOD Soft Flag -->
-<rect x="702" y="548" width="168" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="786" y="566" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 1 EOD - Soft Flag</text>
-<text x="786" y="579" text-anchor="middle" font-size="8.5" fill="#92570a">Mark yellow in tracker</text>
-<text x="786" y="591" text-anchor="middle" font-size="8" fill="#5a5950">Informal PSA heads-up</text>
+<!-- ESC: Soft Flag Day 1 EOD -->
+<rect x="705" y="862" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
+<text x="797" y="882" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 1 EOD — Soft Flag</text>
+<text x="797" y="895" text-anchor="middle" font-size="8.5" fill="#92570a">Mark yellow in tracker</text>
+<text x="797" y="907" text-anchor="middle" font-size="8" fill="#5a5950">Informal PSA heads-up</text>
 
-<line x1="786" y1="596" x2="786" y2="650" stroke="#92570a" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ma)"/>
-<text x="800" y="626" font-size="8" fill="#9b9890" font-style="italic">monitor</text>
-
-<!-- First Win Setup -->
-<rect x="450" y="626" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="644" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 - First Win Setup</text>
-<text x="555" y="657" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Personal ack within 24hrs</text>
-<text x="555" y="669" text-anchor="middle" font-size="8" fill="#5a5950">when learner completes first task</text>
-
-<line x1="555" y1="670" x2="555" y2="692" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="797" y1="910" x2="797" y2="960" stroke="#92570a" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ma)"/>
+<text x="812" y="937" font-size="8" fill="#9b9890" font-style="italic">monitor</text>
 
 <!-- ═══ DAY 3 ═══ -->
-<rect x="450" y="694" width="210" height="48" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="555" y="712" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 3 - Task 1: Career Profile</text>
-<text x="555" y="725" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Assign eval + award coins</text>
-<text x="555" y="737" text-anchor="middle" font-size="8" fill="#5a5950">Escalate non-responders formally</text>
+<rect x="462" y="940" width="218" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="571" y="960" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 3 — Task 1: Career Profile</text>
+<text x="571" y="973" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Assign eval + award coins</text>
+<text x="571" y="985" text-anchor="middle" font-size="8" fill="#5a5950">Escalate non-responders formally</text>
 
-<line x1="555" y1="742" x2="555" y2="764" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="994" x2="571" y2="1016" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- DECISION: Still unresponsive? -->
-<polygon points="555,766 612,796 555,826 498,796" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="555" y="792" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Still</text>
-<text x="555" y="805" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">unresponsive?</text>
+<polygon points="571,1018 628,1048 571,1078 514,1048" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+<text x="571" y="1044" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Still</text>
+<text x="571" y="1057" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">unresponsive?</text>
 
-<!-- ACTIVE: continue -->
-<line x1="555" y1="826" x2="555" y2="848" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="565" y="840" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
+<line x1="571" y1="1078" x2="571" y2="1100" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
+<text x="581" y="1092" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
 
-<!-- YES unresponsive → Day 3 formal -->
-<path d="M612 796 L700 796" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
-<text x="656" y="789" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">UNRESPONSIVE</text>
+<path d="M628 1048 L703 1048" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
+<text x="665" y="1041" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">UNRESPONSIVE</text>
 
-<!-- ESC Day 3 formal flag -->
-<rect x="702" y="652" width="168" height="44" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="786" y="670" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 3 - Formal Flag</text>
-<text x="786" y="683" text-anchor="middle" font-size="8.5" fill="#92570a">LPA flags to PSA</text>
-<text x="786" y="695" text-anchor="middle" font-size="8" fill="#5a5950">PSA sends WA message</text>
+<!-- ESC: Day 3 Formal Flag -->
+<rect x="705" y="962" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
+<text x="797" y="982" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 3 — Formal Flag</text>
+<text x="797" y="995" text-anchor="middle" font-size="8.5" fill="#92570a">LPA flags to PSA</text>
+<text x="797" y="1007" text-anchor="middle" font-size="8" fill="#5a5950">PSA sends WA message</text>
 
-<line x1="786" y1="696" x2="786" y2="742" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
+<line x1="797" y1="1010" x2="797" y2="1060" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
 
-<!-- ESC Day 5 PSA call -->
-<rect x="702" y="744" width="168" height="44" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
-<text x="786" y="762" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 5 - PSA Direct Call</text>
-<text x="786" y="775" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Not WA — actual call</text>
-<text x="786" y="787" text-anchor="middle" font-size="8" fill="#5a5950">one attempt</text>
+<!-- ESC: Day 5 PSA direct call -->
+<rect x="705" y="1062" width="184" height="44" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
+<text x="797" y="1082" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 5 — PSA Direct Call</text>
+<text x="797" y="1095" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Not WA — actual call</text>
+<text x="797" y="1104" text-anchor="middle" font-size="8" fill="#5a5950">One attempt</text>
 
-<line x1="786" y1="788" x2="786" y2="828" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
+<!-- connect Day 3 unresponsive path to Day 5 -->
+<path d="M703 1048 L695 1048 L695 1084 L703 1084" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
 
-<!-- ESC Day 7 BDA -->
-<rect x="702" y="830" width="168" height="52" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
-<text x="786" y="848" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 7 - BDA Outreach</text>
-<text x="786" y="861" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Personal outreach</text>
-<text x="786" y="874" text-anchor="middle" font-size="8" fill="#5a5950">Sales relationship, not template</text>
+<line x1="797" y1="1106" x2="797" y2="1150" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
 
-<!-- connect Day 3 unresponsive to Day 7 (same y level as Day 3 decision) -->
-<path d="M700 796 L690 796 L690 846 L700 846" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
+<!-- ESC: Day 7 BDA personal outreach -->
+<rect x="705" y="1152" width="184" height="52" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
+<text x="797" y="1172" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 7 — BDA Outreach</text>
+<text x="797" y="1185" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Uses sales relationship</text>
+<text x="797" y="1198" text-anchor="middle" font-size="8" fill="#5a5950">Reference sales conv. — not a script</text>
 
-<line x1="786" y1="882" x2="786" y2="922" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
+<line x1="797" y1="1204" x2="797" y2="1248" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
 
-<!-- ESC Day 10 Shreyashi -->
-<rect x="702" y="924" width="168" height="52" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="786" y="942" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 10 - Shreyashi</text>
-<text x="786" y="955" text-anchor="middle" font-size="8.5" fill="#4a2d8a">High refund risk flag</text>
-<text x="786" y="968" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">CASE CLOSED</text>
+<!-- ESC: Day 10 Shreyashi -->
+<rect x="705" y="1250" width="184" height="52" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="797" y="1270" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 10 — Shreyashi</text>
+<text x="797" y="1283" text-anchor="middle" font-size="8.5" fill="#4a2d8a">High refund risk flag</text>
+<text x="797" y="1296" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">CASE CLOSED</text>
 
 <!-- ═══ DAY 5 ═══ -->
-<rect x="450" y="850" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="868" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 - Task 2: AI Mock</text>
-<text x="555" y="881" text-anchor="middle" font-size="8.5" fill="#4a2d8a">AI Mock Interview + Cortex course</text>
-<text x="555" y="893" text-anchor="middle" font-size="8" fill="#5a5950">for learner track</text>
+<rect x="462" y="1102" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="1120" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 — Task 2: AI Mock</text>
+<text x="571" y="1133" text-anchor="middle" font-size="8.5" fill="#4a2d8a">AI Mock Interview + Cortex course</text>
+<text x="571" y="1145" text-anchor="middle" font-size="8" fill="#5a5950">for learner track</text>
 
-<line x1="555" y1="894" x2="555" y2="916" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1146" x2="571" y2="1168" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
-<rect x="450" y="918" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="936" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 - Peer Intro</text>
-<text x="555" y="949" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Intro 2-3 same-track learners</text>
-<text x="555" y="961" text-anchor="middle" font-size="8" fill="#5a5950">to each other via WA</text>
+<!-- Day 5 Peer Intro -->
+<rect x="462" y="1170" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="1188" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 — Peer Intro</text>
+<text x="571" y="1201" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Intro 2-3 same-track learners</text>
+<text x="571" y="1213" text-anchor="middle" font-size="8" fill="#5a5950">to each other via WA</text>
 
-<line x1="555" y1="962" x2="555" y2="984" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1214" x2="571" y2="1236" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
-<!-- ═══ DAY 7 ═══ -->
-<rect x="450" y="986" width="210" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="555" y="1006" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 7 - Progress Celebration *</text>
-<text x="555" y="1019" text-anchor="middle" font-size="8.5" fill="#5a5950">Batch WA: tasks done, top 3 coin</text>
-<text x="555" y="1031" text-anchor="middle" font-size="8.5" fill="#5a5950">earners named, standout response</text>
-<text x="555" y="1043" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">cohort identity + competition</text>
+<!-- ═══ DAY 7: Progress Celebration ═══ -->
+<rect x="462" y="1238" width="218" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
+<text x="571" y="1258" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 7 — Progress Celebration *</text>
+<text x="571" y="1271" text-anchor="middle" font-size="8.5" fill="#5a5950">Batch WA: tasks done, top 3 coin</text>
+<text x="571" y="1283" text-anchor="middle" font-size="8.5" fill="#5a5950">earners named, standout response</text>
+<text x="571" y="1295" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">cohort identity + peer competition</text>
 
-<line x1="555" y1="1044" x2="555" y2="1066" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1296" x2="571" y2="1318" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- ═══ DAY 10 ═══ -->
-<rect x="450" y="1068" width="210" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="555" y="1086" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 10 - Task 3: Resume Review</text>
-<text x="555" y="1099" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Why I Joined Card</text>
-<text x="555" y="1111" text-anchor="middle" font-size="8" fill="#5a5950">connect to 12-month goal</text>
+<rect x="462" y="1320" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="571" y="1338" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 10 — Task 3: Resume Review</text>
+<text x="571" y="1351" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Why I Joined — 12-month goal</text>
+<text x="571" y="1363" text-anchor="middle" font-size="8" fill="#5a5950">Connect personal relevance</text>
 
-<line x1="555" y1="1112" x2="555" y2="1134" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1364" x2="571" y2="1386" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- ═══ DAY 14 ═══ -->
-<rect x="450" y="1136" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="1154" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 14 - Goal Check-in</text>
-<text x="555" y="1167" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Revisit Why I Joined Card</text>
-<text x="555" y="1179" text-anchor="middle" font-size="8" fill="#5a5950">"You said X, here is where you are"</text>
+<rect x="462" y="1388" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="1406" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 14 — Goal Check-in</text>
+<text x="571" y="1419" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Revisit Why I Joined Card</text>
+<text x="571" y="1431" text-anchor="middle" font-size="8" fill="#5a5950">"You said X, here is where you are"</text>
 
-<line x1="555" y1="1180" x2="555" y2="1202" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1432" x2="571" y2="1454" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
-<rect x="450" y="1204" width="210" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="555" y="1222" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 14 - Coins: Exceptional</text>
-<text x="555" y="1235" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Award coins to standouts</text>
-<text x="555" y="1247" text-anchor="middle" font-size="8" fill="#5a5950">Public WA recognition</text>
+<rect x="462" y="1456" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="571" y="1474" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 14 — Coins: Exceptional</text>
+<text x="571" y="1487" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Award coins to standouts</text>
+<text x="571" y="1499" text-anchor="middle" font-size="8" fill="#5a5950">Public WA recognition</text>
 
-<line x1="555" y1="1248" x2="555" y2="1270" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1500" x2="571" y2="1522" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
-<!-- ═══ DAY 15 ═══ -->
-<rect x="450" y="1272" width="210" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="555" y="1292" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 15 - Manager Check-in *</text>
-<text x="555" y="1305" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Shreyashi drops into WA group</text>
-<text x="555" y="1317" text-anchor="middle" font-size="8.5" fill="#5a5950">"Halfway through — proud of batch"</text>
-<text x="555" y="1329" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">leadership trust signal</text>
+<!-- ═══ DAY 15: Manager Check-in ═══ -->
+<rect x="462" y="1524" width="218" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
+<text x="571" y="1544" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 15 — Manager Check-in *</text>
+<text x="571" y="1557" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Shreyashi drops into WA group</text>
+<text x="571" y="1569" text-anchor="middle" font-size="8.5" fill="#5a5950">"Halfway through — proud of batch"</text>
+<text x="571" y="1581" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">leadership trust signal</text>
 
-<line x1="555" y1="1330" x2="555" y2="1352" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1582" x2="571" y2="1604" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- ═══ DAY 21 ═══ -->
-<rect x="450" y="1354" width="210" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="555" y="1372" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 21 - Task 4: MG Prep</text>
-<text x="555" y="1385" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Why I Joined Card</text>
-<text x="555" y="1397" text-anchor="middle" font-size="8" fill="#5a5950">"Here is how far you have come"</text>
+<rect x="462" y="1606" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="571" y="1624" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 21 — Task 4: MG Prep</text>
+<text x="571" y="1637" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Goal Track Card</text>
+<text x="571" y="1649" text-anchor="middle" font-size="8" fill="#5a5950">"Here is how far you have come"</text>
 
-<line x1="555" y1="1398" x2="555" y2="1420" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1650" x2="571" y2="1672" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
 <!-- ═══ DAY 28 ═══ -->
-<rect x="450" y="1422" width="210" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="555" y="1440" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 28 - Week 4 Momentum</text>
-<text x="555" y="1453" text-anchor="middle" font-size="8.5" fill="#4a2d8a">"Here is what is coming"</text>
-<text x="555" y="1465" text-anchor="middle" font-size="8" fill="#5a5950">reduce end-of-Launchpad anxiety</text>
+<rect x="462" y="1674" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="571" y="1692" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 28 — Week 4 Momentum</text>
+<text x="571" y="1705" text-anchor="middle" font-size="8.5" fill="#4a2d8a">"Here is what is coming"</text>
+<text x="571" y="1717" text-anchor="middle" font-size="8" fill="#5a5950">Reduce end-of-Launchpad anxiety</text>
 
-<line x1="555" y1="1466" x2="555" y2="1488" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
+<line x1="571" y1="1718" x2="571" y2="1740" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
 
-<!-- DECISION: Learner status at Day 28? -->
-<polygon points="555,1490 622,1524 555,1558 488,1524" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="555" y="1520" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Learner</text>
-<text x="555" y="1533" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">status?</text>
+<!-- DECISION: Learner status at Day 28 -->
+<polygon points="571,1742 634,1776 571,1810 508,1776" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
+<text x="571" y="1772" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Learner</text>
+<text x="571" y="1785" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">status?</text>
 
 <!-- ACTIVE → Handoff -->
-<line x1="555" y1="1558" x2="555" y2="1580" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="565" y="1572" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
+<line x1="571" y1="1810" x2="571" y2="1832" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
+<text x="581" y="1824" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
 
-<!-- AT-RISK branch right -->
-<path d="M622 1524 L700 1524" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
-<text x="661" y="1517" text-anchor="middle" font-size="8" fill="#92570a" font-weight="600">AT-RISK</text>
+<!-- AT-RISK branch -->
+<path d="M634 1776 L703 1776" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
+<text x="668" y="1769" text-anchor="middle" font-size="8" fill="#92570a" font-weight="600">AT-RISK</text>
 
-<rect x="702" y="1500" width="168" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="786" y="1518" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Flag + Log</text>
-<text x="786" y="1531" text-anchor="middle" font-size="8.5" fill="#92570a">Notify PSA + Shreyashi</text>
-<text x="786" y="1543" text-anchor="middle" font-size="8" fill="#5a5950">Document reason</text>
+<rect x="705" y="1752" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
+<text x="797" y="1772" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Flag + Log</text>
+<text x="797" y="1785" text-anchor="middle" font-size="8.5" fill="#92570a">Notify PSA + Shreyashi</text>
+<text x="797" y="1797" text-anchor="middle" font-size="8" fill="#5a5950">Document reason</text>
 
-<!-- Handoff -->
-<rect x="450" y="1582" width="210" height="56" rx="8" fill="#e8f2ed" stroke="#1d4e3a" stroke-width="2"/>
-<text x="555" y="1602" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 28 - HANDOFF</text>
-<text x="555" y="1615" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Log: Active / At-risk / Churned</text>
-<text x="555" y="1628" text-anchor="middle" font-size="8" fill="#5a5950">To main program support</text>
-<text x="555" y="1638" text-anchor="middle" font-size="8" fill="#1d4e3a" font-weight="500">No Day 30 cliff</text>
+<!-- Handoff end node -->
+<rect x="462" y="1834" width="218" height="56" rx="8" fill="#e8f2ed" stroke="#1d4e3a" stroke-width="2"/>
+<text x="571" y="1854" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 28 — HANDOFF</text>
+<text x="571" y="1867" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Log: Active / At-risk / Churned</text>
+<text x="571" y="1880" text-anchor="middle" font-size="8" fill="#5a5950">Handoff to main program</text>
+<text x="571" y="1889" text-anchor="middle" font-size="8" fill="#1d4e3a" font-weight="500">No Day 30 cliff</text>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      FEEDBACK LOOPS SECTION
-════════════════════════════════════════════════ -->
-<line x1="555" y1="1638" x2="555" y2="1680" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
+═══════════════════════════════════════ -->
+<line x1="571" y1="1890" x2="571" y2="1920" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
 
-<rect x="28" y="1682" width="862" height="20" rx="5" fill="#1d4e3a"/>
-<text x="459" y="1696" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" letter-spacing="0.5">FEEDBACK LOOPS — INSIGHTS FLOW BACK UPSTREAM</text>
+<rect x="22" y="1922" width="874" height="20" rx="5" fill="#1d4e3a"/>
+<text x="459" y="1936" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" letter-spacing="0.5">FEEDBACK LOOPS — INSIGHTS FLOW BACK UPSTREAM</text>
 
-<!-- 4 feedback cards -->
-<rect x="28" y="1710" width="200" height="80" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="128" y="1730" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to BDA</text>
-<text x="128" y="1743" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Pitch Quality</text>
-<text x="128" y="1756" text-anchor="middle" font-size="8" fill="#5a5950">Learners with wrong expectations</text>
-<text x="128" y="1769" text-anchor="middle" font-size="8" fill="#5a5950">BDA name + what was miscommunicated</text>
-<text x="128" y="1783" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">Weekly</text>
-<path d="M450 1750 C300 1750 228 1750 228 1750" stroke="#2d7a5a" stroke-width="1.5" fill="none" marker-end="url(#mf)"/>
+<rect x="22"  y="1950" width="200" height="36" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="122" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to BDA — Pitch Quality</text>
+<text x="122" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Wrong expectations — BDA name + what was mis-sold  |  Weekly</text>
 
-<rect x="238" y="1710" width="200" height="80" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="338" y="1730" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to Marketing</text>
-<text x="338" y="1743" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Lead Quality</text>
-<text x="338" y="1756" text-anchor="middle" font-size="8" fill="#5a5950">Lead source of unresponsive</text>
-<text x="338" y="1769" text-anchor="middle" font-size="8" fill="#5a5950">Lowest W1 engagement sources</text>
-<text x="338" y="1783" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">Monthly</text>
+<rect x="232" y="1950" width="200" height="36" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
+<text x="332" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to Marketing — Lead Quality</text>
+<text x="332" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Lead source of unresponsive learners  |  Monthly</text>
 
-<rect x="448" y="1710" width="200" height="80" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="548" y="1730" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA to LPA</text>
-<text x="548" y="1743" text-anchor="middle" font-size="8.5" fill="#1a3a6b">Re-engagement</text>
-<text x="548" y="1756" text-anchor="middle" font-size="8" fill="#5a5950">Which escalated learners came back</text>
-<text x="548" y="1769" text-anchor="middle" font-size="8" fill="#5a5950">What worked: call vs WA vs BDA</text>
-<text x="548" y="1783" text-anchor="middle" font-size="8" fill="#1a3a6b" font-style="italic">Per case + monthly</text>
+<rect x="442" y="1950" width="214" height="36" rx="7" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
+<text x="549" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA to LPA — Re-engagement</text>
+<text x="549" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">What worked: call vs WA vs BDA  |  Per case + monthly</text>
 
-<rect x="658" y="1710" width="200" height="80" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="758" y="1730" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA to Shreyashi</text>
-<text x="758" y="1743" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Cohort Health</text>
-<text x="758" y="1756" text-anchor="middle" font-size="8" fill="#5a5950">Active %, at-risk %, coins, tasks</text>
-<text x="758" y="1769" text-anchor="middle" font-size="8" fill="#5a5950">Bucket A vs B vs C comparison</text>
-<text x="758" y="1783" text-anchor="middle" font-size="8" fill="#4a2d8a" font-style="italic">Weekly</text>
+<rect x="666" y="1950" width="230" height="36" rx="7" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
+<text x="781" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA to Shreyashi — Cohort Health</text>
+<text x="781" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Active %, at-risk %, coins, bucket A/B/C comparison  |  Weekly</text>
 
-<!-- Closed feedback loop arrows going back up -->
-<path d="M112 1710 C112 1660 30 1660 30 500 C30 244 38 186 38 178" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mf)"/>
-<text x="18" y="950" font-size="8" fill="#2d7a5a" font-style="italic" writing-mode="tb">pitch quality to BDA</text>
+<!-- Closed feedback loops going back up -->
+<path d="M122 1950 C122 1900 10 1900 10 1000 C10 400 22 350 22 340" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mf)"/>
+<path d="M795 1950 C795 1900 910 1900 910 1000 C910 400 895 350 895 308" stroke="#4a2d8a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mp)"/>
 
-<path d="M786 1710 C786 1660 870 1660 870 500 C870 300 988 300 988 254" stroke="#4a2d8a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mp)"/>
-<text x="875" y="950" font-size="8" fill="#4a2d8a" font-style="italic" writing-mode="tb">cohort health to Shreyashi</text>
+<!-- ═══════════════════════════════════════
+     RIGHT PANELS — 3 Bucket + BDA view
+═══════════════════════════════════════ -->
+<rect x="910" y="56" width="190" height="220" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
+<text x="1005" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">3-BUCKET EXPERIMENT</text>
+<text x="1005" y="93" text-anchor="middle" font-size="9" fill="#5a5950">150 orders / 50 learners each</text>
+<rect x="920" y="102" width="170" height="34" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
+<text x="1005" y="116" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">A — Daily Contact</text>
+<text x="1005" y="130" text-anchor="middle" font-size="8" fill="#5a5950">LPA reaches out every day</text>
+<rect x="920" y="142" width="170" height="34" rx="6" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1"/>
+<text x="1005" y="156" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">B — Every 3rd Day</text>
+<text x="1005" y="170" text-anchor="middle" font-size="8" fill="#5a5950">D1, 3, 5, 7, 10, 14, 21, 28</text>
+<rect x="920" y="182" width="170" height="34" rx="6" fill="#f2f1eb" stroke="#d4d2ca" stroke-width="1"/>
+<text x="1005" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">C — Every 7th Day</text>
+<text x="1005" y="210" text-anchor="middle" font-size="8" fill="#5a5950">D1, 7, 14, 21, 28 only</text>
+<rect x="920" y="222" width="170" height="44" rx="6" fill="#fffbe6" stroke="#b8860b" stroke-width="1"/>
+<text x="1005" y="237" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">Compare GTN from Aug 2026</text>
+<text x="1005" y="250" text-anchor="middle" font-size="8" fill="#5a5950">Lock best cadence thereafter</text>
+<text x="1005" y="263" text-anchor="middle" font-size="8" fill="#5a5950">to scale LPA operations</text>
 
-<!-- ═══════════════════════════════════════════════
-     RIGHT SIDE PANELS
-════════════════════════════════════════════════ -->
-<!-- 3-Bucket Panel -->
-<rect x="1108" y="60" width="172" height="220" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
-<text x="1194" y="82" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">3-BUCKET EXPERIMENT</text>
-<text x="1194" y="96" text-anchor="middle" font-size="9" fill="#5a5950">150 orders / 50 each</text>
-<rect x="1118" y="106" width="152" height="34" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
-<text x="1194" y="120" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">A - Daily Contact</text>
-<text x="1194" y="133" text-anchor="middle" font-size="8" fill="#5a5950">LPA every single day</text>
-<rect x="1118" y="146" width="152" height="34" rx="6" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1"/>
-<text x="1194" y="160" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">B - Every 3rd Day</text>
-<text x="1194" y="173" text-anchor="middle" font-size="8" fill="#5a5950">D1,3,5,7,10,14,21,28</text>
-<rect x="1118" y="186" width="152" height="34" rx="6" fill="#f2f1eb" stroke="#d4d2ca" stroke-width="1"/>
-<text x="1194" y="200" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">C - Every 7th Day</text>
-<text x="1194" y="213" text-anchor="middle" font-size="8" fill="#5a5950">D1,7,14,21,28 only</text>
-<rect x="1118" y="226" width="152" height="44" rx="6" fill="#fffbe6" stroke="#b8860b" stroke-width="1"/>
-<text x="1194" y="242" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">Compare GTN Aug 2026</text>
-<text x="1194" y="255" text-anchor="middle" font-size="8" fill="#5a5950">Lock best cadence</text>
-<text x="1194" y="267" text-anchor="middle" font-size="8" fill="#5a5950">thereafter</text>
+<rect x="910" y="296" width="190" height="170" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
+<text x="1005" y="318" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">BDA DAILY VIEW</text>
+<text x="1005" y="333" text-anchor="middle" font-size="9" fill="#5a5950">Dashboard — check every day</text>
+<rect x="920" y="342" width="170" height="30" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
+<text x="1005" y="362" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">ACTIVE — no action needed</text>
+<rect x="920" y="378" width="170" height="30" rx="6" fill="#fef3e2" stroke="#92570a" stroke-width="1"/>
+<text x="1005" y="398" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">YELLOW — monitor</text>
+<rect x="920" y="414" width="170" height="46" rx="6" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1"/>
+<text x="1005" y="430" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">RED — act today</text>
+<text x="1005" y="443" text-anchor="middle" font-size="8" fill="#5a5950">Personal outreach via</text>
+<text x="1005" y="455" text-anchor="middle" font-size="8" fill="#5a5950">sales relationship — not a script</text>
 
-<!-- BDA Visibility panel -->
-<rect x="1108" y="296" width="172" height="186" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
-<text x="1194" y="318" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">BDA DAILY VIEW</text>
-<text x="1194" y="332" text-anchor="middle" font-size="9" fill="#5a5950">Checks every day</text>
-<rect x="1118" y="342" width="152" height="30" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
-<text x="1194" y="362" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">ACTIVE - no action</text>
-<rect x="1118" y="378" width="152" height="30" rx="6" fill="#fef3e2" stroke="#92570a" stroke-width="1"/>
-<text x="1194" y="398" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">YELLOW - monitor</text>
-<rect x="1118" y="414" width="152" height="58" rx="6" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1"/>
-<text x="1194" y="430" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">RED - act today</text>
-<text x="1194" y="443" text-anchor="middle" font-size="8" fill="#5a5950">Personal outreach using</text>
-<text x="1194" y="456" text-anchor="middle" font-size="8" fill="#5a5950">sales relationship</text>
-<text x="1194" y="469" text-anchor="middle" font-size="8" fill="#5a5950">Not a script</text>
-
-<!-- Footer -->
-<rect x="28" y="1806" width="862" height="22" rx="5" fill="#f2f1eb"/>
-<text x="459" y="1821" text-anchor="middle" font-size="9" fill="#5a5950">* = Key initiatives: Why I Joined Card (D1), Progress Celebration (D7), Manager Check-in (D15)  |  LPA = Launchpad Associate  |  First 150 orders</text>
+<!-- Footer note -->
+<rect x="22" y="1994" width="874" height="20" rx="5" fill="#f2f1eb"/>
+<text x="459" y="2008" text-anchor="middle" font-size="9" fill="#5a5950">* = Key initiatives: Goal Track Card (D1), Progress Celebration (D7), Manager Check-in (D15)  |  LPA = Launchpad Associate  |  First 150 orders</text>
 
 </svg>
 </div>
-
 </body>
 </html>
