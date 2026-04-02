@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Team Aayush — Scaler Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --ink: #0d0d12;
+  --ink2: #1a1a24;
+  --ink3: #252535;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0f0f8;
+  --muted: #6b6b88;
+  --muted2: #9898b8;
+  --accent: #c8ff57;
+  --accent-dim: rgba(200,255,87,0.12);
+  --accent-dim2: rgba(200,255,87,0.06);
+  --blue: #4a9eff;
+  --blue-dim: rgba(74,158,255,0.12);
+  --coral: #ff6b6b;
+  --coral-dim: rgba(255,107,107,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
+  --amber: #fbbf24;
+  --amber-dim: rgba(251,191,36,0.12);
+  --teal: #34d399;
+  --teal-dim: rgba(52,211,153,0.12);
+  --r: 10px;
+  --r-sm: 6px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'IBM Plex Mono', monospace; background: var(--ink); color: var(--text); min-height: 100vh; font-size: 13px; }
+
+/* ── SECTION NAV (top-level: Marketing / CRM / Audit / Completion) ── */
+.section-nav { background: #111118; border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; gap: 0; height: 44px; position: sticky; top: 0; z-index: 60; }
+.section-nav-brand { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 15px; color: var(--accent); letter-spacing: -0.5px; margin-right: 36px; white-space: nowrap; }
+.section-nav-brand span { color: var(--muted2); font-weight: 400; }
+.section-tab { padding: 0 20px; height: 100%; display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; letter-spacing: 0.3px; position: relative; }
+.section-tab:hover { color: var(--text); }
+.section-tab.active { color: var(--text); border-bottom-color: var(--text); }
+.section-tab.active.s-marketing { color: var(--accent); border-bottom-color: var(--accent); }
+.section-tab.active.s-crm { color: var(--blue); border-bottom-color: var(--blue); }
+.section-tab.active.s-audit { color: var(--amber); border-bottom-color: var(--amber); }
+.section-tab.active.s-completion { color: var(--teal); border-bottom-color: var(--teal); }
+.section-tab-icon { font-size: 13px; line-height: 1; }
+.section-tab-soon { font-size: 8.5px; padding: 1px 5px; border-radius: 3px; background: var(--ink3); color: var(--muted); margin-left: 2px; }
+
+/* ── TOP NAV (ARPU tabs — shown only under Marketing) ── */
+.top-nav { background: var(--ink2); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; gap: 0; height: 48px; position: sticky; top: 44px; z-index: 50; }
+.top-nav-brand { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 15px; color: var(--accent); letter-spacing: -0.5px; margin-right: 32px; white-space: nowrap; }
+.top-nav-brand span { color: var(--muted2); font-weight: 400; }
+.main-tab { padding: 0 18px; height: 100%; display: flex; align-items: center; font-size: 11.5px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; letter-spacing: 0.3px; }
+.main-tab:hover { color: var(--text); }
+.main-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.main-tab.disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── PLACEHOLDER SECTION PANELS ── */
+.section-placeholder { padding: 60px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
+.section-placeholder-icon { font-size: 48px; margin-bottom: 20px; opacity: 0.4; }
+.section-placeholder-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.section-placeholder-sub { font-size: 12px; color: var(--muted); max-width: 420px; line-height: 1.7; }
+.section-placeholder-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; padding: 7px 16px; border-radius: 20px; font-size: 11px; font-weight: 500; border: 1px solid; }
+
+/* ── CRM MODULE STYLES ── */
+.crm-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.crm-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; position: relative; overflow: hidden; }
+.crm-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.crm-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+.crm-sub { font-size: 10px; color: var(--muted); margin-top: 5px; }
+
+/* ── AUDIT MODULE STYLES ── */
+.audit-row { display: grid; align-items: center; gap: 0; padding: 11px 16px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+.audit-row:hover { background: rgba(255,255,255,0.02); }
+.audit-row.hdr { background: var(--ink3); font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+.audit-score { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; font-size: 11px; font-weight: 700; }
+
+/* ── COMPLETION MODULE STYLES ── */
+.comp-track { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 14px; }
+.comp-track-header { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.comp-track-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 600; }
+.comp-track-pct { font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 700; }
+.comp-bar-outer { height: 8px; background: var(--ink3); }
+.comp-bar-inner { height: 100%; transition: width 0.8s ease; }
+
+/* ── CONTEXT BAR (Team/BDA selector + Program + sub-section toggles) ── */
+.context-bar { background: var(--ink2); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; gap: 12px; height: 46px; overflow-x: auto; }
+.context-bar::-webkit-scrollbar { height: 2px; }
+.context-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; white-space: nowrap; }
+.context-select { background: var(--ink3); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 5px 10px; color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 11px; outline: none; cursor: pointer; transition: border-color 0.15s; }
+.context-select:focus { border-color: var(--accent); }
+.context-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+
+/* ── SUB-NAV ── */
+.sub-nav { background: var(--ink2); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; gap: 4px; height: 40px; overflow-x: auto; }
+.sub-nav::-webkit-scrollbar { height: 2px; }
+.sub-nav::-webkit-scrollbar-thumb { background: var(--border2); }
+.sub-tab { padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; letter-spacing: 0.3px; }
+.sub-tab:hover { color: var(--text); background: var(--ink3); }
+.sub-tab.active { color: var(--ink); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+.sub-tab.sales-tab { border-color: rgba(200,255,87,0.3); color: var(--accent); }
+.sub-tab.sales-tab.active { color: var(--ink); background: var(--accent); }
+
+/* ── FILTERS BAR ── */
+.filters-bar { padding: 12px 28px; display: flex; align-items: center; gap: 10px; background: var(--ink); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.filter-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-right: 4px; }
+.filter-select { background: var(--ink2); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 5px 10px; color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 11px; outline: none; cursor: pointer; transition: border-color 0.15s; }
+.filter-select:focus { border-color: var(--accent); }
+.filter-divider { width: 1px; height: 20px; background: var(--border); margin: 0 6px; }
+.filter-btn { padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid var(--border2); background: none; color: var(--muted2); font-family: 'IBM Plex Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.15s; }
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.accent { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+/* ── API STATUS ── */
+.api-status { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--muted); background: var(--ink2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; margin-left: auto; cursor: pointer; }
+.api-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.api-dot.error { background: var(--coral); }
+.api-dot.loading { background: var(--amber); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* ── CANVAS ── */
+.canvas { padding: 24px 28px; max-width: 1600px; }
+
+/* ── PAGE HEADER ── */
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.page-title span { color: var(--accent); }
+.page-sub { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.3px; }
+.last-updated { font-size: 10px; color: var(--muted); background: var(--ink2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+
+/* ── KPI ROW ── */
+.kpi-row { display: grid; gap: 12px; margin-bottom: 20px; }
+.kpi-row-4 { grid-template-columns: repeat(4, 1fr); }
+.kpi-row-5 { grid-template-columns: repeat(5, 1fr); }
+.kpi-row-6 { grid-template-columns: repeat(6, 1fr); }
+.kpi-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+.kpi-card:hover { border-color: var(--border2); }
+.kpi-card.accent-card { border-color: rgba(200,255,87,0.25); background: var(--accent-dim2); }
+.kpi-card-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.kpi-card-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+.kpi-card.accent-card .kpi-card-value { color: var(--accent); }
+.kpi-card-sub { font-size: 10px; color: var(--muted); margin-top: 6px; }
+.kpi-card-delta { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-top: 6px; }
+.kpi-card-delta.up { background: rgba(52,211,153,0.12); color: var(--teal); }
+.kpi-card-delta.down { background: rgba(255,107,107,0.12); color: var(--coral); }
+.kpi-stripe { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 20px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.section-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: -0.2px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; display: block; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+.section-badge { font-size: 9px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--ink3); color: var(--muted2); border: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
+
+/* ── GRIDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 14px; }
+
+/* ── CHART CARD ── */
+.chart-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
+.chart-card-title { font-size: 11px; font-weight: 500; color: var(--muted2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+.chart-card-title span { font-weight: 400; color: var(--muted); text-transform: none; letter-spacing: 0; font-size: 10px; }
+
+/* ── TABLE ── */
+.data-table-wrap { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead tr { background: var(--ink3); }
+.data-table th { padding: 10px 14px; text-align: left; font-size: 9.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); white-space: nowrap; border-bottom: 1px solid var(--border); }
+.data-table td { padding: 10px 14px; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table td.highlight { color: var(--accent); font-weight: 600; }
+.data-table td.muted { color: var(--muted); }
+
+/* ── PILL ── */
+.pill { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 500; }
+.pill-green { background: rgba(52,211,153,0.15); color: var(--teal); }
+.pill-red { background: rgba(255,107,107,0.15); color: var(--coral); }
+.pill-blue { background: rgba(74,158,255,0.15); color: var(--blue); }
+.pill-amber { background: rgba(251,191,36,0.15); color: var(--amber); }
+.pill-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+/* ── FUNNEL ── */
+.funnel-wrap { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
+.funnel-step { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; position: relative; }
+.funnel-step:last-child { margin-bottom: 0; }
+.funnel-step-bar-wrap { flex: 1; height: 36px; background: var(--ink3); border-radius: var(--r-sm); overflow: hidden; position: relative; cursor: pointer; }
+.funnel-step-bar { height: 100%; border-radius: var(--r-sm); display: flex; align-items: center; padding: 0 12px; transition: filter 0.15s; min-width: 60px; }
+.funnel-step-bar:hover { filter: brightness(1.1); }
+.funnel-step-bar-label { font-size: 11px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.funnel-step-meta { width: 200px; display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.funnel-step-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.funnel-step-drop { font-size: 10px; color: var(--muted); }
+.funnel-drop-arrow { font-size: 9px; color: var(--coral); margin: 0 0 0 216px; padding: 2px 0; display: flex; align-items: center; gap: 4px; }
+
+/* ── CHANNEL TABLE ── */
+.channel-name-input { background: var(--ink3); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 5px 9px; color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; outline: none; width: 150px; transition: border-color 0.15s; }
+.channel-name-input:focus { border-color: var(--accent); }
+.channel-num-input { background: var(--ink3); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 5px 9px; color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; outline: none; width: 90px; text-align: right; transition: border-color 0.15s; }
+.channel-num-input:focus { border-color: var(--accent); }
+.add-channel-btn { background: var(--accent-dim); border: 1px dashed rgba(200,255,87,0.4); border-radius: var(--r-sm); color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 6px 14px; cursor: pointer; width: 100%; margin-top: 8px; transition: all 0.15s; }
+.add-channel-btn:hover { background: rgba(200,255,87,0.2); }
+.del-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+.del-btn:hover { color: var(--coral); }
+
+/* ── PROGRESS BAR ── */
+.prog-bar-wrap { height: 6px; background: var(--ink3); border-radius: 3px; flex: 1; overflow: hidden; }
+.prog-bar { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+
+/* ── HANDOFF CARDS ── */
+.handoff-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.handoff-card { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; }
+.handoff-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.handoff-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+.handoff-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* ── INCOME BRACKET ── */
+.bracket-row { display: grid; grid-template-columns: 140px 1fr 80px 80px 80px 80px; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+.bracket-row:hover { background: rgba(255,255,255,0.02); }
+.bracket-row.header { background: var(--ink3); font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+
+/* ── RATE TABLE ── */
+.rate-table-wrap { background: var(--ink2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.rate-row { display: grid; grid-template-columns: 120px repeat(5, 1fr); align-items: center; gap: 0; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.rate-row:last-child { border-bottom: none; }
+.rate-row.hdr { background: var(--ink3); font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+.rate-val { font-size: 12px; font-variant-numeric: tabular-nums; }
+.rate-pct { display: flex; align-items: center; gap: 6px; }
+.rate-pct .bar { flex: 1; }
+
+/* ── VIEW PANELS ── */
+.view-panel { display: none; animation: fadeUp 0.2s ease; }
+.view-panel.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ── ARPU SECTION PANELS ── */
+.arpu-panel { display: none; }
+.arpu-panel.active { display: block; }
+
+/* ── SUMMARY STRIP ── */
+.summary-strip { background: var(--accent-dim2); border: 1px solid rgba(200,255,87,0.15); border-radius: var(--r); padding: 12px 20px; display: flex; align-items: center; gap: 32px; margin-bottom: 20px; flex-wrap: wrap; }
+.summary-item-label { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.summary-item-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; margin-top: 2px; }
+
+/* ── L2P ── */
+.l2p-badge { font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--accent); }
+.l2p-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* ── API CONFIG MODAL ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: none; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--ink2); border: 1px solid var(--border2); border-radius: 14px; padding: 28px; width: 520px; max-width: 90vw; }
+.modal-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.modal-sub { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+.modal-field { margin-bottom: 14px; }
+.modal-field label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; display: block; margin-bottom: 6px; }
+.modal-input { background: var(--ink3); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 8px 12px; color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; outline: none; width: 100%; transition: border-color 0.15s; }
+.modal-input:focus { border-color: var(--accent); }
+.modal-row { display: flex; gap: 10px; margin-top: 16px; }
+.modal-btn { flex: 1; padding: 9px; border-radius: var(--r-sm); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.15s; }
+.modal-btn.primary { background: var(--accent); border: none; color: var(--ink); }
+.modal-btn.primary:hover { background: #d4ff6a; }
+.modal-btn.secondary { background: none; border: 1px solid var(--border2); color: var(--muted2); }
+.modal-btn.secondary:hover { border-color: var(--text); color: var(--text); }
+.api-info-box { background: var(--ink3); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; margin-bottom: 16px; font-size: 10px; color: var(--muted); line-height: 1.6; }
+.api-info-box strong { color: var(--muted2); }
+
+/* ── PIPELINE STAGE BADGE ── */
+.stage-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; padding: 2px 8px; border-radius: 20px; background: var(--ink3); border: 1px solid var(--border); color: var(--muted2); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1200px) {
+  .kpi-row-4 { grid-template-columns: repeat(2, 1fr); }
+  .kpi-row-5 { grid-template-columns: repeat(3, 1fr); }
+  .kpi-row-6 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
+  .handoff-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- API CONFIG MODAL -->
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <div class="modal-title">API Configuration</div>
+    <div class="modal-sub">Connect to Scaler CRM to pull live data</div>
+    <div class="api-info-box">
+      <strong>How it works:</strong> Configure your API endpoint and auth token below. The dashboard will fetch data from your CRM on load and on each refresh. Currently showing <strong>demo data</strong> — connect an API to get live numbers.<br><br>
+      <strong>Expected endpoint:</strong> POST /api/v1/dashboard/metrics<br>
+      <strong>Expected response:</strong> JSON with funnel, channels, income, batch, experience, sources, handoff, sales keys
+    </div>
+    <div class="modal-field">
+      <label>API Base URL</label>
+      <input class="modal-input" id="apiUrl" placeholder="https://crm.scaler.com/api/v1" />
+    </div>
+    <div class="modal-field">
+      <label>Auth Token (Bearer)</label>
+      <input class="modal-input" id="apiToken" type="password" placeholder="eyJ..." />
+    </div>
+    <div class="modal-field">
+      <label>Team ID</label>
+      <input class="modal-input" id="apiTeamId" placeholder="team_aayush" />
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">
+      ⚠ CORS must be enabled on your API server for browser-based calls to work.
+    </div>
+    <div class="modal-row">
+      <button class="modal-btn primary" onclick="saveApiConfig()">Save & Test Connection</button>
+      <button class="modal-btn secondary" onclick="closeApiModal()">Use Demo Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION NAV -->
+<nav class="section-nav">
+  <div class="section-nav-brand">Team Aayush <span>Scaler</span></div>
+  <div class="section-tab s-marketing active" id="stab-marketing" onclick="switchSection('marketing',this)"><span class="section-tab-icon">📈</span> Marketing</div>
+  <div class="section-tab s-crm" id="stab-crm" onclick="switchSection('crm',this)"><span class="section-tab-icon">🗂</span> CRM</div>
+  <div class="section-tab s-audit" id="stab-audit" onclick="switchSection('audit',this)"><span class="section-tab-icon">🔍</span> Audit</div>
+  <div class="section-tab s-completion" id="stab-completion" onclick="switchSection('completion',this)"><span class="section-tab-icon">✅</span> Completion</div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+    <div class="api-status" onclick="openApiModal()" title="Configure API connection">
+      <div class="api-dot" id="apiDot"></div>
+      <span id="apiStatusText">Demo Mode</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MARKETING SECTION ══ -->
+<div id="section-marketing">
+
+<!-- TOP NAV (ARPU tabs) -->
+<nav class="top-nav" style="top:44px;">
+  <div class="main-tab active" id="tab-mid" onclick="switchArpu('mid',this)">Mid ARPU</div>
+  <div class="main-tab" id="tab-high" onclick="switchArpu('high',this)">High ARPU</div>
+  <div class="main-tab" id="tab-low-up" onclick="switchArpu('lowup',this)">Low ARPU <span style="font-size:9px;margin-left:4px;background:var(--ink3);padding:1px 5px;border-radius:4px;color:var(--muted);">Upselling</span></div>
+  <div class="main-tab" id="tab-low-fresh" onclick="switchArpu('lowfresh',this)">Low ARPU <span style="font-size:9px;margin-left:4px;background:var(--ink3);padding:1px 5px;border-radius:4px;color:var(--muted);">Freshselling</span></div>
+</nav>
+
+<!-- CONTEXT BAR -->
+<div class="context-bar" id="contextBar">
+  <!-- populated dynamically per ARPU section -->
+</div>
+
+<!-- SUB-NAV -->
+<div class="sub-nav" id="subNav">
+  <!-- populated dynamically per ARPU section -->
+</div>
+
+<!-- FILTERS -->
+<div class="filters-bar">
+  <span class="filter-label">Period</span>
+  <select class="filter-select" id="periodFilter" onchange="handlePeriodChange()">
+    <option value="mtd">MTD</option>
+    <option value="last7">Last 7 days</option>
+    <option value="last30">Last 30 days</option>
+    <option value="q1">Q1 2025</option>
+    <option value="q2">Q2 2025</option>
+    <option value="fy">Full Year 2025</option>
+    <option value="custom">Custom Date Range</option>
+  </select>
+  <div id="custom-date-wrap" style="display:none;align-items:center;gap:6px;">
+    <input type="date" class="filter-select" id="customFrom" onchange="refreshAll()" style="padding:4px 8px;" />
+    <span style="color:var(--muted);font-size:11px;">→</span>
+    <input type="date" class="filter-select" id="customTo" onchange="refreshAll()" style="padding:4px 8px;" />
+  </div>
+  <div class="filter-divider"></div>
+  <span class="filter-label">Program</span>
+  <select class="filter-select" id="programFilter" onchange="refreshAll()">
+    <!-- populated per ARPU section -->
+  </select>
+  <div class="filter-divider"></div>
+  <button class="filter-btn accent" onclick="fetchAndRefresh()">↻ Refresh</button>
+  <button class="filter-btn" onclick="exportData()">⬇ Export</button>
+</div>
+
+<!-- MAIN CANVAS -->
+<div class="canvas" id="mainCanvas">
+  <!-- Rendered dynamically -->
+</div>
+
+</div><!-- /section-marketing -->
+
+<!-- ══ CRM SECTION ══ -->
+<div id="section-crm" style="display:none;">
+  <div style="background:var(--ink2);border-bottom:1px solid var(--border);padding:0 28px;height:48px;display:flex;align-items:center;gap:4px;position:sticky;top:44px;z-index:49;">
+    <div class="sub-tab active" id="crm-tab-overview" onclick="switchCrmTab('overview',this)">Overview</div>
+    <div class="sub-tab" id="crm-tab-leads" onclick="switchCrmTab('leads',this)">Lead Register</div>
+    <div class="sub-tab" id="crm-tab-pipeline" onclick="switchCrmTab('pipeline',this)">Pipeline</div>
+    <div class="sub-tab" id="crm-tab-followups" onclick="switchCrmTab('followups',this)">Follow-ups</div>
+    <div class="sub-tab" id="crm-tab-lost" onclick="switchCrmTab('lost',this)">Lost / Dropped</div>
+  </div>
+  <div class="canvas" id="crm-canvas"></div>
+</div>
+
+<!-- ══ AUDIT SECTION ══ -->
+<div id="section-audit" style="display:none;">
+  <div style="background:var(--ink2);border-bottom:1px solid var(--border);padding:0 28px;height:48px;display:flex;align-items:center;gap:4px;position:sticky;top:44px;z-index:49;">
+    <div class="sub-tab active" id="audit-tab-calls" onclick="switchAuditTab('calls',this)">Call Audits</div>
+    <div class="sub-tab" id="audit-tab-bda" onclick="switchAuditTab('bda',this)">BDA Scores</div>
+    <div class="sub-tab" id="audit-tab-flags" onclick="switchAuditTab('flags',this)">Flagged Calls</div>
+    <div class="sub-tab" id="audit-tab-trends" onclick="switchAuditTab('trends',this)">Score Trends</div>
+  </div>
+  <div class="canvas" id="audit-canvas"></div>
+</div>
+
+<!-- ══ COMPLETION SECTION ══ -->
+<div id="section-completion" style="display:none;">
+  <div style="background:var(--ink2);border-bottom:1px solid var(--border);padding:0 28px;height:48px;display:flex;align-items:center;gap:4px;position:sticky;top:44px;z-index:49;">
+    <div class="sub-tab active" id="comp-tab-overview" onclick="switchCompTab('overview',this)">Overview</div>
+    <div class="sub-tab" id="comp-tab-cohort" onclick="switchCompTab('cohort',this)">Cohort Wise</div>
+    <div class="sub-tab" id="comp-tab-program" onclick="switchCompTab('program',this)">Program Wise</div>
+    <div class="sub-tab" id="comp-tab-risk" onclick="switchCompTab('risk',this)">At Risk</div>
+  </div>
+  <div class="canvas" id="comp-canvas"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIG & STATE
+// ═══════════════════════════════════════════════════════
+let API_CONFIG = { url: '', token: '', teamId: '' };
+let currentArpu = 'mid';
+let currentView = 'funnel';
+let currentTeam = 'all';
+let currentBda = 'all';
+let _charts = {};
+
+// ═══════════════════════════════════════════════════════
+// ARPU SECTION DEFINITIONS
+// ═══════════════════════════════════════════════════════
+const ARPU_CONFIG = {
+  mid: {
+    label: 'Mid ARPU',
+    programs: ['All Programs', 'MS in AI', 'Neovarsity'],
+    programKeys: ['all', 'msai', 'neo'],
+    views: ['funnel','income','batch','experience','source','handoff','sales'],
+    viewLabels: ['Funnel View','Income Bracket','Batch Wise','Experience Level','Source Level','Handoff Layer','Sales'],
+    salesExtraStages: false,
+  },
+  high: {
+    label: 'High ARPU',
+    programs: ['All Programs', 'Academy', 'DSML', 'AIML', 'DevOps'],
+    programKeys: ['all', 'academy', 'dsml', 'aiml', 'devops'],
+    views: ['sales'], // High ARPU = sales only, no marketing
+    viewLabels: ['Sales'],
+    salesExtraStages: true, // Test Rolled Out + Test Cleared
+    note: 'High ARPU shows Sales data only. Marketing tab (website leads) coming soon.'
+  },
+  lowup: {
+    label: 'Low ARPU – Upselling',
+    programs: ['All Programs', 'IITR', 'IIMT', 'Oxford'],
+    programKeys: ['all', 'iitr', 'iimt', 'oxford'],
+    views: ['funnel','income','batch','experience','source','handoff','sales'],
+    viewLabels: ['Funnel View','Income Bracket','Batch Wise','Experience Level','Source Level','Handoff Layer','Sales'],
+    salesExtraStages: false,
+  },
+  lowfresh: {
+    label: 'Low ARPU – Freshselling',
+    programs: ['All Programs', 'IITR', 'IIMT'],
+    programKeys: ['all', 'iitr', 'iimt'],
+    views: ['funnel','income','batch','experience','source','handoff','sales'],
+    viewLabels: ['Funnel View','Income Bracket','Batch Wise','Experience Level','Source Level','Handoff Layer','Sales'],
+    salesExtraStages: false,
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// TEAM & BDA DATA
+// ═══════════════════════════════════════════════════════
+const TEAMS = {
+  all: { label: 'All Teams', bdas: [] },
+  team_a: {
+    label: 'Team Alpha',
+    bdas: ['Aryan Mehta', 'Priya Singh', 'Rohan Das']
+  },
+  team_b: {
+    label: 'Team Beta',
+    bdas: ['Sneha Kapoor', 'Vikram Nair', 'Deepa Rao', 'Karan Joshi']
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// DEMO DATA
+// ═══════════════════════════════════════════════════════
+const DEMO = {
+  funnel: {
+    totalGenerated: 3840, totalConsumed: 2690, pipelines: 812, salesClosed: 247, l2p: 30.2,
+    steps: [
+      { name: 'Total Leads Generated', value: 3840 },
+      { name: 'Leads Consumed (Dialled)', value: 2690 },
+      { name: 'Connected', value: 1920 },
+      { name: 'Qualified', value: 1010 },
+      { name: 'Pipeline Formed', value: 812 },
+      { name: 'Demo / Show-up', value: 560 },
+      { name: 'Sales Closed', value: 247 },
+    ]
+  },
+  funnelHighArpu: {
+    totalGenerated: 1200, totalConsumed: 920, pipelines: 310, salesClosed: 98, l2p: 33.7,
+    steps: [
+      { name: 'Leads Consumed (Dialled)', value: 920 },
+      { name: 'Connected', value: 680 },
+      { name: 'Qualified', value: 380 },
+      { name: 'Pipeline Formed', value: 310 },
+      { name: 'Test Rolled Out', value: 220 },
+      { name: 'Test Cleared', value: 148 },
+      { name: 'Demo / Show-up', value: 130 },
+      { name: 'Sales Closed', value: 98 },
+    ]
+  },
+  channels: [
+    { name: 'Meta Ads', gen: 980, consumed: 710, sales: 68 },
+    { name: 'Google Ads', gen: 760, consumed: 580, sales: 54 },
+    { name: 'Organic SEO', gen: 540, consumed: 370, sales: 41 },
+    { name: 'Referral', gen: 430, consumed: 390, sales: 52 },
+    { name: 'LinkedIn', gen: 380, consumed: 260, sales: 18 },
+    { name: 'WhatsApp', gen: 320, consumed: 245, sales: 14 },
+    { name: 'Email', gen: 430, consumed: 135, sales: 0 },
+  ],
+  income: [
+    { bracket: '< ₹30K / mo', gen: 490, consumed: 310, sales: 38 },
+    { bracket: '₹30K – 50K', gen: 820, consumed: 610, sales: 89 },
+    { bracket: '₹50K – 80K', gen: 1020, consumed: 780, sales: 72 },
+    { bracket: '₹80K – 1.2L', gen: 870, consumed: 640, sales: 31 },
+    { bracket: '₹1.2L – 2L', gen: 440, consumed: 280, sales: 14 },
+    { bracket: '> ₹2L / mo', gen: 200, consumed: 70, sales: 3 },
+  ],
+  batch: [
+    { level: 'Beginner', gen: 1580, consumed: 1120, sales: 108 },
+    { level: 'Intermediate', gen: 1420, consumed: 980, sales: 94 },
+    { level: 'Advanced', gen: 840, consumed: 590, sales: 45 },
+  ],
+  experience: [
+    { level: 'Beginner (0–1 yr)', gen: 1480, consumed: 1050, sales: 101 },
+    { level: 'Intermediate (1–3 yr)', gen: 1530, consumed: 1060, sales: 98 },
+    { level: 'Advanced (3+ yr)', gen: 830, consumed: 580, sales: 48 },
+  ],
+  sources: [
+    { name: 'Apxor', gen: 820, consumed: 610, sales: 76 },
+    { name: 'AMA', gen: 540, consumed: 390, sales: 48 },
+    { name: 'Calendly', gen: 680, consumed: 540, sales: 62 },
+    { name: 'WhatsApp', gen: 1100, consumed: 780, sales: 41 },
+    { name: 'Email', gen: 700, consumed: 370, sales: 20 },
+  ],
+  handoff: {
+    assigned: 2690, dialled: 2690, fcs: 1920, fcsPct: 71.4, showup: 560, closure: 247,
+    connBySource: [
+      { source: 'Apxor', assigned: 610, dialled: 610, connected: 482, pct: 79.0 },
+      { source: 'AMA', assigned: 390, dialled: 390, connected: 284, pct: 72.8 },
+      { source: 'Calendly', assigned: 540, dialled: 540, connected: 440, pct: 81.5 },
+      { source: 'WhatsApp', assigned: 780, dialled: 780, connected: 499, pct: 64.0 },
+      { source: 'Email', assigned: 370, dialled: 370, connected: 215, pct: 58.1 },
+    ],
+    qualBySource: [
+      { source: 'Apxor', connected: 482, qualified: 248, qualPct: 51.5, pipeline: 198, pipePct: 41.1 },
+      { source: 'AMA', connected: 284, qualified: 141, qualPct: 49.6, pipeline: 112, pipePct: 39.4 },
+      { source: 'Calendly', connected: 440, qualified: 236, qualPct: 53.6, pipeline: 192, pipePct: 43.6 },
+      { source: 'WhatsApp', connected: 499, qualified: 198, qualPct: 39.7, pipeline: 148, pipePct: 29.7 },
+      { source: 'Email', connected: 215, qualified: 89, qualPct: 41.4, pipeline: 62, pipePct: 28.8 },
+    ]
+  },
+  sales: {
+    totals: { pipelines: 812, sales: 247, consumed: 2690, talktime: 1840, dialled: 4120 },
+    monthly: {
+      pipelines: [58,64,72,68,88,96,78,90,102,84,92,110],
+      sales: [18,20,22,21,27,30,24,28,31,26,29,35],
+      talktime: [130,142,158,148,190,210,170,195,218,182,200,242],
+      dialled: [290,320,355,335,425,470,380,435,490,410,448,542],
+    },
+    team: [
+      { name: 'Aryan Mehta', team: 'team_a', consumed: 480, dialled: 860, pipelines: 148, testRolled: 0, testCleared: 0, sales: 45, talktime: 328 },
+      { name: 'Priya Singh', team: 'team_a', consumed: 430, dialled: 770, pipelines: 135, testRolled: 0, testCleared: 0, sales: 41, talktime: 294 },
+      { name: 'Rohan Das', team: 'team_a', consumed: 390, dialled: 700, pipelines: 120, testRolled: 0, testCleared: 0, sales: 37, talktime: 266 },
+      { name: 'Sneha Kapoor', team: 'team_b', consumed: 410, dialled: 740, pipelines: 128, testRolled: 0, testCleared: 0, sales: 39, talktime: 281 },
+      { name: 'Vikram Nair', team: 'team_b', consumed: 360, dialled: 645, pipelines: 112, testRolled: 0, testCleared: 0, sales: 34, talktime: 245 },
+      { name: 'Deepa Rao', team: 'team_b', consumed: 345, dialled: 618, pipelines: 105, testRolled: 0, testCleared: 0, sales: 32, talktime: 234 },
+      { name: 'Karan Joshi', team: 'team_b', consumed: 275, dialled: 487, pipelines: 64, testRolled: 0, testCleared: 0, sales: 19, talktime: 192 },
+    ]
+  },
+  salesHighArpu: {
+    totals: { pipelines: 310, testRolled: 220, testCleared: 148, sales: 98, consumed: 920, talktime: 680, dialled: 1840 },
+    team: [
+      { name: 'Aryan Mehta', team: 'team_a', consumed: 180, dialled: 340, pipelines: 58, testRolled: 42, testCleared: 28, sales: 18, talktime: 128 },
+      { name: 'Priya Singh', team: 'team_a', consumed: 160, dialled: 290, pipelines: 52, testRolled: 38, testCleared: 26, sales: 16, talktime: 114 },
+      { name: 'Rohan Das', team: 'team_a', consumed: 148, dialled: 265, pipelines: 47, testRolled: 34, testCleared: 22, sales: 14, talktime: 105 },
+      { name: 'Sneha Kapoor', team: 'team_b', consumed: 155, dialled: 280, pipelines: 50, testRolled: 36, testCleared: 24, sales: 15, talktime: 110 },
+      { name: 'Vikram Nair', team: 'team_b', consumed: 140, dialled: 250, pipelines: 42, testRolled: 31, testCleared: 20, sales: 13, talktime: 98 },
+      { name: 'Deepa Rao', team: 'team_b', consumed: 137, dialled: 244, pipelines: 61, testRolled: 39, testCleared: 28, sales: 22, talktime: 125 },
+    ]
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+const CLRS = ['#c8ff57','#4a9eff','#a78bfa','#ff6b6b','#fbbf24','#34d399','#f472b6'];
+function periodMul() {
+  const p = document.getElementById('periodFilter').value;
+  return { mtd:1, last7:0.23, last30:0.87, q1:2.9, q2:3.1, fy:12 }[p] || 1;
+}
+function scl(n) { return Math.round(n * periodMul()); }
+function pct(a,b) { return b ? (a/b*100).toFixed(1)+'%' : '—'; }
+function fmt(n) { if(n>=100000) return (n/100000).toFixed(1)+'L'; if(n>=1000) return (n/1000).toFixed(1)+'K'; return n; }
+function destroyChart(id) { if(_charts[id]) { _charts[id].destroy(); delete _charts[id]; } }
+Chart.defaults.color = '#6b6b88';
+Chart.defaults.font.family = 'IBM Plex Mono';
+Chart.defaults.font.size = 10;
+
+// ═══════════════════════════════════════════════════════
+// API LAYER
+// ═══════════════════════════════════════════════════════
+function openApiModal() {
+  document.getElementById('apiUrl').value = API_CONFIG.url;
+  document.getElementById('apiToken').value = API_CONFIG.token;
+  document.getElementById('apiTeamId').value = API_CONFIG.teamId;
+  document.getElementById('apiModal').classList.add('active');
+}
+function closeApiModal() { document.getElementById('apiModal').classList.remove('active'); }
+function saveApiConfig() {
+  API_CONFIG.url = document.getElementById('apiUrl').value.trim();
+  API_CONFIG.token = document.getElementById('apiToken').value.trim();
+  API_CONFIG.teamId = document.getElementById('apiTeamId').value.trim();
+  closeApiModal();
+  if (API_CONFIG.url) fetchAndRefresh();
+}
+
+async function fetchFromAPI(endpoint, params = {}) {
+  if (!API_CONFIG.url) return null;
+  const dot = document.getElementById('apiDot');
+  const statusText = document.getElementById('apiStatusText');
+  dot.className = 'api-dot loading';
+  statusText.textContent = 'Fetching...';
+  try {
+    const url = new URL(endpoint, API_CONFIG.url);
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k,v));
+    const resp = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Bearer ${API_CONFIG.token}`,
+        'Content-Type': 'application/json',
+        'X-Team-ID': API_CONFIG.teamId
+      }
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    dot.className = 'api-dot';
+    statusText.textContent = 'Live Data';
+    return data;
+  } catch(e) {
+    dot.className = 'api-dot error';
+    statusText.textContent = 'API Error';
+    console.warn('API fetch failed, using demo data:', e.message);
+    return null;
+  }
+}
+
+async function fetchAndRefresh() {
+  const period = document.getElementById('periodFilter').value;
+  const program = document.getElementById('programFilter').value;
+  const params = { period, program, team: currentTeam, bda: currentBda, arpu: currentArpu };
+
+  // Try API; fall back to demo
+  const liveData = await fetchFromAPI('/dashboard/metrics', params);
+  if (liveData) {
+    // Merge live data into DEMO object
+    if (liveData.funnel) Object.assign(DEMO.funnel, liveData.funnel);
+    if (liveData.channels) DEMO.channels = liveData.channels;
+    if (liveData.income) DEMO.income = liveData.income;
+    if (liveData.batch) DEMO.batch = liveData.batch;
+    if (liveData.experience) DEMO.experience = liveData.experience;
+    if (liveData.sources) DEMO.sources = liveData.sources;
+    if (liveData.handoff) Object.assign(DEMO.handoff, liveData.handoff);
+    if (liveData.sales) Object.assign(DEMO.sales, liveData.sales);
+  }
+  renderCurrentView();
+}
+
+// ═══════════════════════════════════════════════════════
+// ARPU SECTION SWITCH
+// ═══════════════════════════════════════════════════════
+function switchArpu(arpu, el) {
+  currentArpu = arpu;
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const cfg = ARPU_CONFIG[arpu];
+  // Rebuild program selector
+  const ps = document.getElementById('programFilter');
+  ps.innerHTML = cfg.programs.map((p,i) => `<option value="${cfg.programKeys[i]}">${p}</option>`).join('');
+  // Set default view for arpu
+  currentView = cfg.views[0];
+  buildContextBar();
+  buildSubNav();
+  buildCanvas();
+  renderCurrentView();
+}
+
+// ═══════════════════════════════════════════════════════
+// CONTEXT BAR (Team + BDA selectors)
+// ═══════════════════════════════════════════════════════
+function buildContextBar() {
+  const bar = document.getElementById('contextBar');
+  const teamOptions = Object.entries(TEAMS).map(([k,v]) =>
+    `<option value="${k}">${v.label}</option>`).join('');
+  bar.innerHTML = `
+    <span class="context-label">Team</span>
+    <select class="context-select" id="teamFilter" onchange="handleTeamChange()">
+      ${teamOptions}
+    </select>
+    <div class="context-divider"></div>
+    <span class="context-label">BDA</span>
+    <select class="context-select" id="bdaFilter" onchange="handleBdaChange()">
+      <option value="all">All BDAs</option>
+    </select>
+    <div class="context-divider"></div>
+    <span style="font-size:10px;color:var(--muted);">Viewing: <span style="color:var(--accent);" id="contextLabel">${ARPU_CONFIG[currentArpu].label}</span></span>
+  `;
+}
+
+function handleTeamChange() {
+  currentTeam = document.getElementById('teamFilter').value;
+  currentBda = 'all';
+  const bdaSelect = document.getElementById('bdaFilter');
+  const team = TEAMS[currentTeam];
+  if (currentTeam === 'all') {
+    bdaSelect.innerHTML = '<option value="all">All BDAs</option>';
+  } else {
+    bdaSelect.innerHTML = '<option value="all">All BDAs</option>' +
+      team.bdas.map(b => `<option value="${b}">${b}</option>`).join('');
+  }
+  fetchAndRefresh();
+}
+
+function handleBdaChange() {
+  currentBda = document.getElementById('bdaFilter').value;
+  fetchAndRefresh();
+}
+
+// ═══════════════════════════════════════════════════════
+// SUB-NAV
+// ═══════════════════════════════════════════════════════
+function buildSubNav() {
+  const cfg = ARPU_CONFIG[currentArpu];
+  const nav = document.getElementById('subNav');
+  nav.innerHTML = cfg.views.map((v,i) => {
+    const isSales = v === 'sales';
+    return `<div class="sub-tab ${isSales ? 'sales-tab' : ''} ${v === currentView ? 'active' : ''}"
+      onclick="switchView('${v}', this)">${cfg.viewLabels[i]}</div>`;
+  }).join('');
+  // High ARPU note
+  if (currentArpu === 'high') {
+    nav.insertAdjacentHTML('beforeend',
+      `<span style="font-size:10px;color:var(--muted);margin-left:12px;align-self:center;">
+        Marketing tab coming soon</span>`);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// CANVAS BUILDER
+// ═══════════════════════════════════════════════════════
+function buildCanvas() {
+  const cfg = ARPU_CONFIG[currentArpu];
+  const canvas = document.getElementById('mainCanvas');
+  // Build panels for each view
+  canvas.innerHTML = cfg.views.map(v => `<div class="view-panel ${v === currentView ? 'active' : ''}" id="view-${currentArpu}-${v}"></div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW SWITCH
+// ═══════════════════════════════════════════════════════
+function switchView(view, el) {
+  currentView = view;
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById(`view-${currentArpu}-${view}`);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+  // Keep sales-tab style if sales
+  if (view === 'sales' && el) el.classList.add('sales-tab');
+  renderCurrentView();
+}
+
+function renderCurrentView() {
+  const map = {
+    funnel: renderFunnel,
+    income: renderIncome,
+    batch: renderBatch,
+    experience: renderExperience,
+    source: renderSource,
+    handoff: renderHandoff,
+    sales: renderSales
+  };
+  if (map[currentView]) map[currentView]();
+}
+
+function getPanelEl() {
+  return document.getElementById(`view-${currentArpu}-${currentView}`);
+}
+
+// ═══════════════════════════════════════════════════════
+// FILTER HELPERS
+// ═══════════════════════════════════════════════════════
+function getFilteredTeamData(rawTeam) {
+  let data = rawTeam;
+  if (currentTeam !== 'all') data = data.filter(r => r.team === currentTeam);
+  if (currentBda !== 'all') data = data.filter(r => r.name === currentBda);
+  return data;
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: FUNNEL
+// ═══════════════════════════════════════════════════════
+function renderFunnel() {
+  const el = getPanelEl(); if (!el) return;
+  const isHigh = currentArpu === 'high';
+  const d = DEMO.funnel;
+  const gen = scl(d.totalGenerated), cons = scl(d.totalConsumed), sales = scl(d.salesClosed);
+  const pipelines = scl(d.pipelines);
+  const l2p = ((pipelines / cons) * 100).toFixed(1);
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-title">Funnel <span>View</span></div>
+        <div class="page-sub">Marketing funnel — from lead generation to pipeline conversion · ${ARPU_CONFIG[currentArpu].label}</div>
+      </div>
+      <div class="last-updated">Last updated: today, 09:14 AM</div>
+    </div>
+    <div class="summary-strip">
+      <div><div class="summary-item-label">Total Leads Generated</div><div class="summary-item-val" id="f-total-gen">${fmt(gen)}</div></div>
+      <div><div class="summary-item-label">Total Leads Consumed</div><div class="summary-item-val" id="f-total-consumed">${fmt(cons)}</div></div>
+      <div><div class="summary-item-label">Sales Closed</div><div class="summary-item-val" id="f-total-sales">${fmt(sales)}</div></div>
+      <div><div class="summary-item-label">L2P (Lead to Pipeline %)</div><div class="summary-item-val" id="f-l2p">${l2p}%</div></div>
+    </div>
+    <div class="grid-2-1" style="margin-bottom:20px">
+      <div class="funnel-wrap">
+        <div class="chart-card-title">FULL FUNNEL <span>Step-by-step conversion</span></div>
+        <div id="f-funnel-steps"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="chart-card" style="flex:1">
+          <div class="chart-card-title">L2P RATE <span>Lead → Pipeline</span></div>
+          <div style="display:flex;align-items:center;justify-content:center;height:120px;flex-direction:column;gap:6px;">
+            <div class="l2p-badge">${l2p}%</div>
+            <div class="l2p-sub">Leads consumed → pipeline formed</div>
+          </div>
+        </div>
+        <div class="chart-card" style="flex:1">
+          <div class="chart-card-title">CHANNEL SPLIT <span>Leads generated</span></div>
+          <canvas id="f-channelDonut" height="110"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Channel-wise Breakdown <span class="section-badge" id="f-channel-count">${DEMO.channels.length} channels</span></div>
+        <button class="filter-btn" onclick="addChannel()">+ Add Channel</button>
+      </div>
+      <div class="data-table-wrap">
+        <div style="padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);display:grid;grid-template-columns:160px 1fr 100px 100px 100px 100px 80px;gap:8px;font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Channel Name</span><span>Leads Generated</span><span>Consumed</span><span>Sales</span><span>L2P %</span><span>% of Total</span><span></span>
+        </div>
+        <div id="f-channel-rows"></div>
+        <div style="padding:10px 14px;border-top:1px solid var(--border);">
+          <button class="add-channel-btn" onclick="addChannel()">+ Add Channel</button>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">LEAD GENERATION TREND <span>by channel, monthly</span></div>
+      <canvas id="f-funnelTrend" height="90"></canvas>
+    </div>
+  `;
+
+  // Funnel steps
+  const steps = d.steps.map(s => ({ ...s, value: scl(s.value) }));
+  const maxV = steps[0].value;
+  const colors = ['#c8ff57','#4a9eff','#a78bfa','#fbbf24','#34d399','#f472b6','#ff6b6b','#38bdf8'];
+  const stepsEl = document.getElementById('f-funnel-steps');
+  stepsEl.innerHTML = '';
+  steps.forEach((s, i) => {
+    const w = Math.max(20, Math.round(s.value / maxV * 100));
+    const drop = i > 0 ? (((steps[i-1].value - s.value) / steps[i-1].value) * 100).toFixed(1) : null;
+    if (drop !== null) {
+      stepsEl.insertAdjacentHTML('beforeend', `<div class="funnel-drop-arrow">↓ ${drop}% drop</div>`);
+    }
+    stepsEl.insertAdjacentHTML('beforeend', `
+      <div class="funnel-step">
+        <div class="funnel-step-meta">
+          <div class="funnel-step-name">${s.name}</div>
+          <div class="funnel-step-drop">${fmt(s.value)} ${i > 0 ? '(' + pct(s.value, steps[i-1].value) + ')' : '(100%)'}</div>
+        </div>
+        <div class="funnel-step-bar-wrap">
+          <div class="funnel-step-bar" style="width:${w}%;background:${colors[i]}22;border-left:3px solid ${colors[i]};">
+            <span class="funnel-step-bar-label" style="color:${colors[i]}">${fmt(s.value)}</span>
+          </div>
+        </div>
+      </div>`);
+  });
+
+  // Channel donut
+  destroyChart('f-channelDonut');
+  _charts['f-channelDonut'] = new Chart(document.getElementById('f-channelDonut'), {
+    type: 'doughnut',
+    data: { labels: DEMO.channels.map(c => c.name), datasets: [{ data: DEMO.channels.map(c => scl(c.gen)), backgroundColor: CLRS, borderWidth: 0, hoverOffset: 4 }] },
+    options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'right', labels: { font: { size: 10 }, boxWidth: 10, padding: 8 } } } }
+  });
+
+  // Trend
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const baseGen = [280,310,340,290,380,420,360,400,450,380,410,440];
+  destroyChart('f-funnelTrend');
+  _charts['f-funnelTrend'] = new Chart(document.getElementById('f-funnelTrend'), {
+    type: 'line',
+    data: { labels: months, datasets: [
+      { label: 'Leads Gen', data: baseGen, borderColor: '#c8ff57', backgroundColor: 'rgba(200,255,87,0.06)', tension: 0.4, fill: true, pointRadius: 3 },
+      { label: 'Consumed', data: baseGen.map(v => Math.round(v * 0.7)), borderColor: '#4a9eff', backgroundColor: 'rgba(74,158,255,0.05)', tension: 0.4, fill: true, pointRadius: 3 },
+      { label: 'Sales', data: baseGen.map(v => Math.round(v * 0.065)), borderColor: '#34d399', tension: 0.4, pointRadius: 3 }
+    ]},
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { color: 'rgba(255,255,255,0.04)' } } } }
+  });
+
+  renderChannelTable();
+}
+
+function renderChannelTable() {
+  const rows = DEMO.channels;
+  const totalGen = rows.reduce((s,r) => s + scl(r.gen), 0);
+  const countEl = document.getElementById('f-channel-count');
+  if (countEl) countEl.textContent = rows.length + ' channels';
+  const rowsEl = document.getElementById('f-channel-rows');
+  if (!rowsEl) return;
+  rowsEl.innerHTML = rows.map((r,i) => {
+    const gen = scl(r.gen), cons = scl(r.consumed), sales = scl(r.sales);
+    const pctOfTotal = ((gen/totalGen)*100).toFixed(1)+'%';
+    return `<div style="display:grid;grid-template-columns:160px 1fr 100px 100px 100px 100px 80px;gap:8px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);">
+      <input class="channel-name-input" value="${r.name}" onchange="DEMO.channels[${i}].name=this.value;renderChannelTable()" />
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input class="channel-num-input" type="number" value="${gen}" onchange="DEMO.channels[${i}].gen=Math.round(+this.value/periodMul());renderFunnel()" />
+        <div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.round(gen/totalGen*100)}%;background:${CLRS[i%CLRS.length]};"></div></div>
+      </div>
+      <input class="channel-num-input" type="number" value="${cons}" onchange="DEMO.channels[${i}].consumed=Math.round(+this.value/periodMul());renderFunnel()" />
+      <input class="channel-num-input" type="number" value="${sales}" onchange="DEMO.channels[${i}].sales=Math.round(+this.value/periodMul());renderFunnel()" />
+      <span style="color:var(--accent);font-weight:600;">${pct(cons, gen)}</span>
+      <span style="color:var(--muted2);">${pctOfTotal}</span>
+      <button class="del-btn" onclick="DEMO.channels.splice(${i},1);renderFunnel()">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function addChannel() {
+  DEMO.channels.push({ name: 'New Channel', gen: 0, consumed: 0, sales: 0 });
+  renderChannelTable();
+  setTimeout(() => { const inputs = document.querySelectorAll('.channel-name-input'); inputs[inputs.length-1]?.focus(); inputs[inputs.length-1]?.select(); }, 50);
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: INCOME BRACKET
+// ═══════════════════════════════════════════════════════
+function renderIncome() {
+  const el = getPanelEl(); if (!el) return;
+  const data = DEMO.income;
+  const totGen = data.reduce((s,r) => s+scl(r.gen), 0);
+  const totCons = data.reduce((s,r) => s+scl(r.consumed), 0);
+  const totSales = data.reduce((s,r) => s+scl(r.sales), 0);
+  const totPipe = Math.round(totCons * 0.302);
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Income <span>Bracket View</span></div>
+      <div class="page-sub">Lead and sales performance segmented by monthly income bracket · ${ARPU_CONFIG[currentArpu].label}</div></div>
+    </div>
+    <div class="summary-strip">
+      <div><div class="summary-item-label">Total Leads Generated</div><div class="summary-item-val">${fmt(totGen)}</div></div>
+      <div><div class="summary-item-label">Total Leads Consumed</div><div class="summary-item-val">${fmt(totCons)}</div></div>
+      <div><div class="summary-item-label">Sales Closed</div><div class="summary-item-val">${fmt(totSales)}</div></div>
+      <div><div class="summary-item-label">L2P Rate</div><div class="summary-item-val">${pct(totPipe, totCons)}</div></div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="chart-card"><div class="chart-card-title">LEADS BY INCOME BRACKET</div><canvas id="ib-bar" height="160"></canvas></div>
+      <div class="chart-card"><div class="chart-card-title">SALES CLOSED BY BRACKET</div><canvas id="ib-sales" height="160"></canvas></div>
+    </div>
+    <div class="data-table-wrap">
+      <div class="bracket-row header"><span>Income Bracket</span><span>Leads Generated</span><span>Consumed</span><span>Sales</span><span>L2P %</span><span>Conv %</span></div>
+      ${data.map((r,i) => {
+        const gen=scl(r.gen),cons=scl(r.consumed),sales=scl(r.sales),pipe=Math.round(cons*0.302);
+        return `<div class="bracket-row">
+          <span style="color:${CLRS[i]};font-weight:500;">${r.bracket}</span>
+          <div style="display:flex;align-items:center;gap:10px;"><span>${fmt(gen)}</span><div class="prog-bar-wrap"><div class="prog-bar" style="width:${Math.round(gen/totGen*100)}%;background:${CLRS[i]};"></div></div></div>
+          <span style="color:var(--muted2);">${fmt(cons)}</span>
+          <span style="color:var(--accent);font-weight:600;">${fmt(sales)}</span>
+          <span style="color:var(--teal);">${pct(pipe,cons)}</span>
+          <span style="color:var(--blue);">${pct(sales,cons)}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  destroyChart('ib-bar');
+  _charts['ib-bar'] = new Chart(document.getElementById('ib-bar'), {
+    type:'bar', data:{ labels: data.map(r=>r.bracket), datasets:[
+      {label:'Generated',data:data.map(r=>scl(r.gen)),backgroundColor:'rgba(200,255,87,0.6)',borderRadius:3},
+      {label:'Consumed',data:data.map(r=>scl(r.consumed)),backgroundColor:'rgba(74,158,255,0.6)',borderRadius:3},
+    ]},
+    options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+  destroyChart('ib-sales');
+  _charts['ib-sales'] = new Chart(document.getElementById('ib-sales'), {
+    type:'bar', data:{ labels: data.map(r=>r.bracket), datasets:[{label:'Sales',data:data.map(r=>scl(r.sales)),backgroundColor:CLRS,borderRadius:3}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: BATCH
+// ═══════════════════════════════════════════════════════
+function renderBatch() {
+  const el = getPanelEl(); if (!el) return;
+  const data = DEMO.batch;
+  const totGen=data.reduce((s,r)=>s+scl(r.gen),0);
+  const totCons=data.reduce((s,r)=>s+scl(r.consumed),0);
+  const totSales=data.reduce((s,r)=>s+scl(r.sales),0);
+  const totPipe=Math.round(totCons*0.302);
+  const batchColors=['#4a9eff','#fbbf24','#a78bfa'];
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Batch <span>Wise View</span></div>
+      <div class="page-sub">Lead quality and conversion by batch complexity · ${ARPU_CONFIG[currentArpu].label}</div></div>
+    </div>
+    <div class="summary-strip">
+      <div><div class="summary-item-label">Total Leads Generated</div><div class="summary-item-val">${fmt(totGen)}</div></div>
+      <div><div class="summary-item-label">Total Leads Consumed</div><div class="summary-item-val">${fmt(totCons)}</div></div>
+      <div><div class="summary-item-label">Sales Closed</div><div class="summary-item-val">${fmt(totSales)}</div></div>
+      <div><div class="summary-item-label">L2P Rate</div><div class="summary-item-val">${pct(totPipe,totCons)}</div></div>
+    </div>
+    <div class="grid-3" style="margin-bottom:20px;">
+      ${data.map((r,i)=>`<div class="kpi-card" style="border-color:${batchColors[i]}4d;background:${batchColors[i]}11;">
+        <div class="kpi-card-label">${r.level} Batch</div>
+        <div class="kpi-card-value" style="color:${batchColors[i]};">${fmt(scl(r.gen))}</div>
+        <div class="kpi-card-sub">Leads generated</div>
+        <div class="kpi-stripe" style="background:${batchColors[i]};"></div>
+      </div>`).join('')}
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="chart-card"><div class="chart-card-title">LEADS BY BATCH</div><canvas id="bw-bar" height="160"></canvas></div>
+      <div class="chart-card"><div class="chart-card-title">L2P % BY BATCH</div><canvas id="bw-l2p" height="160"></canvas></div>
+    </div>
+    <div class="data-table-wrap">
+      <div style="display:grid;grid-template-columns:130px 110px 110px 100px 100px 100px;padding:10px 14px;background:var(--ink3);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">
+        <span>Batch Level</span><span>Leads Gen.</span><span>Consumed</span><span>Sales</span><span>L2P %</span><span>Closure %</span>
+      </div>
+      ${data.map((r,i)=>{const gen=scl(r.gen),cons=scl(r.consumed),sales=scl(r.sales),pipe=Math.round(cons*0.302);
+        return `<div style="display:grid;grid-template-columns:130px 110px 110px 100px 100px 100px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;">
+          <span style="color:${batchColors[i]};font-weight:500;">${r.level}</span>
+          <span>${fmt(gen)}</span><span style="color:var(--muted2);">${fmt(cons)}</span>
+          <span style="color:var(--accent);font-weight:600;">${fmt(sales)}</span>
+          <span style="color:var(--teal);">${pct(pipe,cons)}</span>
+          <span style="color:var(--blue);">${pct(sales,cons)}</span>
+        </div>`;}).join('')}
+    </div>`;
+
+  destroyChart('bw-bar');
+  _charts['bw-bar'] = new Chart(document.getElementById('bw-bar'),{
+    type:'bar',data:{labels:data.map(r=>r.level),datasets:[
+      {label:'Generated',data:data.map(r=>scl(r.gen)),backgroundColor:batchColors.map(c=>c+'99'),borderRadius:3},
+      {label:'Consumed',data:data.map(r=>scl(r.consumed)),backgroundColor:batchColors.map(c=>c+'55'),borderRadius:3},
+    ]},
+    options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+  destroyChart('bw-l2p');
+  _charts['bw-l2p'] = new Chart(document.getElementById('bw-l2p'),{
+    type:'bar',data:{labels:data.map(r=>r.level),datasets:[{label:'L2P %',data:data.map(r=>(Math.round(scl(r.consumed)*0.302)/scl(r.consumed)*100).toFixed(1)),backgroundColor:batchColors,borderRadius:3}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{max:50,ticks:{callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: EXPERIENCE
+// ═══════════════════════════════════════════════════════
+function renderExperience() {
+  const el = getPanelEl(); if (!el) return;
+  const data = DEMO.experience;
+  const totGen=data.reduce((s,r)=>s+scl(r.gen),0);
+  const totCons=data.reduce((s,r)=>s+scl(r.consumed),0);
+  const totSales=data.reduce((s,r)=>s+scl(r.sales),0);
+  const totPipe=Math.round(totCons*0.302);
+  const expColors=['#34d399','#4a9eff','#a78bfa'];
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Experience <span>Level View</span></div>
+      <div class="page-sub">Funnel metrics by learner's prior experience level · ${ARPU_CONFIG[currentArpu].label}</div></div>
+    </div>
+    <div class="summary-strip">
+      <div><div class="summary-item-label">Total Leads Generated</div><div class="summary-item-val">${fmt(totGen)}</div></div>
+      <div><div class="summary-item-label">Total Leads Consumed</div><div class="summary-item-val">${fmt(totCons)}</div></div>
+      <div><div class="summary-item-label">Sales Closed</div><div class="summary-item-val">${fmt(totSales)}</div></div>
+      <div><div class="summary-item-label">L2P Rate</div><div class="summary-item-val">${pct(totPipe,totCons)}</div></div>
+    </div>
+    <div class="grid-3" style="margin-bottom:20px;">
+      ${data.map((r,i)=>`<div class="kpi-card" style="border-color:${expColors[i]}4d;background:${expColors[i]}11;">
+        <div class="kpi-card-label">${r.level}</div>
+        <div class="kpi-card-value" style="color:${expColors[i]};">${fmt(scl(r.gen))}</div>
+        <div class="kpi-card-sub">Leads generated</div>
+        <div class="kpi-stripe" style="background:${expColors[i]};"></div>
+      </div>`).join('')}
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="chart-card"><div class="chart-card-title">FUNNEL BY EXPERIENCE</div><canvas id="el-grouped" height="160"></canvas></div>
+      <div class="chart-card"><div class="chart-card-title">SALES CLOSURE BY EXPERIENCE</div><canvas id="el-closure" height="160"></canvas></div>
+    </div>
+    <div class="data-table-wrap">
+      <div style="display:grid;grid-template-columns:160px 110px 110px 100px 100px 100px;padding:10px 14px;background:var(--ink3);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">
+        <span>Experience Level</span><span>Leads Gen.</span><span>Consumed</span><span>Sales</span><span>L2P %</span><span>Closure %</span>
+      </div>
+      ${data.map((r,i)=>{const gen=scl(r.gen),cons=scl(r.consumed),sales=scl(r.sales),pipe=Math.round(cons*0.302);
+        return `<div style="display:grid;grid-template-columns:160px 110px 110px 100px 100px 100px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;">
+          <span style="color:${expColors[i]};font-weight:500;">${r.level}</span>
+          <span>${fmt(gen)}</span><span style="color:var(--muted2);">${fmt(cons)}</span>
+          <span style="color:var(--accent);font-weight:600;">${fmt(sales)}</span>
+          <span style="color:var(--teal);">${pct(pipe,cons)}</span>
+          <span style="color:var(--blue);">${pct(sales,cons)}</span>
+        </div>`;}).join('')}
+    </div>`;
+
+  destroyChart('el-grouped');
+  _charts['el-grouped'] = new Chart(document.getElementById('el-grouped'),{
+    type:'bar',data:{labels:data.map(r=>r.level.split(' ')[0]),datasets:[
+      {label:'Generated',data:data.map(r=>scl(r.gen)),backgroundColor:expColors.map(c=>c+'99'),borderRadius:3},
+      {label:'Consumed',data:data.map(r=>scl(r.consumed)),backgroundColor:expColors.map(c=>c+'55'),borderRadius:3},
+      {label:'Sales',data:data.map(r=>scl(r.sales)),backgroundColor:expColors,borderRadius:3},
+    ]},
+    options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+  destroyChart('el-closure');
+  _charts['el-closure'] = new Chart(document.getElementById('el-closure'),{
+    type:'doughnut',data:{labels:data.map(r=>r.level.split(' ')[0]),datasets:[{data:data.map(r=>scl(r.sales)),backgroundColor:expColors,borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10}}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: SOURCE
+// ═══════════════════════════════════════════════════════
+function renderSource() {
+  const el = getPanelEl(); if (!el) return;
+  const data = DEMO.sources;
+  const totGen=data.reduce((s,r)=>s+scl(r.gen),0);
+  const totCons=data.reduce((s,r)=>s+scl(r.consumed),0);
+  const totSales=data.reduce((s,r)=>s+scl(r.sales),0);
+  const totPipe=Math.round(totCons*0.302);
+  const srcColors=['#c8ff57','#4a9eff','#a78bfa','#34d399','#fbbf24'];
+  const qualScores=['4.2','3.8','4.6','3.1','2.9'];
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Source <span>Level View</span></div>
+      <div class="page-sub">Funnel breakdown by lead source — Apxor, AMA, Calendly, WhatsApp, Email · ${ARPU_CONFIG[currentArpu].label}</div></div>
+    </div>
+    <div class="summary-strip">
+      <div><div class="summary-item-label">Total Leads Generated</div><div class="summary-item-val">${fmt(totGen)}</div></div>
+      <div><div class="summary-item-label">Total Leads Consumed</div><div class="summary-item-val">${fmt(totCons)}</div></div>
+      <div><div class="summary-item-label">Sales Closed</div><div class="summary-item-val">${fmt(totSales)}</div></div>
+      <div><div class="summary-item-label">L2P Rate</div><div class="summary-item-val">${pct(totPipe,totCons)}</div></div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="chart-card"><div class="chart-card-title">LEADS BY SOURCE</div><canvas id="sl-bar" height="160"></canvas></div>
+      <div class="chart-card"><div class="chart-card-title">L2P % BY SOURCE</div><canvas id="sl-l2p" height="160"></canvas></div>
+    </div>
+    <div class="data-table-wrap">
+      <div style="display:grid;grid-template-columns:130px 110px 110px 100px 100px 100px 100px;padding:10px 14px;background:var(--ink3);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);">
+        <span>Source</span><span>Leads Gen.</span><span>Consumed</span><span>Sales</span><span>L2P %</span><span>Closure %</span><span>Quality Score</span>
+      </div>
+      ${data.map((r,i)=>{const gen=scl(r.gen),cons=scl(r.consumed),sales=scl(r.sales),pipe=Math.round(cons*0.302);
+        const qs=qualScores[i];
+        return `<div style="display:grid;grid-template-columns:130px 110px 110px 100px 100px 100px 100px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;">
+          <span style="color:${srcColors[i]};font-weight:600;">${r.name}</span>
+          <span>${fmt(gen)}</span><span style="color:var(--muted2);">${fmt(cons)}</span>
+          <span style="color:var(--accent);font-weight:600;">${fmt(sales)}</span>
+          <span style="color:var(--teal);">${pct(pipe,cons)}</span>
+          <span style="color:var(--blue);">${pct(sales,cons)}</span>
+          <span><span class="pill ${+qs>=4?'pill-green':+qs>=3.5?'pill-amber':'pill-red'}">${qs}/5</span></span>
+        </div>`;}).join('')}
+    </div>`;
+
+  destroyChart('sl-bar');
+  _charts['sl-bar'] = new Chart(document.getElementById('sl-bar'),{
+    type:'bar',data:{labels:data.map(r=>r.name),datasets:[
+      {label:'Generated',data:data.map(r=>scl(r.gen)),backgroundColor:srcColors.map(c=>c+'99'),borderRadius:3},
+      {label:'Consumed',data:data.map(r=>scl(r.consumed)),backgroundColor:srcColors.map(c=>c+'55'),borderRadius:3},
+    ]},
+    options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+  destroyChart('sl-l2p');
+  _charts['sl-l2p'] = new Chart(document.getElementById('sl-l2p'),{
+    type:'bar',data:{labels:data.map(r=>r.name),datasets:[{label:'L2P %',data:data.map(r=>(Math.round(scl(r.consumed)*0.302)/scl(r.consumed)*100).toFixed(1)),backgroundColor:srcColors,borderRadius:3}]},
+    options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{max:50,ticks:{callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: HANDOFF
+// ═══════════════════════════════════════════════════════
+function renderHandoff() {
+  const el = getPanelEl(); if (!el) return;
+  const h = DEMO.handoff;
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Handoff <span>Layer</span></div>
+      <div class="page-sub">Marketing → Sales handoff: assignment, dialling, connection, show-up, closure · ${ARPU_CONFIG[currentArpu].label}</div></div>
+    </div>
+    <div class="handoff-grid">
+      <div class="handoff-card" style="border-color:rgba(200,255,87,0.2);">
+        <div class="handoff-label">Leads Assigned to Sales</div>
+        <div class="handoff-value" style="color:var(--accent);">${fmt(scl(h.assigned))}</div>
+        <div class="handoff-sub">from marketing pool</div>
+      </div>
+      <div class="handoff-card" style="border-color:rgba(74,158,255,0.2);">
+        <div class="handoff-label">Total Dialled</div>
+        <div class="handoff-value" style="color:var(--blue);">${fmt(scl(h.dialled))}</div>
+        <div class="handoff-sub">unique leads attempted</div>
+      </div>
+      <div class="handoff-card" style="border-color:rgba(52,211,153,0.2);">
+        <div class="handoff-label">First Contact Success</div>
+        <div class="handoff-value" style="color:var(--teal);">${fmt(scl(h.fcs))}</div>
+        <div class="handoff-sub">${h.fcsPct}% success rate</div>
+      </div>
+      <div class="handoff-card" style="border-color:rgba(251,191,36,0.2);">
+        <div class="handoff-label">Show-up Rate</div>
+        <div class="handoff-value" style="color:var(--amber);">${fmt(scl(h.showup))}</div>
+        <div class="handoff-sub">demo / counseling sessions</div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div>
+        <div class="section-header" style="margin-bottom:10px;"><div class="section-title">Connection Rate by Source</div></div>
+        <div class="rate-table-wrap">
+          <div class="rate-row hdr"><span>Source</span><span>Assigned</span><span>Dialled</span><span>Connected</span><span>Conn %</span><span>Trend</span></div>
+          ${h.connBySource.map((r,i)=>`<div class="rate-row">
+            <span style="color:${CLRS[i]};font-weight:500;">${r.source}</span>
+            <span class="rate-val">${fmt(scl(r.assigned))}</span>
+            <span class="rate-val">${fmt(scl(r.dialled))}</span>
+            <span class="rate-val" style="color:var(--teal);">${fmt(scl(r.connected))}</span>
+            <span class="rate-pct">${r.pct}%<div class="prog-bar-wrap bar"><div class="prog-bar" style="width:${r.pct}%;background:${CLRS[i]};"></div></div></span>
+            <span style="color:var(--muted);font-size:10px;">${r.pct>75?'↑ strong':r.pct>60?'→ avg':'↓ low'}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="section-header" style="margin-bottom:10px;"><div class="section-title">Qualification Rate by Source</div></div>
+        <div class="rate-table-wrap">
+          <div class="rate-row hdr"><span>Source</span><span>Connected</span><span>Qualified</span><span>Qual %</span><span>Pipeline</span><span>Pipe %</span></div>
+          ${h.qualBySource.map((r,i)=>`<div class="rate-row">
+            <span style="color:${CLRS[i]};font-weight:500;">${r.source}</span>
+            <span class="rate-val">${fmt(scl(r.connected))}</span>
+            <span class="rate-val" style="color:var(--accent);">${fmt(scl(r.qualified))}</span>
+            <span class="rate-pct">${r.qualPct}%<div class="prog-bar-wrap bar"><div class="prog-bar" style="width:${r.qualPct}%;background:${CLRS[i]};"></div></div></span>
+            <span class="rate-val">${fmt(scl(r.pipeline))}</span>
+            <span style="color:var(--purple);">${r.pipePct}%</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="section-header"><div class="section-title">Handoff → Closure Funnel</div></div>
+    <div class="grid-2-1">
+      <div class="chart-card">
+        <div class="chart-card-title">STAGE-BY-STAGE CONVERSION <span>handoff layer</span></div>
+        <canvas id="ho-funnel" height="130"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">CLOSURE BY SOURCE</div>
+        <canvas id="ho-closure" height="130"></canvas>
+      </div>
+    </div>`;
+
+  const hSteps=['Assigned','Dialled','Connected','Qualified','Pipeline','Show-up','Closed'];
+  const hVals=[h.assigned,h.dialled,h.fcs,Math.round(h.fcs*0.52),Math.round(h.fcs*0.42),h.showup,h.closure].map(v=>scl(v));
+  destroyChart('ho-funnel');
+  _charts['ho-funnel']=new Chart(document.getElementById('ho-funnel'),{
+    type:'bar',data:{labels:hSteps,datasets:[{label:'Count',data:hVals,backgroundColor:CLRS.concat(['#ff6b6b']),borderRadius:4}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+  destroyChart('ho-closure');
+  _charts['ho-closure']=new Chart(document.getElementById('ho-closure'),{
+    type:'bar',data:{labels:h.qualBySource.map(r=>r.source),datasets:[{label:'Closed',data:DEMO.sources.map(r=>scl(r.sales)),backgroundColor:CLRS,borderRadius:3}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// VIEW: SALES
+// ═══════════════════════════════════════════════════════
+function renderSales() {
+  const el = getPanelEl(); if (!el) return;
+  const cfg = ARPU_CONFIG[currentArpu];
+  const hasExtraStages = cfg.salesExtraStages;
+  const mul = periodMul();
+  const scl2 = v => Math.round(v * mul);
+
+  // Pick correct data set
+  const sd = (currentArpu === 'high') ? DEMO.salesHighArpu : DEMO.sales;
+  const d = sd.totals;
+
+  // Filter team data
+  let teamData = getFilteredTeamData(sd.team);
+
+  // Totals from filtered
+  const totConsumed = teamData.reduce((s,r)=>s+scl2(r.consumed),0);
+  const totDialled  = teamData.reduce((s,r)=>s+scl2(r.dialled),0);
+  const totPipes    = teamData.reduce((s,r)=>s+scl2(r.pipelines),0);
+  const totTestRolled = hasExtraStages ? teamData.reduce((s,r)=>s+scl2(r.testRolled||0),0) : 0;
+  const totTestCleared = hasExtraStages ? teamData.reduce((s,r)=>s+scl2(r.testCleared||0),0) : 0;
+  const totSales    = teamData.reduce((s,r)=>s+scl2(r.sales),0);
+  const totTalk     = teamData.reduce((s,r)=>s+scl2(r.talktime),0);
+
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const rowColors = ['#c8ff57','#4a9eff','#a78bfa','#34d399','#fbbf24','#ff6b6b','#f472b6'];
+
+  // Extra columns for High ARPU
+  const extraHeaders = hasExtraStages
+    ? `<span>Test Rolled</span><span>Test Cleared</span>` : '';
+  const extraColTemplate = hasExtraStages
+    ? `120px 120px` : '';
+  const gridCols = hasExtraStages
+    ? `160px 110px 110px 110px 120px 120px 110px 110px 90px 90px`
+    : `160px 110px 110px 110px 110px 110px 90px 90px`;
+
+  el.innerHTML = `
+    <div class="page-header">
+      <div><div class="page-title">Sales <span>Performance</span></div>
+      <div class="page-sub">Pipeline, closures, talk time, dialling activity · ${ARPU_CONFIG[currentArpu].label}
+        ${currentTeam !== 'all' ? ' · <span style="color:var(--accent);">'+TEAMS[currentTeam].label+'</span>' : ''}
+        ${currentBda !== 'all' ? ' · <span style="color:var(--blue);">'+currentBda+'</span>' : ''}
+      </div></div>
+      <div class="last-updated">Last updated: today, 09:14 AM</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row ${hasExtraStages ? 'kpi-row-6' : 'kpi-row-5'}" style="margin-bottom:20px;">
+      <div class="kpi-card accent-card">
+        <div class="kpi-card-label">Pipelines Created</div>
+        <div class="kpi-card-value">${fmt(totPipes)}</div>
+        <div class="kpi-card-sub">Qualified → pipeline</div>
+        <div class="kpi-stripe" style="background:var(--accent);"></div>
+      </div>
+      ${hasExtraStages ? `
+      <div class="kpi-card" style="border-color:rgba(56,189,248,0.25);background:rgba(56,189,248,0.05);">
+        <div class="kpi-card-label">Test Rolled Out</div>
+        <div class="kpi-card-value" style="color:#38bdf8;">${fmt(totTestRolled)}</div>
+        <div class="kpi-card-sub">Tests sent to pipeline</div>
+        <div class="kpi-stripe" style="background:#38bdf8;"></div>
+      </div>
+      <div class="kpi-card" style="border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.05);">
+        <div class="kpi-card-label">Test Cleared</div>
+        <div class="kpi-card-value" style="color:var(--amber);">${fmt(totTestCleared)}</div>
+        <div class="kpi-card-sub">Passed assessment</div>
+        <div class="kpi-stripe" style="background:var(--amber);"></div>
+      </div>` : ''}
+      <div class="kpi-card" style="border-color:rgba(52,211,153,0.25);background:rgba(52,211,153,0.05);">
+        <div class="kpi-card-label">Sales Closed</div>
+        <div class="kpi-card-value" style="color:var(--teal);">${fmt(totSales)}</div>
+        <div class="kpi-card-sub">Converted from pipeline</div>
+        <div class="kpi-stripe" style="background:var(--teal);"></div>
+      </div>
+      <div class="kpi-card" style="border-color:rgba(74,158,255,0.25);background:rgba(74,158,255,0.05);">
+        <div class="kpi-card-label">Leads Consumed</div>
+        <div class="kpi-card-value" style="color:var(--blue);">${fmt(totConsumed)}</div>
+        <div class="kpi-card-sub">Unique leads dialled</div>
+        <div class="kpi-stripe" style="background:var(--blue);"></div>
+      </div>
+      <div class="kpi-card" style="border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.05);">
+        <div class="kpi-card-label">Talk Time</div>
+        <div class="kpi-card-value" style="color:var(--amber);">${fmt(totTalk)} hrs</div>
+        <div class="kpi-card-sub">hrs connected this period</div>
+        <div class="kpi-stripe" style="background:var(--amber);"></div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="chart-card">
+        <div class="chart-card-title">PIPELINES VS SALES CLOSED <span>monthly trend</span></div>
+        <canvas id="s-trend" height="160"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">TALK TIME VS LEADS DIALLED <span>daily activity</span></div>
+        <canvas id="s-activity" height="160"></canvas>
+      </div>
+    </div>
+
+    <!-- Team Breakdown -->
+    <div class="section-header" style="margin-bottom:12px;">
+      <div class="section-title">Team-wise Breakdown
+        ${currentTeam !== 'all' ? `<span class="section-badge">${TEAMS[currentTeam].label}</span>` : ''}
+        ${currentBda !== 'all' ? `<span class="section-badge" style="color:var(--blue);">${currentBda}</span>` : ''}
+      </div>
+      <select class="filter-select" id="s-team-metric" onchange="renderSales()">
+        <option value="pipelines">Sort: Pipelines</option>
+        <option value="sales">Sort: Sales</option>
+        <option value="talktime">Sort: Talk Time</option>
+        <option value="dialled">Sort: Dialled</option>
+      </select>
+    </div>
+
+    <div class="data-table-wrap" style="margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:${gridCols};padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+        <span>BDA Name</span><span>Consumed</span><span>Dialled</span><span>Pipelines</span>
+        ${hasExtraStages ? '<span>Test Rolled</span><span>Test Cleared</span>' : ''}
+        <span>Sales</span><span>Talk Time</span><span>L2P %</span><span>Closure %</span>
+      </div>
+      <div id="s-team-rows"></div>
+      <div id="s-team-totals" style="display:grid;grid-template-columns:${gridCols};padding:11px 14px;background:var(--ink3);border-top:2px solid var(--border2);font-size:12px;font-weight:600;"></div>
+    </div>
+
+    <!-- Funnel chart -->
+    <div class="grid-2-1">
+      <div class="chart-card">
+        <div class="chart-card-title">SALES FUNNEL — AGGREGATE <span>consumed → pipeline → closed</span></div>
+        <canvas id="s-funnel-chart" height="130"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">CLOSURE % BY BDA</div>
+        <canvas id="s-closure-bda" height="130"></canvas>
+      </div>
+    </div>`;
+
+  // Trend chart (use mid ARPU monthly for demo)
+  const monthlyData = (currentArpu === 'high') ?
+    { pipelines:[28,31,35,33,42,46,38,44,50,41,45,54], sales:[9,10,11,10,13,15,12,14,15,13,14,17], talktime:[65,71,79,74,95,105,85,97,109,91,100,121] } :
+    DEMO.sales.monthly;
+
+  destroyChart('s-trend');
+  _charts['s-trend'] = new Chart(document.getElementById('s-trend'), {
+    type: 'bar',
+    data: { labels: months, datasets: [
+      { label:'Pipelines', data: monthlyData.pipelines, backgroundColor:'rgba(200,255,87,0.55)', borderRadius:3, yAxisID:'y' },
+      { label:'Sales Closed', data: monthlyData.sales, backgroundColor:'rgba(52,211,153,0.8)', borderRadius:3, yAxisID:'y' },
+      ...(hasExtraStages ? [{ label:'Test Cleared', data: monthlyData.pipelines.map(v=>Math.round(v*0.7)), type:'line', borderColor:'#fbbf24', tension:0.4, pointRadius:3, yAxisID:'y' }] : []),
+      { label:'Talk Time (hrs)', data: monthlyData.talktime, type:'line', borderColor:'#fbbf24', tension:0.4, pointRadius:3, yAxisID:'y2' },
+    ]},
+    options:{ responsive:true, plugins:{ legend:{ position:'top' } }, scales:{ x:{ grid:{color:'rgba(255,255,255,0.04)'} }, y:{ grid:{color:'rgba(255,255,255,0.04)'}, position:'left' }, y2:{ grid:{display:false}, position:'right', ticks:{callback:v=>v+'h'} } } }
+  });
+
+  destroyChart('s-activity');
+  _charts['s-activity'] = new Chart(document.getElementById('s-activity'), {
+    type: 'line',
+    data: { labels: months, datasets: [
+      { label:'Leads Dialled', data: monthlyData.talktime.map(v=>Math.round(v*2.24)), borderColor:'#a78bfa', backgroundColor:'rgba(167,139,250,0.07)', tension:0.4, fill:true, pointRadius:3 },
+      { label:'Leads Consumed', data: monthlyData.talktime.map(v=>Math.round(v*1.46)), borderColor:'#4a9eff', backgroundColor:'rgba(74,158,255,0.05)', tension:0.4, fill:true, pointRadius:3 },
+    ]},
+    options:{ responsive:true, plugins:{ legend:{ position:'top' } }, scales:{ x:{ grid:{color:'rgba(255,255,255,0.04)'} }, y:{ grid:{color:'rgba(255,255,255,0.04)'} } } }
+  });
+
+  // Team table
+  const metricKey = document.getElementById('s-team-metric')?.value || 'pipelines';
+  const sorted = [...teamData].sort((a,b) => b[metricKey] - a[metricKey]);
+
+  document.getElementById('s-team-rows').innerHTML = sorted.map((r,i) => {
+    const cons=scl2(r.consumed), dial=scl2(r.dialled), pipes=scl2(r.pipelines),
+          tr=scl2(r.testRolled||0), tc=scl2(r.testCleared||0),
+          sales2=scl2(r.sales), talk=scl2(r.talktime);
+    const l2p = cons ? (pipes/cons*100).toFixed(1) : '—';
+    const closure = cons ? (sales2/cons*100).toFixed(1) : '—';
+    const teamLabel = Object.entries(TEAMS).find(([k,v])=>k===r.team)?.[1]?.label||'';
+    return `<div style="display:grid;grid-template-columns:${gridCols};padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+      <span style="color:${rowColors[i%rowColors.length]};font-weight:600;">${r.name}<br><span style="color:var(--muted);font-size:9px;font-weight:400;">${teamLabel}</span></span>
+      <span>${fmt(cons)}</span>
+      <span style="color:var(--muted2);">${fmt(dial)}</span>
+      <span style="color:var(--accent);font-weight:600;">${fmt(pipes)}</span>
+      ${hasExtraStages ? `<span style="color:#38bdf8;">${fmt(tr)}</span><span style="color:var(--amber);">${fmt(tc)}</span>` : ''}
+      <span style="color:var(--teal);font-weight:600;">${fmt(sales2)}</span>
+      <span style="color:var(--amber);">${fmt(talk)} hrs</span>
+      <span style="color:var(--blue);">${l2p}%</span>
+      <span style="color:var(--purple);">${closure}%</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('s-team-totals').innerHTML = `
+    <span style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:1px;">TOTAL</span>
+    <span>${fmt(totConsumed)}</span>
+    <span style="color:var(--muted2);">${fmt(totDialled)}</span>
+    <span style="color:var(--accent);">${fmt(totPipes)}</span>
+    ${hasExtraStages ? `<span style="color:#38bdf8;">${fmt(totTestRolled)}</span><span style="color:var(--amber);">${fmt(totTestCleared)}</span>` : ''}
+    <span style="color:var(--teal);">${fmt(totSales)}</span>
+    <span style="color:var(--amber);">${fmt(totTalk)} hrs</span>
+    <span style="color:var(--blue);">${totPipes&&totConsumed?(totPipes/totConsumed*100).toFixed(1):'—'}%</span>
+    <span style="color:var(--purple);">${totSales&&totConsumed?(totSales/totConsumed*100).toFixed(1):'—'}%</span>`;
+
+  // Sales funnel stages
+  let funnelLabels, funnelVals;
+  if (hasExtraStages) {
+    funnelLabels=['Consumed','Connected','Qualified','Pipeline','Test Rolled','Test Cleared','Demo','Closed'];
+    funnelVals=[scl2(sd.totals.consumed||920),scl2(680),scl2(380),scl2(sd.totals.pipelines||310),scl2(sd.totals.testRolled||220),scl2(sd.totals.testCleared||148),scl2(130),scl2(sd.totals.sales||98)];
+  } else {
+    funnelLabels=['Consumed','Connected','Qualified','Pipeline','Demo','Closed'];
+    funnelVals=[scl2(2690),scl2(1920),scl2(1010),scl2(812),scl2(560),scl2(247)];
+  }
+
+  destroyChart('s-funnel-chart');
+  _charts['s-funnel-chart'] = new Chart(document.getElementById('s-funnel-chart'), {
+    type:'bar', data:{ labels:funnelLabels, datasets:[{label:'Count',data:funnelVals,backgroundColor:['#c8ff5799','#4a9eff99','#a78bfa99','#c8ff57','#38bdf899','#fbbf2499','#34d39999','#34d399'],borderRadius:4}] },
+    options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:'rgba(255,255,255,0.04)'}}, y:{grid:{color:'rgba(255,255,255,0.04)'}} } }
+  });
+
+  destroyChart('s-closure-bda');
+  _charts['s-closure-bda'] = new Chart(document.getElementById('s-closure-bda'), {
+    type:'bar', data:{ labels: sorted.map(r=>r.name.split(' ')[0]), datasets:[{label:'Closure %',data:sorted.map(r=>(r.sales/r.consumed*100).toFixed(1)),backgroundColor:rowColors,borderRadius:3}] },
+    options:{ responsive:true, indexAxis:'y', plugins:{legend:{display:false}}, scales:{ x:{max:15,ticks:{callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'}}, y:{grid:{color:'rgba(255,255,255,0.04)'}} } }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function handlePeriodChange() {
+  const val = document.getElementById('periodFilter').value;
+  document.getElementById('custom-date-wrap').style.display = val === 'custom' ? 'flex' : 'none';
+  if (val !== 'custom') refreshAll();
+}
+
+function refreshAll() { renderCurrentView(); }
+function exportData() { alert('Connect to Scaler CRM API to export live data.\nClick the API status indicator in the top-right to configure.'); }
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+function init() {
+  // Set Mid ARPU as default
+  const cfg = ARPU_CONFIG['mid'];
+  const ps = document.getElementById('programFilter');
+  ps.innerHTML = cfg.programs.map((p,i) => `<option value="${cfg.programKeys[i]}">${p}</option>`).join('');
+  buildContextBar();
+  buildSubNav();
+  buildCanvas();
+  renderCurrentView();
+}
+
+
+// ═══════════════════════════════════════════════════════
+// TOP-LEVEL SECTION SWITCH
+// ═══════════════════════════════════════════════════════
+let currentSection = 'marketing';
+
+function switchSection(section, el) {
+  currentSection = section;
+  // Update tab styles
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  // Show/hide section wrappers
+  ['marketing','crm','audit','completion'].forEach(s => {
+    const el2 = document.getElementById('section-' + s);
+    if (el2) el2.style.display = s === section ? '' : 'none';
+  });
+
+  // Render the newly visible section
+  if (section === 'crm') renderCrm('overview');
+  if (section === 'audit') renderAudit('calls');
+  if (section === 'completion') renderCompletion('overview');
+}
+
+// ═══════════════════════════════════════════════════════
+// CRM SECTION
+// ═══════════════════════════════════════════════════════
+let currentCrmTab = 'overview';
+function switchCrmTab(tab, el) {
+  currentCrmTab = tab;
+  document.querySelectorAll('#section-crm .sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderCrm(tab);
+}
+
+const CRM_DEMO = {
+  overview: {
+    totalLeads: 3840, openPipelines: 812, scheduledFollowups: 284,
+    closedWon: 247, closedLost: 198, avgDealAge: 12,
+  },
+  leads: [
+    { name: 'Rahul Sharma',    phone: '+91 98765 43210', source: 'Apxor',    program: 'MS in AI',   status: 'New',         assignedTo: 'Aryan Mehta',  createdAt: 'Today, 08:12' },
+    { name: 'Anjali Verma',    phone: '+91 87654 32109', source: 'Calendly', program: 'DSML',       status: 'Contacted',   assignedTo: 'Priya Singh',  createdAt: 'Today, 07:45' },
+    { name: 'Karan Patel',     phone: '+91 76543 21098', source: 'WhatsApp', program: 'Neovarsity', status: 'Pipeline',    assignedTo: 'Rohan Das',    createdAt: 'Yesterday' },
+    { name: 'Sneha Iyer',      phone: '+91 65432 10987', source: 'AMA',      program: 'AIML',       status: 'Follow-up',   assignedTo: 'Sneha Kapoor', createdAt: 'Yesterday' },
+    { name: 'Dev Malhotra',    phone: '+91 54321 09876', source: 'Email',    program: 'DevOps',     status: 'Lost',        assignedTo: 'Vikram Nair',  createdAt: '2d ago' },
+    { name: 'Pooja Nair',      phone: '+91 43210 98765', source: 'Apxor',    program: 'MS in AI',   status: 'Closed Won',  assignedTo: 'Deepa Rao',    createdAt: '2d ago' },
+    { name: 'Aditya Bose',     phone: '+91 32109 87654', source: 'Calendly', program: 'IITR',       status: 'New',         assignedTo: 'Karan Joshi',  createdAt: '3d ago' },
+    { name: 'Riya Kapoor',     phone: '+91 21098 76543', source: 'WhatsApp', program: 'IIMT',       status: 'Contacted',   assignedTo: 'Aryan Mehta',  createdAt: '3d ago' },
+    { name: 'Suresh Kumar',    phone: '+91 10987 65432', source: 'AMA',      program: 'Oxford',     status: 'Pipeline',    assignedTo: 'Priya Singh',  createdAt: '4d ago' },
+    { name: 'Meera Joshi',     phone: '+91 09876 54321', source: 'Email',    program: 'Academy',    status: 'Follow-up',   assignedTo: 'Rohan Das',    createdAt: '4d ago' },
+  ],
+  pipeline: [
+    { stage: 'Qualified',      count: 1010, value: '₹8.6 Cr',  change: '+12%', color: '#4a9eff' },
+    { stage: 'Pipeline Formed',count: 812,  value: '₹6.9 Cr',  change: '+8%',  color: '#c8ff57' },
+    { stage: 'Demo Scheduled', count: 560,  value: '₹4.8 Cr',  change: '+5%',  color: '#a78bfa' },
+    { stage: 'Negotiation',    count: 310,  value: '₹2.6 Cr',  change: '-3%',  color: '#fbbf24' },
+    { stage: 'Closed Won',     count: 247,  value: '₹2.1 Cr',  change: '+18%', color: '#34d399' },
+    { stage: 'Closed Lost',    count: 198,  value: '₹1.7 Cr',  change: '-2%',  color: '#ff6b6b' },
+  ],
+  followups: [
+    { lead: 'Anjali Verma',   bda: 'Priya Singh',   dueIn: 'Today 2pm',    priority: 'High',   note: 'Callback requested, fee discussion' },
+    { lead: 'Sneha Iyer',     bda: 'Sneha Kapoor',  dueIn: 'Today 4pm',    priority: 'High',   note: 'Send brochure + EMI plan' },
+    { lead: 'Meera Joshi',    bda: 'Rohan Das',     dueIn: 'Tomorrow 10am',priority: 'Medium', note: 'Check scholarship eligibility' },
+    { lead: 'Aditya Bose',    bda: 'Karan Joshi',   dueIn: 'Tomorrow 12pm',priority: 'Medium', note: 'Waiting on manager approval' },
+    { lead: 'Riya Kapoor',    bda: 'Aryan Mehta',   dueIn: 'In 2 days',    priority: 'Low',    note: 'Exploring other programs too' },
+    { lead: 'Suresh Kumar',   bda: 'Priya Singh',   dueIn: 'In 3 days',    priority: 'Low',    note: 'Currently evaluating competitors' },
+  ],
+  lost: [
+    { lead: 'Dev Malhotra',  reason: 'Too expensive',      bda: 'Vikram Nair',  lostOn: '2d ago',  value: '₹2.4L', recoverable: true },
+    { lead: 'Farhan Ahmed',  reason: 'Not the right time', bda: 'Deepa Rao',    lostOn: '3d ago',  value: '₹1.8L', recoverable: true },
+    { lead: 'Tanya Gupta',   reason: 'Chose competitor',   bda: 'Karan Joshi',  lostOn: '4d ago',  value: '₹2.2L', recoverable: false },
+    { lead: 'Nikhil Singh',  reason: 'No budget',          bda: 'Aryan Mehta',  lostOn: '5d ago',  value: '₹1.5L', recoverable: false },
+    { lead: 'Prachi Mehta',  reason: 'Family pressure',    bda: 'Rohan Das',    lostOn: '6d ago',  value: '₹2.6L', recoverable: true },
+  ]
+};
+
+function renderCrm(tab) {
+  const canvas = document.getElementById('crm-canvas');
+  if (!canvas) return;
+  if (tab === 'overview') {
+    const d = CRM_DEMO.overview;
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">CRM <span>Overview</span></div>
+        <div class="page-sub">Lead lifecycle management — all ARPU segments combined</div></div>
+        <div class="last-updated">Last updated: today, 09:14 AM</div>
+      </div>
+      <div class="crm-grid">
+        <div class="crm-card" style="border-color:rgba(200,255,87,0.25);">
+          <div class="crm-label">Total Leads</div>
+          <div class="crm-value" style="color:var(--accent);">${fmt(d.totalLeads)}</div>
+          <div class="crm-sub">in system this period</div>
+          <div class="kpi-stripe" style="background:var(--accent);"></div>
+        </div>
+        <div class="crm-card" style="border-color:rgba(74,158,255,0.25);">
+          <div class="crm-label">Open Pipelines</div>
+          <div class="crm-value" style="color:var(--blue);">${d.openPipelines}</div>
+          <div class="crm-sub">active deals in progress</div>
+          <div class="kpi-stripe" style="background:var(--blue);"></div>
+        </div>
+        <div class="crm-card" style="border-color:rgba(251,191,36,0.25);">
+          <div class="crm-label">Scheduled Follow-ups</div>
+          <div class="crm-value" style="color:var(--amber);">${d.scheduledFollowups}</div>
+          <div class="crm-sub">due in next 48 hrs</div>
+          <div class="kpi-stripe" style="background:var(--amber);"></div>
+        </div>
+        <div class="crm-card" style="border-color:rgba(52,211,153,0.25);">
+          <div class="crm-label">Closed Won</div>
+          <div class="crm-value" style="color:var(--teal);">${d.closedWon}</div>
+          <div class="crm-sub">vs ${d.closedLost} lost · avg ${d.avgDealAge}d deal age</div>
+          <div class="kpi-stripe" style="background:var(--teal);"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="chart-card">
+          <div class="chart-card-title">PIPELINE STAGE DISTRIBUTION</div>
+          <canvas id="crm-pipeline-chart" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">WIN / LOSS TREND <span>monthly</span></div>
+          <canvas id="crm-winloss-chart" height="180"></canvas>
+        </div>
+      </div>
+      <div class="section-header" style="margin-bottom:12px;"><div class="section-title">Stage Breakdown</div></div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:160px 100px 120px 100px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Stage</span><span>Count</span><span>Est. Value</span><span>WoW Change</span>
+        </div>
+        ${CRM_DEMO.pipeline.map(r => `
+          <div style="display:grid;grid-template-columns:160px 100px 120px 100px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:${r.color};display:inline-block;"></span>
+              ${r.stage}
+            </span>
+            <span style="font-weight:600;">${r.count}</span>
+            <span style="color:var(--accent);">${r.value}</span>
+            <span class="${r.change.startsWith('+') ? 'pill pill-green' : 'pill pill-red'}">${r.change}</span>
+          </div>`).join('')}
+      </div>`;
+
+    destroyChart('crm-pipeline-chart');
+    _charts['crm-pipeline-chart'] = new Chart(document.getElementById('crm-pipeline-chart'), {
+      type: 'bar',
+      data: { labels: CRM_DEMO.pipeline.map(r=>r.stage), datasets:[{ label:'Count', data: CRM_DEMO.pipeline.map(r=>r.count), backgroundColor: CRM_DEMO.pipeline.map(r=>r.color+'cc'), borderRadius:4 }] },
+      options: { responsive:true, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}} }
+    });
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    destroyChart('crm-winloss-chart');
+    _charts['crm-winloss-chart'] = new Chart(document.getElementById('crm-winloss-chart'), {
+      type: 'line',
+      data: { labels: months, datasets:[
+        { label:'Won', data:[18,20,22,21,27,30,24,28,31,26,29,35], borderColor:'#34d399', backgroundColor:'rgba(52,211,153,0.07)', tension:0.4, fill:true, pointRadius:3 },
+        { label:'Lost', data:[14,16,18,17,22,25,20,22,26,21,24,28], borderColor:'#ff6b6b', backgroundColor:'rgba(255,107,107,0.05)', tension:0.4, fill:true, pointRadius:3 },
+      ]},
+      options:{ responsive:true, plugins:{legend:{position:'top'}}, scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}} }
+    });
+
+  } else if (tab === 'leads') {
+    const statusColor = { 'New':'#4a9eff','Contacted':'#fbbf24','Pipeline':'#c8ff57','Follow-up':'#a78bfa','Lost':'#ff6b6b','Closed Won':'#34d399' };
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Lead <span>Register</span></div>
+        <div class="page-sub">All leads in the system with current status and assignment</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:160px 140px 90px 110px 110px 120px 130px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Lead Name</span><span>Phone</span><span>Source</span><span>Program</span><span>Status</span><span>Assigned To</span><span>Created</span>
+        </div>
+        ${CRM_DEMO.leads.map(r => `
+          <div style="display:grid;grid-template-columns:160px 140px 90px 110px 110px 120px 130px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="font-weight:600;">${r.name}</span>
+            <span style="color:var(--muted2);font-size:11px;">${r.phone}</span>
+            <span><span class="pill pill-blue">${r.source}</span></span>
+            <span style="color:var(--muted2);font-size:11px;">${r.program}</span>
+            <span><span style="display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:500;background:${statusColor[r.status]}22;color:${statusColor[r.status]};">${r.status}</span></span>
+            <span style="font-size:11px;">${r.assignedTo}</span>
+            <span style="color:var(--muted);font-size:10px;">${r.createdAt}</span>
+          </div>`).join('')}
+      </div>`;
+
+  } else if (tab === 'pipeline') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Pipeline <span>View</span></div>
+        <div class="page-sub">Active deals by stage with estimated values</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+        ${CRM_DEMO.pipeline.filter(r=>!['Closed Won','Closed Lost'].includes(r.stage)).map(r=>`
+          <div class="crm-card" style="border-color:${r.color}33;">
+            <div class="crm-label">${r.stage}</div>
+            <div class="crm-value" style="color:${r.color};">${r.count}</div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;">
+              <span style="color:var(--muted);font-size:10px;">${r.value}</span>
+              <span class="${r.change.startsWith('+') ? 'pill pill-green' : 'pill pill-red'}" style="font-size:9px;">${r.change}</span>
+            </div>
+            <div class="kpi-stripe" style="background:${r.color};"></div>
+          </div>`).join('')}
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">PIPELINE FUNNEL</div>
+        <canvas id="crm-pipe-funnel" height="100"></canvas>
+      </div>`;
+    destroyChart('crm-pipe-funnel');
+    const pd = CRM_DEMO.pipeline.filter(r=>!['Closed Won','Closed Lost'].includes(r.stage));
+    _charts['crm-pipe-funnel'] = new Chart(document.getElementById('crm-pipe-funnel'), {
+      type:'bar', data:{ labels:pd.map(r=>r.stage), datasets:[{label:'Deals',data:pd.map(r=>r.count),backgroundColor:pd.map(r=>r.color+'bb'),borderRadius:4}]},
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+
+  } else if (tab === 'followups') {
+    const priColor = { High:'#ff6b6b', Medium:'#fbbf24', Low:'#4a9eff' };
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Follow-up <span>Queue</span></div>
+        <div class="page-sub">Scheduled callbacks and pending actions — sorted by urgency</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:160px 130px 140px 80px 1fr;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Lead</span><span>BDA</span><span>Due</span><span>Priority</span><span>Note</span>
+        </div>
+        ${CRM_DEMO.followups.map(r=>`
+          <div style="display:grid;grid-template-columns:160px 130px 140px 80px 1fr;padding:11px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="font-weight:600;">${r.lead}</span>
+            <span style="color:var(--muted2);">${r.bda}</span>
+            <span style="color:var(--amber);font-size:11px;">${r.dueIn}</span>
+            <span><span style="display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;background:${priColor[r.priority]}22;color:${priColor[r.priority]};">${r.priority}</span></span>
+            <span style="color:var(--muted);font-size:11px;">${r.note}</span>
+          </div>`).join('')}
+      </div>`;
+
+  } else if (tab === 'lost') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Lost / <span>Dropped</span></div>
+        <div class="page-sub">Deals marked lost — reasons and recoverability</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:160px 180px 130px 80px 80px 100px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Lead</span><span>Reason</span><span>BDA</span><span>Lost On</span><span>Value</span><span>Recoverable</span>
+        </div>
+        ${CRM_DEMO.lost.map(r=>`
+          <div style="display:grid;grid-template-columns:160px 180px 130px 80px 80px 100px;padding:11px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="font-weight:600;">${r.lead}</span>
+            <span style="color:var(--coral);">${r.reason}</span>
+            <span style="color:var(--muted2);">${r.bda}</span>
+            <span style="color:var(--muted);font-size:11px;">${r.lostOn}</span>
+            <span style="color:var(--accent);">${r.value}</span>
+            <span><span class="pill ${r.recoverable?'pill-green':'pill-red'}">${r.recoverable?'Yes':'No'}</span></span>
+          </div>`).join('')}
+      </div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// AUDIT SECTION
+// ═══════════════════════════════════════════════════════
+let currentAuditTab = 'calls';
+function switchAuditTab(tab, el) {
+  currentAuditTab = tab;
+  document.querySelectorAll('#section-audit .sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderAudit(tab);
+}
+
+const AUDIT_DEMO = {
+  calls: [
+    { id:'CALL-2841', bda:'Aryan Mehta',  lead:'Rahul Sharma',   date:'Today, 09:02', duration:'18m 24s', score:87, outcome:'Pipeline',    flags:0 },
+    { id:'CALL-2840', bda:'Priya Singh',  lead:'Anjali Verma',   date:'Today, 08:45', duration:'22m 10s', score:74, outcome:'Follow-up',   flags:1 },
+    { id:'CALL-2839', bda:'Rohan Das',    lead:'Karan Patel',    date:'Today, 08:30', duration:'14m 55s', score:91, outcome:'Closed Won',  flags:0 },
+    { id:'CALL-2838', bda:'Sneha Kapoor', lead:'Sneha Iyer',     date:'Yesterday',    duration:'11m 08s', score:62, outcome:'No-connect',  flags:2 },
+    { id:'CALL-2837', bda:'Vikram Nair',  lead:'Dev Malhotra',   date:'Yesterday',    duration:'27m 33s', score:55, outcome:'Lost',        flags:3 },
+    { id:'CALL-2836', bda:'Deepa Rao',    lead:'Pooja Nair',     date:'2d ago',       duration:'19m 47s', score:83, outcome:'Pipeline',    flags:0 },
+    { id:'CALL-2835', bda:'Karan Joshi',  lead:'Aditya Bose',    date:'2d ago',       duration:'08m 22s', score:70, outcome:'Contacted',   flags:1 },
+    { id:'CALL-2834', bda:'Aryan Mehta',  lead:'Riya Kapoor',    date:'3d ago',       duration:'31m 05s', score:79, outcome:'Follow-up',   flags:0 },
+  ],
+  bdaScores: [
+    { name:'Rohan Das',    calls:112, avgScore:88, flagged:2,  top:'Objection Handling',  weak:'Closing' },
+    { name:'Aryan Mehta',  calls:128, avgScore:84, flagged:4,  top:'Rapport Building',    weak:'Product Knowledge' },
+    { name:'Deepa Rao',    calls:98,  avgScore:81, flagged:3,  top:'Needs Analysis',      weak:'Follow-up Pitch' },
+    { name:'Priya Singh',  calls:115, avgScore:77, flagged:6,  top:'Communication',       weak:'Objection Handling' },
+    { name:'Sneha Kapoor', calls:104, avgScore:72, flagged:8,  top:'Product Knowledge',   weak:'Closing' },
+    { name:'Vikram Nair',  calls:96,  avgScore:68, flagged:11, top:'Rapport Building',    weak:'Needs Analysis' },
+    { name:'Karan Joshi',  calls:78,  avgScore:64, flagged:14, top:'Communication',       weak:'Objection Handling' },
+  ],
+};
+
+function renderAudit(tab) {
+  const canvas = document.getElementById('audit-canvas');
+  if (!canvas) return;
+
+  if (tab === 'calls') {
+    const scoreColor = s => s>=85?'var(--teal)':s>=70?'var(--amber)':'var(--coral)';
+    const scoreBg = s => s>=85?'rgba(52,211,153,0.15)':s>=70?'rgba(251,191,36,0.15)':'rgba(255,107,107,0.15)';
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Call <span>Audits</span></div>
+        <div class="page-sub">Recent call recordings scored on quality, compliance and conversion</div></div>
+        <div class="last-updated">Last updated: today, 09:14 AM</div>
+      </div>
+      <div class="kpi-row kpi-row-4" style="margin-bottom:20px;">
+        <div class="kpi-card" style="border-color:rgba(200,255,87,0.2);">
+          <div class="kpi-card-label">Calls Audited</div>
+          <div class="kpi-card-value" style="color:var(--accent);">847</div>
+          <div class="kpi-card-sub">this month</div>
+          <div class="kpi-stripe" style="background:var(--accent);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(52,211,153,0.2);">
+          <div class="kpi-card-label">Avg Quality Score</div>
+          <div class="kpi-card-value" style="color:var(--teal);">76.4</div>
+          <div class="kpi-card-sub">out of 100</div>
+          <div class="kpi-stripe" style="background:var(--teal);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(255,107,107,0.2);">
+          <div class="kpi-card-label">Flagged Calls</div>
+          <div class="kpi-card-value" style="color:var(--coral);">34</div>
+          <div class="kpi-card-sub">require review</div>
+          <div class="kpi-stripe" style="background:var(--coral);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(251,191,36,0.2);">
+          <div class="kpi-card-label">Avg Call Duration</div>
+          <div class="kpi-card-value" style="color:var(--amber);">18.7m</div>
+          <div class="kpi-card-sub">minutes per call</div>
+          <div class="kpi-stripe" style="background:var(--amber);"></div>
+        </div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:100px 130px 140px 120px 110px 80px 110px 70px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Call ID</span><span>BDA</span><span>Lead</span><span>Date</span><span>Duration</span><span>Score</span><span>Outcome</span><span>Flags</span>
+        </div>
+        ${AUDIT_DEMO.calls.map(r=>`
+          <div style="display:grid;grid-template-columns:100px 130px 140px 120px 110px 80px 110px 70px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="color:var(--muted2);font-size:11px;">${r.id}</span>
+            <span style="font-weight:500;">${r.bda}</span>
+            <span style="color:var(--muted2);">${r.lead}</span>
+            <span style="color:var(--muted);font-size:11px;">${r.date}</span>
+            <span style="color:var(--muted2);">${r.duration}</span>
+            <span><span class="audit-score" style="background:${scoreBg(r.score)};color:${scoreColor(r.score)};">${r.score}</span></span>
+            <span style="font-size:11px;">${r.outcome}</span>
+            <span>${r.flags > 0 ? '<span class="pill pill-red">⚑ '+r.flags+'</span>' : '<span style="color:var(--muted);font-size:11px;">—</span>'}</span>
+          </div>`).join('')}
+      </div>`;
+
+  } else if (tab === 'bda') {
+    const scoreColor = s => s>=85?'var(--teal)':s>=70?'var(--amber)':'var(--coral)';
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">BDA <span>Scores</span></div>
+        <div class="page-sub">Aggregated quality scores per BDA with strengths and improvement areas</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="chart-card">
+          <div class="chart-card-title">AVG QUALITY SCORE BY BDA</div>
+          <canvas id="audit-bda-bar" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">FLAGGED CALLS BY BDA</div>
+          <canvas id="audit-flag-bar" height="180"></canvas>
+        </div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:150px 80px 90px 80px 160px 160px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>BDA Name</span><span>Calls</span><span>Avg Score</span><span>Flagged</span><span>Top Skill</span><span>Needs Work</span>
+        </div>
+        ${AUDIT_DEMO.bdaScores.map(r=>`
+          <div style="display:grid;grid-template-columns:150px 80px 90px 80px 160px 160px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="font-weight:600;">${r.name}</span>
+            <span style="color:var(--muted2);">${r.calls}</span>
+            <span><span class="audit-score" style="background:${scoreColor(r.avgScore)}22;color:${scoreColor(r.avgScore)};">${r.avgScore}</span></span>
+            <span>${r.flagged>8?'<span class="pill pill-red">'+r.flagged+'</span>':r.flagged>4?'<span class="pill pill-amber">'+r.flagged+'</span>':'<span class="pill pill-green">'+r.flagged+'</span>'}</span>
+            <span style="color:var(--teal);font-size:11px;">✓ ${r.top}</span>
+            <span style="color:var(--coral);font-size:11px;">↑ ${r.weak}</span>
+          </div>`).join('')}
+      </div>`;
+
+    const names = AUDIT_DEMO.bdaScores.map(r=>r.name.split(' ')[0]);
+    destroyChart('audit-bda-bar');
+    _charts['audit-bda-bar'] = new Chart(document.getElementById('audit-bda-bar'), {
+      type:'bar', data:{labels:names, datasets:[{label:'Avg Score',data:AUDIT_DEMO.bdaScores.map(r=>r.avgScore),backgroundColor:AUDIT_DEMO.bdaScores.map(r=>r.avgScore>=85?'#34d39999':r.avgScore>=70?'#fbbf2499':'#ff6b6b99'),borderRadius:3}]},
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,grid:{color:'rgba(255,255,255,0.04)'}},x:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+    destroyChart('audit-flag-bar');
+    _charts['audit-flag-bar'] = new Chart(document.getElementById('audit-flag-bar'), {
+      type:'bar', data:{labels:names, datasets:[{label:'Flagged',data:AUDIT_DEMO.bdaScores.map(r=>r.flagged),backgroundColor:'rgba(255,107,107,0.6)',borderRadius:3}]},
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+
+  } else if (tab === 'flags') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Flagged <span>Calls</span></div>
+        <div class="page-sub">Calls flagged for compliance issues, script deviations, or quality drops</div></div>
+      </div>
+      <div class="summary-strip">
+        <div><div class="summary-item-label">Total Flagged</div><div class="summary-item-val" style="color:var(--coral);">34</div></div>
+        <div><div class="summary-item-label">Critical Flags</div><div class="summary-item-val" style="color:var(--coral);">8</div></div>
+        <div><div class="summary-item-label">Reviewed</div><div class="summary-item-val">19</div></div>
+        <div><div class="summary-item-label">Pending Review</div><div class="summary-item-val" style="color:var(--amber);">15</div></div>
+      </div>
+      ${AUDIT_DEMO.calls.filter(r=>r.flags>0).map(r=>`
+        <div class="chart-card" style="margin-bottom:12px;border-color:rgba(255,107,107,0.2);">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:13px;">${r.bda} <span style="color:var(--muted);font-weight:400;">→</span> ${r.lead}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px;">${r.id} · ${r.date} · ${r.duration}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="pill pill-red">⚑ ${r.flags} flag${r.flags>1?'s':''}</span>
+              <span class="audit-score" style="background:rgba(255,107,107,0.15);color:var(--coral);">${r.score}</span>
+              <button class="filter-btn" style="font-size:10px;">Review →</button>
+            </div>
+          </div>
+        </div>`).join('')}`;
+
+  } else if (tab === 'trends') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Score <span>Trends</span></div>
+        <div class="page-sub">Quality score trajectory over time — team and individual</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="chart-card">
+          <div class="chart-card-title">TEAM AVG SCORE — MONTHLY TREND</div>
+          <canvas id="audit-trend-team" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">FLAGGED CALLS — MONTHLY TREND</div>
+          <canvas id="audit-trend-flags" height="180"></canvas>
+        </div>
+      </div>`;
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    destroyChart('audit-trend-team');
+    _charts['audit-trend-team'] = new Chart(document.getElementById('audit-trend-team'), {
+      type:'line', data:{labels:months, datasets:[
+        {label:'Team Avg',data:[68,70,72,71,74,76,75,77,79,78,80,76],borderColor:'#c8ff57',backgroundColor:'rgba(200,255,87,0.06)',tension:0.4,fill:true,pointRadius:3},
+        {label:'Top Performer',data:[80,82,84,83,86,88,87,89,91,90,92,88],borderColor:'#34d399',tension:0.4,pointRadius:3},
+      ]},
+      options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{min:50,max:100,grid:{color:'rgba(255,255,255,0.04)'}},x:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+    destroyChart('audit-trend-flags');
+    _charts['audit-trend-flags'] = new Chart(document.getElementById('audit-trend-flags'), {
+      type:'bar', data:{labels:months, datasets:[{label:'Flagged',data:[42,38,35,37,32,28,31,27,24,26,22,34],backgroundColor:'rgba(255,107,107,0.6)',borderRadius:3}]},
+      options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// COMPLETION SECTION
+// ═══════════════════════════════════════════════════════
+let currentCompTab = 'overview';
+function switchCompTab(tab, el) {
+  currentCompTab = tab;
+  document.querySelectorAll('#section-completion .sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderCompletion(tab);
+}
+
+const COMP_DEMO = {
+  tracks: [
+    { name:'MS in AI',        enrolled:284, completed:198, inProgress:62,  dropped:24, pct:70, color:'#c8ff57' },
+    { name:'Neovarsity',      enrolled:210, completed:140, inProgress:55,  dropped:15, pct:67, color:'#4a9eff' },
+    { name:'DSML',            enrolled:176, completed:118, inProgress:42,  dropped:16, pct:67, color:'#a78bfa' },
+    { name:'AIML',            enrolled:152, completed:98,  inProgress:38,  dropped:16, pct:64, color:'#fbbf24' },
+    { name:'DevOps',          enrolled:128, completed:80,  inProgress:34,  dropped:14, pct:63, color:'#34d399' },
+    { name:'IITR',            enrolled:320, completed:200, inProgress:88,  dropped:32, pct:63, color:'#f472b6' },
+    { name:'IIMT',            enrolled:280, completed:168, inProgress:78,  dropped:34, pct:60, color:'#ff6b6b' },
+    { name:'Oxford',          enrolled:96,  completed:58,  inProgress:26,  dropped:12, pct:60, color:'#38bdf8' },
+    { name:'Academy',         enrolled:64,  completed:36,  inProgress:20,  dropped:8,  pct:56, color:'#818cf8' },
+  ],
+  cohorts: [
+    { cohort:'Cohort 24A (Jan)',  enrolled:180, completed:142, pct:79, status:'Completed' },
+    { cohort:'Cohort 24B (Apr)',  enrolled:195, completed:138, pct:71, status:'Completed' },
+    { cohort:'Cohort 24C (Jul)',  enrolled:210, completed:124, pct:59, status:'In Progress' },
+    { cohort:'Cohort 24D (Oct)',  enrolled:224, completed:88,  pct:39, status:'In Progress' },
+    { cohort:'Cohort 25A (Jan)',  enrolled:241, completed:41,  pct:17, status:'Early Stage' },
+  ],
+  atRisk: [
+    { name:'Priya Kapoor',  program:'MS in AI',   progress:'12%', lastActive:'8d ago',  risk:'High',   mentor:'Assign' },
+    { name:'Rohit Sharma',  program:'DSML',        progress:'28%', lastActive:'5d ago',  risk:'High',   mentor:'Aryan' },
+    { name:'Kavya Nair',    program:'IITR',        progress:'41%', lastActive:'3d ago',  risk:'Medium', mentor:'Priya' },
+    { name:'Saurav Ghosh',  program:'Neovarsity',  progress:'35%', lastActive:'4d ago',  risk:'Medium', mentor:'Assign' },
+    { name:'Trisha Menon',  program:'AIML',        progress:'55%', lastActive:'2d ago',  risk:'Low',    mentor:'Deepa' },
+    { name:'Varun Bhat',    program:'IIMT',        progress:'48%', lastActive:'3d ago',  risk:'Low',    mentor:'Rohan' },
+  ]
+};
+
+function renderCompletion(tab) {
+  const canvas = document.getElementById('comp-canvas');
+  if (!canvas) return;
+
+  if (tab === 'overview') {
+    const total = COMP_DEMO.tracks.reduce((s,r)=>s+r.enrolled,0);
+    const done  = COMP_DEMO.tracks.reduce((s,r)=>s+r.completed,0);
+    const prog  = COMP_DEMO.tracks.reduce((s,r)=>s+r.inProgress,0);
+    const drop  = COMP_DEMO.tracks.reduce((s,r)=>s+r.dropped,0);
+    const overallPct = Math.round(done/total*100);
+
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Completion <span>Overview</span></div>
+        <div class="page-sub">Course completion rates across all programs and cohorts</div></div>
+      </div>
+      <div class="kpi-row kpi-row-4" style="margin-bottom:20px;">
+        <div class="kpi-card accent-card">
+          <div class="kpi-card-label">Overall Completion Rate</div>
+          <div class="kpi-card-value">${overallPct}%</div>
+          <div class="kpi-card-sub">${fmt(done)} of ${fmt(total)} enrolled</div>
+          <div class="kpi-stripe" style="background:var(--accent);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(74,158,255,0.25);">
+          <div class="kpi-card-label">In Progress</div>
+          <div class="kpi-card-value" style="color:var(--blue);">${fmt(prog)}</div>
+          <div class="kpi-card-sub">active learners</div>
+          <div class="kpi-stripe" style="background:var(--blue);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(255,107,107,0.25);">
+          <div class="kpi-card-label">Dropped Out</div>
+          <div class="kpi-card-value" style="color:var(--coral);">${fmt(drop)}</div>
+          <div class="kpi-card-sub">${Math.round(drop/total*100)}% dropout rate</div>
+          <div class="kpi-stripe" style="background:var(--coral);"></div>
+        </div>
+        <div class="kpi-card" style="border-color:rgba(251,191,36,0.25);">
+          <div class="kpi-card-label">At Risk Learners</div>
+          <div class="kpi-card-value" style="color:var(--amber);">${COMP_DEMO.atRisk.length}</div>
+          <div class="kpi-card-sub">need intervention</div>
+          <div class="kpi-stripe" style="background:var(--amber);"></div>
+        </div>
+      </div>
+      <div class="section-header" style="margin-bottom:12px;"><div class="section-title">Completion by Program</div></div>
+      ${COMP_DEMO.tracks.map(r=>`
+        <div class="comp-track">
+          <div class="comp-track-header">
+            <div>
+              <div class="comp-track-name">${r.name}</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px;">${r.enrolled} enrolled · ${r.completed} completed · ${r.dropped} dropped</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="text-align:right;">
+                <div class="comp-track-pct" style="color:${r.color};">${r.pct}%</div>
+                <div style="font-size:9px;color:var(--muted);">completion</div>
+              </div>
+            </div>
+          </div>
+          <div class="comp-bar-outer">
+            <div class="comp-bar-inner" style="width:${r.pct}%;background:${r.color};"></div>
+          </div>
+        </div>`).join('')}`;
+
+  } else if (tab === 'cohort') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Cohort <span>Wise</span></div>
+        <div class="page-sub">Completion rates broken down by enrollment cohort</div></div>
+      </div>
+      <div class="chart-card" style="margin-bottom:20px;">
+        <div class="chart-card-title">COMPLETION % BY COHORT</div>
+        <canvas id="comp-cohort-bar" height="120"></canvas>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:200px 100px 110px 80px 120px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Cohort</span><span>Enrolled</span><span>Completed</span><span>Pct</span><span>Status</span>
+        </div>
+        ${COMP_DEMO.cohorts.map((r,i)=>`
+          <div style="display:grid;grid-template-columns:200px 100px 110px 80px 120px;padding:10px 14px;border-bottom:1px solid var(--border);align-items:center;">
+            <span style="font-weight:500;">${r.cohort}</span>
+            <span>${r.enrolled}</span>
+            <span style="color:var(--teal);">${r.completed}</span>
+            <span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="prog-bar-wrap" style="width:60px;"><div class="prog-bar" style="width:${r.pct}%;background:${CLRS[i]};"></div></div>
+                <span style="color:${CLRS[i]};">${r.pct}%</span>
+              </div>
+            </span>
+            <span><span class="pill ${r.status==='Completed'?'pill-green':r.status==='In Progress'?'pill-blue':'pill-amber'}">${r.status}</span></span>
+          </div>`).join('')}
+      </div>`;
+    destroyChart('comp-cohort-bar');
+    _charts['comp-cohort-bar'] = new Chart(document.getElementById('comp-cohort-bar'), {
+      type:'bar', data:{labels:COMP_DEMO.cohorts.map(r=>r.cohort.split('(')[0].trim()),datasets:[
+        {label:'Enrolled',data:COMP_DEMO.cohorts.map(r=>r.enrolled),backgroundColor:'rgba(200,255,87,0.3)',borderRadius:3},
+        {label:'Completed',data:COMP_DEMO.cohorts.map(r=>r.completed),backgroundColor:'rgba(52,211,153,0.7)',borderRadius:3},
+      ]},
+      options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+
+  } else if (tab === 'program') {
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">Program <span>Wise</span></div>
+        <div class="page-sub">Detailed completion metrics per program</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="chart-card">
+          <div class="chart-card-title">COMPLETION % BY PROGRAM</div>
+          <canvas id="comp-prog-bar" height="220"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">DROPOUT DISTRIBUTION</div>
+          <canvas id="comp-drop-donut" height="220"></canvas>
+        </div>
+      </div>`;
+    destroyChart('comp-prog-bar');
+    _charts['comp-prog-bar'] = new Chart(document.getElementById('comp-prog-bar'), {
+      type:'bar', data:{labels:COMP_DEMO.tracks.map(r=>r.name),datasets:[{label:'Completion %',data:COMP_DEMO.tracks.map(r=>r.pct),backgroundColor:COMP_DEMO.tracks.map(r=>r.color+'cc'),borderRadius:3}]},
+      options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{max:100,ticks:{callback:v=>v+'%'},grid:{color:'rgba(255,255,255,0.04)'}},y:{grid:{color:'rgba(255,255,255,0.04)'}}}}
+    });
+    destroyChart('comp-drop-donut');
+    _charts['comp-drop-donut'] = new Chart(document.getElementById('comp-drop-donut'), {
+      type:'doughnut', data:{labels:COMP_DEMO.tracks.map(r=>r.name),datasets:[{data:COMP_DEMO.tracks.map(r=>r.dropped),backgroundColor:COMP_DEMO.tracks.map(r=>r.color),borderWidth:0,hoverOffset:4}]},
+      options:{responsive:true,cutout:'55%',plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10}}}}
+    });
+
+  } else if (tab === 'risk') {
+    const riskColor = { High:'var(--coral)', Medium:'var(--amber)', Low:'var(--blue)' };
+    canvas.innerHTML = `
+      <div class="page-header">
+        <div><div class="page-title">At <span>Risk</span></div>
+        <div class="page-sub">Learners flagged for low progress or inactivity — intervention required</div></div>
+      </div>
+      <div class="summary-strip">
+        <div><div class="summary-item-label">High Risk</div><div class="summary-item-val" style="color:var(--coral);">${COMP_DEMO.atRisk.filter(r=>r.risk==='High').length}</div></div>
+        <div><div class="summary-item-label">Medium Risk</div><div class="summary-item-val" style="color:var(--amber);">${COMP_DEMO.atRisk.filter(r=>r.risk==='Medium').length}</div></div>
+        <div><div class="summary-item-label">Low Risk</div><div class="summary-item-val" style="color:var(--blue);">${COMP_DEMO.atRisk.filter(r=>r.risk==='Low').length}</div></div>
+        <div><div class="summary-item-label">Unassigned Mentors</div><div class="summary-item-val" style="color:var(--amber);">${COMP_DEMO.atRisk.filter(r=>r.mentor==='Assign').length}</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <div style="display:grid;grid-template-columns:160px 140px 100px 110px 80px 120px;padding:10px 14px;background:var(--ink3);border-bottom:1px solid var(--border);font-size:9.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">
+          <span>Learner</span><span>Program</span><span>Progress</span><span>Last Active</span><span>Risk</span><span>Mentor</span>
+        </div>
+        ${COMP_DEMO.atRisk.map(r=>`
+          <div style="display:grid;grid-template-columns:160px 140px 100px 110px 80px 120px;padding:11px 14px;border-bottom:1px solid var(--border);align-items:center;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background=''">
+            <span style="font-weight:600;">${r.name}</span>
+            <span style="color:var(--muted2);">${r.program}</span>
+            <span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="prog-bar-wrap" style="width:50px;"><div class="prog-bar" style="width:${r.progress};background:${riskColor[r.risk]};"></div></div>
+                <span style="color:${riskColor[r.risk]};font-size:11px;">${r.progress}</span>
+              </div>
+            </span>
+            <span style="color:var(--coral);font-size:11px;">${r.lastActive}</span>
+            <span><span style="display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;background:${riskColor[r.risk]}22;color:${riskColor[r.risk]};">${r.risk}</span></span>
+            <span>${r.mentor==='Assign'?'<button class="filter-btn accent" style="font-size:10px;padding:3px 9px;">+ Assign</button>':'<span style="color:var(--teal);">'+r.mentor+'</span>'}</span>
+          </div>`).join('')}
+      </div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
