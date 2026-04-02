@@ -3,484 +3,549 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Launchpad & Retention — SOP Flowchart</title>
+<title>Learner Journey — Cohort Flow Charts</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #f0efe9;
-  color: #1a1917;
-  padding: 28px 32px;
-}
-h1 { font-size: 19px; font-weight: 600; color: #1d4e3a; margin-bottom: 3px; }
-.subtitle {
-  font-size: 11px; color: #9b9890;
-  font-family: 'DM Mono', monospace;
-  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px;
-}
-.legend {
-  display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 18px;
-  padding: 9px 14px; background: #fff; border-radius: 10px; border: 1px solid #e0ddd4;
-  width: fit-content;
-}
-.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #5a5950; }
-.leg-box { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
-.leg-diamond { width: 11px; height: 11px; transform: rotate(45deg); border-radius: 2px; flex-shrink: 0; background:#fff3cd; border: 1.5px solid #b8860b; }
-.flow-wrap { overflow: auto; background: #fff; border-radius: 14px; border: 1px solid #e0ddd4; padding: 24px; }
-svg text { font-family: 'DM Sans', sans-serif; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f0efe9;color:#1a1917;padding:28px 32px}
+h1{font-size:19px;font-weight:600;color:#1d4e3a;margin-bottom:3px}
+.subtitle{font-size:11px;color:#9b9890;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding:9px 14px;background:#fff;border-radius:10px;border:1px solid #e0ddd4;width:fit-content}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#5a5950}
+.leg-box{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.leg-diamond{width:11px;height:11px;transform:rotate(45deg);border-radius:2px;flex-shrink:0;background:#fff3cd;border:1.5px solid #b8860b}
+
+/* COHORT SELECTOR */
+.cohort-tabs{display:flex;gap:8px;margin-bottom:0;flex-wrap:wrap}
+.ctab{padding:7px 18px;border-radius:8px 8px 0 0;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e0ddd4;border-bottom:none;background:#e8e7e1;color:#5a5950;transition:all .15s}
+.ctab.active{background:#fff;color:#1d4e3a;border-color:#e0ddd4}
+.ctab .meta{font-size:9px;font-weight:400;display:block;opacity:.7;margin-top:1px}
+
+.panel-wrap{background:#fff;border-radius:0 14px 14px 14px;border:1px solid #e0ddd4;padding:24px;overflow:auto}
+.cohort-panel{display:none}
+.cohort-panel.active{display:block}
+
+/* FLOW LAYOUT: vertical spine with nodes */
+.flow{display:flex;flex-direction:column;align-items:center;position:relative}
+
+/* PHASE BANNERS */
+.phase-banner{width:100%;max-width:900px;background:#1d4e3a;color:#fff;border-radius:8px;padding:8px 16px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Mono',monospace;margin:16px 0 8px;text-align:left}
+.phase-banner.refund{background:#c0392b}
+.phase-banner.batch{background:#1a1917}
+
+/* ARROW CONNECTOR */
+.arrow{width:2px;height:20px;background:#c8c6be;position:relative;margin:0 auto;flex-shrink:0}
+.arrow::after{content:'';position:absolute;bottom:-5px;left:-4px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #c8c6be}
+
+/* PARALLEL ROW */
+.row{display:flex;gap:12px;width:100%;max-width:900px;justify-content:center;margin:4px 0}
+.row.single{justify-content:flex-start}
+
+/* NODE CARDS */
+.node{border-radius:8px;padding:11px 14px;font-size:11.5px;line-height:1.45;border:1.5px solid;flex:1;min-width:0;max-width:340px;position:relative;cursor:default;transition:box-shadow .15s}
+.node:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.node.lpa{background:#e8f2ed;border-color:#2d7a5a;color:#1d4e3a}
+.node.psa{background:#e8eef8;border-color:#3a5fa0;color:#1a3060}
+.node.bda{background:#fef3e2;border-color:#92570a;color:#5a3206}
+.node.all{background:#f5eef8;border-color:#7b4fa0;color:#3d1f60}
+.node.milestone{background:#fff3cd;border-color:#b8860b;color:#7a5800}
+.node.risk{background:#fef0f0;border-color:#c0392b;color:#7b1919}
+.node.batch-node{background:#1d4e3a;border-color:#1d4e3a;color:#fff}
+
+.node-owner{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:3px;font-family:'DM Mono',monospace}
+.node-day{position:absolute;top:9px;right:11px;font-size:8px;font-family:'DM Mono',monospace;opacity:.55;font-weight:500}
+.node-title{font-weight:600;font-size:12px;margin-bottom:2px;padding-right:28px}
+.node-desc{font-size:10.5px;line-height:1.4;opacity:.88}
+.star{color:#b8860b;font-size:11px}
+
+/* DECISION DIAMOND */
+.diamond-wrap{display:flex;flex-direction:column;align-items:center;margin:4px 0}
+.diamond{width:72px;height:72px;transform:rotate(45deg);border-radius:5px;background:#fff3cd;border:1.5px solid #b8860b;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.diamond-inner{transform:rotate(-45deg);font-size:9px;font-weight:600;color:#7a5800;text-align:center;width:70px;line-height:1.25}
+.d-labels{display:flex;justify-content:space-between;width:140px;font-size:8.5px;color:#9b9890;font-family:'DM Mono',monospace;margin-top:6px}
+
+/* TIMELINE BAR */
+.timeline{display:flex;width:100%;max-width:900px;border-radius:8px;overflow:hidden;height:22px;margin-bottom:16px;font-size:8.5px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:.04em}
+.tl-pre{background:#3a5fa0;display:flex;align-items:center;justify-content:center;color:#fff}
+.tl-batch{background:#1d4e3a;display:flex;align-items:center;justify-content:center;color:#fff;min-width:90px}
+.tl-refund{background:#c0392b;display:flex;align-items:center;justify-content:center;color:#fff}
+
+/* ESCALATION TRACK */
+.esc-track{width:100%;max-width:900px;background:#fef0f0;border:1px solid #e8c4c4;border-radius:10px;padding:14px 18px;margin-top:16px}
+.esc-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8b1a1a;font-family:'DM Mono',monospace;margin-bottom:10px}
+.esc-steps{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.esc-step{display:flex;flex-direction:column;align-items:center;min-width:100px}
+.esc-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:#fff}
+.esc-label{font-size:8.5px;color:#5a5950;text-align:center;margin-top:4px;max-width:90px;line-height:1.3}
+.esc-arr{font-size:13px;color:#e8c4c4;margin:0 2px;padding-bottom:18px}
+
+/* RISK WARNING */
+.risk-warning{width:100%;max-width:900px;background:#fef0f0;border:1px solid #e8c4c4;border-radius:8px;padding:10px 16px;margin-bottom:12px;font-size:11px;color:#8b1a1a;line-height:1.5}
+
+/* FEEDBACK */
+.feedback{width:100%;max-width:900px;margin-top:20px}
+.fb-title{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#9b9890;font-family:'DM Mono',monospace;margin-bottom:10px}
+.fb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fb-card{background:#f8f7f2;border:1px solid #e0ddd4;border-radius:8px;padding:10px 13px}
+.fb-from{font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#9b9890;font-family:'DM Mono',monospace;margin-bottom:3px}
+.fb-name{font-size:11px;font-weight:600;color:#1a1917;margin-bottom:2px}
+.fb-desc{font-size:10px;color:#5a5950;line-height:1.4}
+.fb-freq{font-size:8.5px;font-family:'DM Mono',monospace;color:#9b9890;margin-top:4px}
+
+svg text{font-family:'DM Sans',sans-serif}
 </style>
 </head>
 <body>
 
-<h1>Team SOPs — Launchpad & Retention</h1>
-<div class="subtitle">All teams under Shreyashi &nbsp;|&nbsp; Neovarsity &nbsp;|&nbsp; GTN Plan 2026–27</div>
+<h1>Learner Journey — Cohort Flow Charts</h1>
+<p class="subtitle">GTN Plan 2026–27 &nbsp;|&nbsp; LPA + PSA + BDA &nbsp;|&nbsp; All teams under Shreyashi</p>
 
 <div class="legend">
-  <div class="leg-item"><div class="leg-box" style="background:#1d4e3a"></div> Start / Hub</div>
-  <div class="leg-item"><div class="leg-box" style="background:#e8f2ed;border:1.5px solid #2d7a5a"></div> Completion Team</div>
-  <div class="leg-item"><div class="leg-box" style="background:#ebf2fb;border:1.5px solid #1a3a6b"></div> PSA</div>
-  <div class="leg-item"><div class="leg-box" style="background:#f2eef9;border:1.5px solid #4a2d8a"></div> LPA (Launchpad Team)</div>
-  <div class="leg-item"><div class="leg-box" style="background:#fef0f0;border:1.5px solid #8b1a1a"></div> Escalation</div>
-  <div class="leg-item"><div class="leg-diamond"></div> Decision</div>
-  <div class="leg-item"><span style="color:#2d7a5a;font-size:13px">- -></span> Feedback loop</div>
+  <div class="leg-item"><div class="leg-box" style="background:#e8f2ed;border:1.5px solid #2d7a5a"></div>LPA (Launchpad Associate)</div>
+  <div class="leg-item"><div class="leg-box" style="background:#e8eef8;border:1.5px solid #3a5fa0"></div>PSA (Post Sales Associate)</div>
+  <div class="leg-item"><div class="leg-box" style="background:#fef3e2;border:1.5px solid #92570a"></div>BDA (Sales)</div>
+  <div class="leg-item"><div class="leg-box" style="background:#f5eef8;border:1.5px solid #7b4fa0"></div>All Three</div>
+  <div class="leg-item"><div class="leg-box" style="background:#fff3cd;border:1.5px solid #b8860b"></div>Milestone ★</div>
+  <div class="leg-item"><div class="leg-box" style="background:#f0f7f4;border:1.5px solid #2d7a5a"></div>Completion Team (ops)</div><div class="leg-item"><div class="leg-diamond"></div>Decision</div>
 </div>
 
-<div class="flow-wrap">
-<svg width="1340" height="2000" viewBox="0 0 1340 2000" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <marker id="m0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="mg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#1d4e3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#1a3a6b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="mp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#4a2d8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="mr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#8b1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#92570a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="mf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 2L9 5L1 8" fill="none" stroke="#2d7a5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-</defs>
-
-<!-- ═══════════════════════════════════════
-     LANE HEADERS
-═══════════════════════════════════════ -->
-<rect x="20"   y="16" width="200" height="22" rx="5" fill="#e8f2ed"/>
-<text x="120"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1d4e3a">Completion Team</text>
-
-<rect x="240"  y="16" width="200" height="22" rx="5" fill="#ebf2fb"/>
-<text x="340"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#1a3a6b">PSA</text>
-
-<rect x="460"  y="16" width="220" height="22" rx="5" fill="#f2eef9"/>
-<text x="570"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#4a2d8a">LPA (Launchpad Team)</text>
-
-<rect x="700"  y="16" width="190" height="22" rx="5" fill="#fef0f0"/>
-<text x="795"  y="31" text-anchor="middle" font-size="10" font-weight="600" fill="#8b1a1a">Escalation Track</text>
-
-<!-- Lane dividers -->
-<line x1="233"  y1="44" x2="233"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="453"  y1="44" x2="453"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="693"  y1="44" x2="693"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-<line x1="900"  y1="44" x2="900"  y2="1980" stroke="#e8e6df" stroke-width="1" stroke-dasharray="4 3"/>
-
-<!-- ═══════════════════════════════════════
-     TOP: SALE CLOSED centred
-═══════════════════════════════════════ -->
-<rect x="435" y="56" width="140" height="32" rx="16" fill="#1d4e3a"/>
-<text x="505" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#fff">SALE CLOSED</text>
-
-<!-- Down to Shreyashi hub -->
-<line x1="505" y1="88" x2="505" y2="110" stroke="#1d4e3a" stroke-width="2" marker-end="url(#mg)"/>
-
-<!-- Shreyashi hub -->
-<rect x="415" y="112" width="180" height="34" rx="17" fill="#1d4e3a" opacity="0.85"/>
-<text x="505" y="133" text-anchor="middle" font-size="10" font-weight="600" fill="#fff">SHREYASHI</text>
-
-<!-- Branch left to Completion Team -->
-<path d="M450 146 C450 168 120 168 120 190" stroke="#1d4e3a" stroke-width="1.5" fill="none" marker-end="url(#mg)"/>
-<text x="290" y="163" text-anchor="middle" font-size="8.5" fill="#1d4e3a" font-weight="600">Completion Team</text>
-
-<!-- Branch right to PSA -->
-<path d="M560 146 C560 168 340 168 340 190" stroke="#1a3a6b" stroke-width="1.5" fill="none" marker-end="url(#mb)"/>
-<text x="460" y="163" text-anchor="middle" font-size="8.5" fill="#1a3a6b" font-weight="600">PSA Team</text>
-
-<!-- ═══════════════════════════════════════
-     COMPLETION TEAM COLUMN
-═══════════════════════════════════════ -->
-<!-- Step 1: BDA closes within refund window -->
-<rect x="22" y="192" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="120" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">1. BDA: Close within</text>
-<text x="120" y="225" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">refund window</text>
-<text x="120" y="239" text-anchor="middle" font-size="8" fill="#5a5950">Ensures incentivisation check</text>
-
-<line x1="120" y1="246" x2="120" y2="266" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
-
-<!-- Step 2: Manager verify within 7 days -->
-<rect x="22" y="268" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="120" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">2. Ensure completion of order</text>
-<text x="120" y="301" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">within 7 days at Manager level</text>
-<text x="120" y="315" text-anchor="middle" font-size="8" fill="#5a5950">Verified by Completion Team</text>
-
-<line x1="120" y1="322" x2="120" y2="342" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
-
-<!-- Step 3: Recordings present & accessible -->
-<rect x="22" y="344" width="196" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="120" y="364" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">3. Ensure all recordings</text>
-<text x="120" y="377" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">present & accessible</text>
-<text x="120" y="391" text-anchor="middle" font-size="8" fill="#5a5950">For Sales — within 24hrs of session</text>
-
-<line x1="120" y1="398" x2="120" y2="418" stroke="#2d7a5a" stroke-width="1.5" marker-end="url(#mg)"/>
-
-<!-- Step 4: Daily visibility for BD Team -->
-<rect x="22" y="420" width="196" height="74" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="120" y="440" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">4. Daily Visibility to BD Team</text>
-<text x="120" y="453" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Incomplete + un-engaged orders</text>
-<!-- Sub-status pills -->
-<rect x="32" y="460" width="176" height="14" rx="4" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
-<text x="120" y="471" text-anchor="middle" font-size="7.5" fill="#92570a" font-weight="600">Data in sync with LP Team</text>
-<rect x="32" y="477" width="84" height="12" rx="3" fill="#fef0f0" stroke="#8b1a1a" stroke-width="0.5"/>
-<text x="74"  y="487" text-anchor="middle" font-size="7.5" fill="#8b1a1a" font-weight="600">RED — act today</text>
-<rect x="122" y="477" width="86" height="12" rx="3" fill="#fef3e2" stroke="#92570a" stroke-width="0.5"/>
-<text x="165" y="487" text-anchor="middle" font-size="7.5" fill="#92570a" font-weight="600">YELLOW — monitor</text>
-
-<!-- Feedback arrow: Completion → BDA (left side loop) -->
-<path d="M22 457 C10 457 10 800 10 1200" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none"/>
-<text x="6" y="750" font-size="8" fill="#2d7a5a" font-style="italic" writing-mode="tb">daily visibility to BDA</text>
-
-<!-- ═══════════════════════════════════════
-     PSA COLUMN
-═══════════════════════════════════════ -->
-<!-- PSA Step 1: WA Group with learner + BDA -->
-<rect x="242" y="192" width="196" height="54" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="340" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">1. Create WA Group</text>
-<text x="340" y="225" text-anchor="middle" font-size="9" fill="#1a3a6b">with learner + BDA</text>
-<text x="340" y="239" text-anchor="middle" font-size="8" fill="#5a5950">in sync with BDA</text>
-
-<line x1="340" y1="246" x2="340" y2="266" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
-
-<!-- PSA Step 2: Introduction call + introduce LPA -->
-<rect x="242" y="268" width="196" height="64" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="340" y="288" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">2. Introduction Call</text>
-<text x="340" y="301" text-anchor="middle" font-size="8.5" fill="#1a3a6b">with learner</text>
-<rect x="252" y="308" width="176" height="16" rx="4" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
-<text x="340" y="319" text-anchor="middle" font-size="8" fill="#4a2d8a" font-weight="600">Introduce LPA (Launchpad Team)</text>
-
-<line x1="340" y1="332" x2="340" y2="352" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#mb)"/>
-
-<!-- PSA Step 3: Pre-batch content -->
-<rect x="242" y="354" width="196" height="74" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="340" y="374" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">3. Share Pre-batch Content</text>
-<rect x="252" y="381" width="176" height="14" rx="4" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="0.5"/>
-<text x="340" y="391" text-anchor="middle" font-size="8" fill="#1a3a6b">(a) What to expect in Week 1</text>
-<rect x="252" y="397" width="176" height="14" rx="4" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="0.5"/>
-<text x="340" y="407" text-anchor="middle" font-size="8" fill="#1a3a6b">(b) Success Stories</text>
-<text x="340" y="420" text-anchor="middle" font-size="8" fill="#5a5950">Between closure & batch start</text>
-
-<!-- PSA → LPA intro arrow -->
-<path d="M438 302 C453 302 465 302 465 530" stroke="#4a2d8a" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#mp)"/>
-<text x="456" y="418" font-size="8" fill="#4a2d8a" font-style="italic">introduces LPA</text>
-
-<!-- PSA Weekly Check-in every 7th day — positioned at Day 7 level -->
-<rect x="242" y="1238" width="196" height="68" rx="8" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="340" y="1258" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA Weekly Check-in</text>
-<text x="340" y="1271" text-anchor="middle" font-size="8.5" fill="#1a3a6b">Every 7th day (D7, D14, D21, D28)</text>
-<text x="340" y="1284" text-anchor="middle" font-size="8.5" fill="#1a3a6b">"How is the week going?"</text>
-<text x="340" y="1297" text-anchor="middle" font-size="8" fill="#5a5950">Log: positive / neutral / negative</text>
-<!-- connector from LPA Day 7 Progress Celebration to PSA check-in -->
-<line x1="462" y1="1267" x2="438" y2="1267" stroke="#1a3a6b" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#mb)"/>
-
-<!-- ═══════════════════════════════════════
-     LPA MAIN TRUNK
-═══════════════════════════════════════ -->
-<!-- LPA introduced (starts after PSA intro) -->
-<rect x="462" y="510" width="218" height="54" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="530" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA: Introduced by PSA</text>
-<text x="571" y="543" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Reviews: goal, track, BDA notes</text>
-<text x="571" y="556" text-anchor="middle" font-size="8" fill="#5a5950">Know learner before Day 1</text>
-
-<line x1="571" y1="564" x2="571" y2="590" stroke="#4a2d8a" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 1 Step 1: Share instructor WA message -->
-<rect x="462" y="592" width="218" height="54" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="612" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Share Instructor</text>
-<text x="571" y="625" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">WhatsApp Message</text>
-<text x="571" y="638" text-anchor="middle" font-size="8" fill="#5a5950">Message shared by instructors</text>
-
-<line x1="571" y1="646" x2="571" y2="668" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 1 Step 2: Why I Joined Card (YELLOW highlight) -->
-<rect x="462" y="670" width="218" height="74" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="571" y="690" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Review Goal Track *</text>
-<rect x="472" y="697" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
-<text x="571" y="707" text-anchor="middle" font-size="8" fill="#5a5950">(1) Current situation</text>
-<rect x="472" y="713" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
-<text x="571" y="723" text-anchor="middle" font-size="8" fill="#5a5950">(2) Goal for next 12 months</text>
-<rect x="472" y="729" width="198" height="14" rx="3" fill="#fffbe6" stroke="#b8860b" stroke-width="0.5"/>
-<text x="571" y="739" text-anchor="middle" font-size="8" fill="#5a5950">(3) Why they said yes</text>
-
-<line x1="571" y1="744" x2="571" y2="766" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 1 Step 3: M&G Prep -->
-<rect x="462" y="768" width="218" height="64" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="788" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 1 — Prepare for M&G</text>
-<rect x="472" y="795" width="198" height="14" rx="3" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
-<text x="571" y="805" text-anchor="middle" font-size="8" fill="#4a2d8a">Share MnG recordings</text>
-<rect x="472" y="811" width="198" height="14" rx="3" fill="#f2eef9" stroke="#4a2d8a" stroke-width="0.5"/>
-<text x="571" y="821" text-anchor="middle" font-size="8" fill="#4a2d8a">Share related video</text>
-
-<line x1="571" y1="832" x2="571" y2="854" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- DECISION: Responded? -->
-<polygon points="571,856 628,886 571,916 514,886" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="571" y="882" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Responded</text>
-<text x="571" y="895" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">by EOD?</text>
-
-<!-- YES -->
-<line x1="571" y1="916" x2="571" y2="938" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="581" y="930" font-size="8.5" fill="#1d4e3a" font-weight="600">YES</text>
-
-<!-- NO → Soft Flag -->
-<path d="M628 886 L703 886" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
-<text x="665" y="879" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">NO</text>
-
-<!-- ESC: Soft Flag Day 1 EOD -->
-<rect x="705" y="862" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="797" y="882" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 1 EOD — Soft Flag</text>
-<text x="797" y="895" text-anchor="middle" font-size="8.5" fill="#92570a">Mark yellow in tracker</text>
-<text x="797" y="907" text-anchor="middle" font-size="8" fill="#5a5950">Informal PSA heads-up</text>
-
-<line x1="797" y1="910" x2="797" y2="960" stroke="#92570a" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#ma)"/>
-<text x="812" y="937" font-size="8" fill="#9b9890" font-style="italic">monitor</text>
-
-<!-- ═══ DAY 3 ═══ -->
-<rect x="462" y="940" width="218" height="54" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="571" y="960" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 3 — Task 1: Career Profile</text>
-<text x="571" y="973" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Assign eval + award coins</text>
-<text x="571" y="985" text-anchor="middle" font-size="8" fill="#5a5950">Escalate non-responders formally</text>
-
-<line x1="571" y1="994" x2="571" y2="1016" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- DECISION: Still unresponsive? -->
-<polygon points="571,1018 628,1048 571,1078 514,1048" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="571" y="1044" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Still</text>
-<text x="571" y="1057" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">unresponsive?</text>
-
-<line x1="571" y1="1078" x2="571" y2="1100" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="581" y="1092" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
-
-<path d="M628 1048 L703 1048" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
-<text x="665" y="1041" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">UNRESPONSIVE</text>
-
-<!-- ESC: Day 3 Formal Flag -->
-<rect x="705" y="962" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="797" y="982" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Day 3 — Formal Flag</text>
-<text x="797" y="995" text-anchor="middle" font-size="8.5" fill="#92570a">LPA flags to PSA</text>
-<text x="797" y="1007" text-anchor="middle" font-size="8" fill="#5a5950">PSA sends WA message</text>
-
-<line x1="797" y1="1010" x2="797" y2="1060" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
-
-<!-- ESC: Day 5 PSA direct call -->
-<rect x="705" y="1062" width="184" height="44" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
-<text x="797" y="1082" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 5 — PSA Direct Call</text>
-<text x="797" y="1095" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Not WA — actual call</text>
-<text x="797" y="1104" text-anchor="middle" font-size="8" fill="#5a5950">One attempt</text>
-
-<!-- connect Day 3 unresponsive path to Day 5 -->
-<path d="M703 1048 L695 1048 L695 1084 L703 1084" stroke="#8b1a1a" stroke-width="1.5" fill="none" marker-end="url(#mr)"/>
-
-<line x1="797" y1="1106" x2="797" y2="1150" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
-
-<!-- ESC: Day 7 BDA personal outreach -->
-<rect x="705" y="1152" width="184" height="52" rx="8" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1.5"/>
-<text x="797" y="1172" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">Day 7 — BDA Outreach</text>
-<text x="797" y="1185" text-anchor="middle" font-size="8.5" fill="#8b1a1a">Uses sales relationship</text>
-<text x="797" y="1198" text-anchor="middle" font-size="8" fill="#5a5950">Reference sales conv. — not a script</text>
-
-<line x1="797" y1="1204" x2="797" y2="1248" stroke="#8b1a1a" stroke-width="1.5" marker-end="url(#mr)"/>
-
-<!-- ESC: Day 10 Shreyashi -->
-<rect x="705" y="1250" width="184" height="52" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="797" y="1270" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 10 — Shreyashi</text>
-<text x="797" y="1283" text-anchor="middle" font-size="8.5" fill="#4a2d8a">High refund risk flag</text>
-<text x="797" y="1296" text-anchor="middle" font-size="8" fill="#8b1a1a" font-weight="600">CASE CLOSED</text>
-
-<!-- ═══ DAY 5 ═══ -->
-<rect x="462" y="1102" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="1120" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 — Task 2: AI Mock</text>
-<text x="571" y="1133" text-anchor="middle" font-size="8.5" fill="#4a2d8a">AI Mock Interview + Cortex course</text>
-<text x="571" y="1145" text-anchor="middle" font-size="8" fill="#5a5950">for learner track</text>
-
-<line x1="571" y1="1146" x2="571" y2="1168" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- Day 5 Peer Intro -->
-<rect x="462" y="1170" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="1188" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 5 — Peer Intro</text>
-<text x="571" y="1201" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Intro 2-3 same-track learners</text>
-<text x="571" y="1213" text-anchor="middle" font-size="8" fill="#5a5950">to each other via WA</text>
-
-<line x1="571" y1="1214" x2="571" y2="1236" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 7: Progress Celebration ═══ -->
-<rect x="462" y="1238" width="218" height="62" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="571" y="1258" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 7 — Progress Celebration *</text>
-<text x="571" y="1271" text-anchor="middle" font-size="8.5" fill="#5a5950">Batch WA: tasks done, top 3 coin</text>
-<text x="571" y="1283" text-anchor="middle" font-size="8.5" fill="#5a5950">earners named, standout response</text>
-<text x="571" y="1295" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic" font-weight="500">cohort identity + peer competition</text>
-
-<line x1="571" y1="1296" x2="571" y2="1318" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 10 ═══ -->
-<rect x="462" y="1320" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="571" y="1338" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 10 — Task 3: Resume Review</text>
-<text x="571" y="1351" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Why I Joined — 12-month goal</text>
-<text x="571" y="1363" text-anchor="middle" font-size="8" fill="#5a5950">Connect personal relevance</text>
-
-<line x1="571" y1="1364" x2="571" y2="1386" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 14 ═══ -->
-<rect x="462" y="1388" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="1406" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 14 — Goal Check-in</text>
-<text x="571" y="1419" text-anchor="middle" font-size="8.5" fill="#4a2d8a">Revisit Why I Joined Card</text>
-<text x="571" y="1431" text-anchor="middle" font-size="8" fill="#5a5950">"You said X, here is where you are"</text>
-
-<line x1="571" y1="1432" x2="571" y2="1454" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<rect x="462" y="1456" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="571" y="1474" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 14 — Coins: Exceptional</text>
-<text x="571" y="1487" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Award coins to standouts</text>
-<text x="571" y="1499" text-anchor="middle" font-size="8" fill="#5a5950">Public WA recognition</text>
-
-<line x1="571" y1="1500" x2="571" y2="1522" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 15: Manager Check-in ═══ -->
-<rect x="462" y="1524" width="218" height="58" rx="8" fill="#fffbe6" stroke="#b8860b" stroke-width="2"/>
-<text x="571" y="1544" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 15 — Manager Check-in *</text>
-<text x="571" y="1557" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Shreyashi drops into WA group</text>
-<text x="571" y="1569" text-anchor="middle" font-size="8.5" fill="#5a5950">"Halfway through — proud of batch"</text>
-<text x="571" y="1581" text-anchor="middle" font-size="8" fill="#92570a" font-style="italic">leadership trust signal</text>
-
-<line x1="571" y1="1582" x2="571" y2="1604" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 21 ═══ -->
-<rect x="462" y="1606" width="218" height="44" rx="8" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="571" y="1624" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 21 — Task 4: MG Prep</text>
-<text x="571" y="1637" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Ref Goal Track Card</text>
-<text x="571" y="1649" text-anchor="middle" font-size="8" fill="#5a5950">"Here is how far you have come"</text>
-
-<line x1="571" y1="1650" x2="571" y2="1672" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- ═══ DAY 28 ═══ -->
-<rect x="462" y="1674" width="218" height="44" rx="8" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="571" y="1692" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">Day 28 — Week 4 Momentum</text>
-<text x="571" y="1705" text-anchor="middle" font-size="8.5" fill="#4a2d8a">"Here is what is coming"</text>
-<text x="571" y="1717" text-anchor="middle" font-size="8" fill="#5a5950">Reduce end-of-Launchpad anxiety</text>
-
-<line x1="571" y1="1718" x2="571" y2="1740" stroke="#4a2d8a" stroke-width="1.5" marker-end="url(#mp)"/>
-
-<!-- DECISION: Learner status at Day 28 -->
-<polygon points="571,1742 634,1776 571,1810 508,1776" fill="#fff3cd" stroke="#b8860b" stroke-width="1.5"/>
-<text x="571" y="1772" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">Learner</text>
-<text x="571" y="1785" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92570a">status?</text>
-
-<!-- ACTIVE → Handoff -->
-<line x1="571" y1="1810" x2="571" y2="1832" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-<text x="581" y="1824" font-size="8.5" fill="#1d4e3a" font-weight="600">ACTIVE</text>
-
-<!-- AT-RISK branch -->
-<path d="M634 1776 L703 1776" stroke="#92570a" stroke-width="1.5" fill="none" marker-end="url(#ma)"/>
-<text x="668" y="1769" text-anchor="middle" font-size="8" fill="#92570a" font-weight="600">AT-RISK</text>
-
-<rect x="705" y="1752" width="184" height="48" rx="8" fill="#fef3e2" stroke="#92570a" stroke-width="1.5"/>
-<text x="797" y="1772" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">Flag + Log</text>
-<text x="797" y="1785" text-anchor="middle" font-size="8.5" fill="#92570a">Notify PSA + Shreyashi</text>
-<text x="797" y="1797" text-anchor="middle" font-size="8" fill="#5a5950">Document reason</text>
-
-<!-- Handoff end node -->
-<rect x="462" y="1834" width="218" height="56" rx="8" fill="#e8f2ed" stroke="#1d4e3a" stroke-width="2"/>
-<text x="571" y="1854" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">Day 28 — HANDOFF</text>
-<text x="571" y="1867" text-anchor="middle" font-size="8.5" fill="#1d4e3a">Log: Active / At-risk / Churned</text>
-<text x="571" y="1880" text-anchor="middle" font-size="8" fill="#5a5950">Handoff to main program</text>
-<text x="571" y="1889" text-anchor="middle" font-size="8" fill="#1d4e3a" font-weight="500">No Day 30 cliff</text>
-
-<!-- ═══════════════════════════════════════
-     FEEDBACK LOOPS SECTION
-═══════════════════════════════════════ -->
-<line x1="571" y1="1890" x2="571" y2="1920" stroke="#1d4e3a" stroke-width="1.5" marker-end="url(#mg)"/>
-
-<rect x="22" y="1922" width="874" height="20" rx="5" fill="#1d4e3a"/>
-<text x="459" y="1936" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" letter-spacing="0.5">FEEDBACK LOOPS — INSIGHTS FLOW BACK UPSTREAM</text>
-
-<rect x="22"  y="1950" width="200" height="44" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="122" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to BDA — Pitch Quality</text>
-<text x="122" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Wrong expectations logged</text>
-<text x="122" y="1989" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">BDA name + what was mis-sold | Weekly</text>
-
-<rect x="232" y="1950" width="200" height="44" rx="7" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1.5"/>
-<text x="332" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">LPA to Marketing — Lead Quality</text>
-<text x="332" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Lead source of unresponsive</text>
-<text x="332" y="1989" text-anchor="middle" font-size="8" fill="#2d7a5a" font-style="italic">Lowest W1 engagement | Monthly</text>
-
-<rect x="442" y="1950" width="214" height="44" rx="7" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1.5"/>
-<text x="549" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">PSA to LPA — Re-engagement</text>
-<text x="549" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Which escalated learners came back</text>
-<text x="549" y="1989" text-anchor="middle" font-size="8" fill="#1a3a6b" font-style="italic">What worked: call/WA/BDA | Monthly</text>
-
-<rect x="666" y="1950" width="230" height="44" rx="7" fill="#f2eef9" stroke="#4a2d8a" stroke-width="1.5"/>
-<text x="781" y="1965" text-anchor="middle" font-size="9" font-weight="600" fill="#4a2d8a">LPA to Shreyashi — Cohort Health</text>
-<text x="781" y="1978" text-anchor="middle" font-size="8" fill="#5a5950">Active %, at-risk %, coins, tasks</text>
-<text x="781" y="1989" text-anchor="middle" font-size="8" fill="#4a2d8a" font-style="italic">Bucket A/B/C comparison | Weekly</text>
-
-<!-- Closed feedback loops going back up -->
-<path d="M122 1950 C122 1900 10 1900 10 1000 C10 400 22 350 22 340" stroke="#2d7a5a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mf)"/>
-<path d="M795 1950 C795 1900 910 1900 910 1000 C910 400 895 350 895 308" stroke="#4a2d8a" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#mp)"/>
-
-<!-- ═══════════════════════════════════════
-     RIGHT PANELS — 3 Bucket + BDA view
-═══════════════════════════════════════ -->
-<rect x="910" y="56" width="190" height="220" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
-<text x="1005" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">3-BUCKET EXPERIMENT</text>
-<text x="1005" y="93" text-anchor="middle" font-size="9" fill="#5a5950">150 orders / 50 learners each</text>
-<rect x="920" y="102" width="170" height="34" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
-<text x="1005" y="116" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">A — Daily Contact</text>
-<text x="1005" y="130" text-anchor="middle" font-size="8" fill="#5a5950">LPA reaches out every day</text>
-<rect x="920" y="142" width="170" height="34" rx="6" fill="#ebf2fb" stroke="#1a3a6b" stroke-width="1"/>
-<text x="1005" y="156" text-anchor="middle" font-size="9" font-weight="600" fill="#1a3a6b">B — Every 3rd Day</text>
-<text x="1005" y="170" text-anchor="middle" font-size="8" fill="#5a5950">D1, 3, 5, 7, 10, 14, 21, 28</text>
-<rect x="920" y="182" width="170" height="34" rx="6" fill="#f2f1eb" stroke="#d4d2ca" stroke-width="1"/>
-<text x="1005" y="196" text-anchor="middle" font-size="9" font-weight="600" fill="#5a5950">C — Every 7th Day</text>
-<text x="1005" y="210" text-anchor="middle" font-size="8" fill="#5a5950">D1, 7, 14, 21, 28 only</text>
-<rect x="920" y="222" width="170" height="44" rx="6" fill="#fffbe6" stroke="#b8860b" stroke-width="1"/>
-<text x="1005" y="237" text-anchor="middle" font-size="8.5" fill="#92570a" font-weight="600">Compare GTN from Aug 2026</text>
-<text x="1005" y="250" text-anchor="middle" font-size="8" fill="#5a5950">Lock best cadence thereafter</text>
-<text x="1005" y="263" text-anchor="middle" font-size="8" fill="#5a5950">to scale LPA operations</text>
-
-<rect x="910" y="296" width="190" height="170" rx="10" fill="#fff" stroke="#e0ddd4" stroke-width="1"/>
-<text x="1005" y="318" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4e3a">BDA DAILY VIEW</text>
-<text x="1005" y="333" text-anchor="middle" font-size="9" fill="#5a5950">Dashboard — check every day</text>
-<rect x="920" y="342" width="170" height="30" rx="6" fill="#e8f2ed" stroke="#2d7a5a" stroke-width="1"/>
-<text x="1005" y="362" text-anchor="middle" font-size="9" font-weight="600" fill="#1d4e3a">ACTIVE — no action needed</text>
-<rect x="920" y="378" width="170" height="30" rx="6" fill="#fef3e2" stroke="#92570a" stroke-width="1"/>
-<text x="1005" y="398" text-anchor="middle" font-size="9" font-weight="600" fill="#92570a">YELLOW — monitor</text>
-<rect x="920" y="414" width="170" height="46" rx="6" fill="#fef0f0" stroke="#8b1a1a" stroke-width="1"/>
-<text x="1005" y="430" text-anchor="middle" font-size="9" font-weight="600" fill="#8b1a1a">RED — act today</text>
-<text x="1005" y="443" text-anchor="middle" font-size="8" fill="#5a5950">Personal outreach via</text>
-<text x="1005" y="455" text-anchor="middle" font-size="8" fill="#5a5950">sales relationship — not a script</text>
-
-<!-- Footer note -->
-<rect x="22" y="1994" width="874" height="20" rx="5" fill="#f2f1eb"/>
-<text x="459" y="2008" text-anchor="middle" font-size="9" fill="#5a5950">* = Key initiatives: Goal Track Card (D1), Progress Celebration (D7), Manager Check-in (D15)  |  LPA = Launchpad Associate  |  First 150 orders</text>
-
-</svg>
+<div class="cohort-tabs">
+  <div class="ctab active" onclick="show('w1',this)">W1 Joiners<span class="meta">100 people · 28 days pre-batch</span></div>
+  <div class="ctab" onclick="show('w2',this)">W2 Joiners<span class="meta">50 people · 21 days pre-batch</span></div>
+  <div class="ctab" onclick="show('w3',this)">W3 Joiners<span class="meta">150 people · 14 days pre-batch</span></div>
+  <div class="ctab" onclick="show('w4',this)">W4 Joiners<span class="meta">200 people · 7 days pre-batch</span></div>
 </div>
+
+<div class="panel-wrap">
+
+<!-- ══════════════════════════════ W1 ══════════════════════════════ -->
+<div class="cohort-panel active" id="p-w1">
+
+<div style="background:#f0f7f4;border:1.5px solid #2d7a5a;border-radius:10px;padding:14px 18px;width:100%;max-width:900px;margin-bottom:18px">
+  <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#1d4e3a;font-family:'DM Mono',monospace;margin-bottom:10px">
+    Completion Team — Parallel Ops Track (runs throughout, all cohorts)
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">D1–D7</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Order Completion Check</div>
+      <div class="node-desc">Ensure order is fully completed within 7 days of sale closing. Flag incomplete orders to BDA immediately. Manager-level verification.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Post session</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Recording Availability Check</div>
+      <div class="node-desc">Ensure all session recordings are present and accessible within 24hrs of each session. Coordinate with BDA if recordings are missing or incomplete.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Daily</div>
+      <div class="node-owner">Completion Team → BDA</div>
+      <div class="node-title">Incomplete / Un-engaged Order Flag</div>
+      <div class="node-desc">Daily visibility of incomplete orders and non-engaging learners. Surface to BDA for personal outreach using sales relationship. Synced with LPA data.</div>
+    </div>
+  </div>
+  <div style="font-size:9px;color:#5a5950;margin-top:8px;font-style:italic">All Completion Team operations report to Shreyashi. Data stays in sync with LPA team throughout learner journey.</div>
+</div>
+
+<div class="timeline"><div class="tl-pre" style="flex:28">PRE-BATCH WINDOW — 28 DAYS</div><div class="tl-batch">BATCH START D29</div><div class="tl-refund" style="flex:14">REFUND WINDOW 14 DAYS</div></div>
+<div class="flow">
+
+<div class="phase-banner">Sale Closed — Day 1</div>
+<div class="row">
+  <div class="node psa"><div class="node-day">D1</div><div class="node-owner">PSA</div><div class="node-title">Intro Call within 48hrs</div><div class="node-desc">Warm handoff from BDA. Set expectations — LPA intro, batch date, what happens next.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Why I Joined Card</div><div class="node-desc">Capture: current situation, 12-month goal, why they said yes. Add to WA group.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title">Pre-Batch Content</div><div class="node-desc">What to expect in Week 1. Success stories. Instructor intro message.</div></div>
+</div>
+
+<div class="arrow"></div>
+
+<div class="diamond-wrap">
+  <div class="diamond"><div class="diamond-inner">Responded by D1 EOD?</div></div>
+  <div class="d-labels"><span>YES → continue</span><span>NO → soft flag ↓</span></div>
+</div>
+<div class="row" style="max-width:900px">
+  <div class="node risk" style="max-width:420px"><div class="node-owner">LPA — if NO</div><div class="node-title">Soft Flag — Mark Yellow</div><div class="node-desc">Informal PSA heads-up. Monitor — do not escalate yet.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 3</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D3</div><div class="node-owner">LPA</div><div class="node-title">Task 1 — Career Profile</div><div class="node-desc">Assign eval. Award coins on completion. Escalate non-responders formally to PSA.</div></div>
+  <div class="node lpa"><div class="node-day">D3</div><div class="node-owner">LPA</div><div class="node-title">Check-in Message</div><div class="node-desc">Any questions before batch starts? Keep personal — not a template.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 5</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D5</div><div class="node-owner">LPA</div><div class="node-title">Task 2 — AI Mock Interview</div><div class="node-desc">Assign AI Mock + Cortex course for learner track.</div></div>
+  <div class="node lpa"><div class="node-day">D5</div><div class="node-owner">LPA</div><div class="node-title">Peer Intro</div><div class="node-desc">Introduce 2–3 same-track learners via WA. Build cohort identity early.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 7 — Week 1 Close ★</div>
+<div class="row">
+  <div class="node bda"><div class="node-day">D7</div><div class="node-owner">BDA</div><div class="node-title">Personal Reach Out</div><div class="node-desc">"How are you feeling?" Sales relationship only — not a script. Reference original sales conversation.</div></div>
+  <div class="node milestone"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Progress Celebration</div><div class="node-desc">Batch WA: tasks done, top 3 coin earners, standout response. Cohort identity + peer competition.</div></div>
+  <div class="node psa"><div class="node-day">D7</div><div class="node-owner">PSA</div><div class="node-title">Weekly Check-in</div><div class="node-desc">"How is the week going?" Log: positive / neutral / negative. Flag reds to BDA.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 10</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D10</div><div class="node-owner">LPA</div><div class="node-title">Task 3 — Resume Review</div><div class="node-desc">Reference Why I Joined Card — 12-month goal. Connect task to personal relevance.</div></div>
+  <div class="node psa"><div class="node-day">D10</div><div class="node-owner">PSA</div><div class="node-title">Non-Responder Flag</div><div class="node-desc">Anyone silent since D7 — flag to BDA for personal outreach.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 14 — Mid-Point</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D14</div><div class="node-owner">LPA</div><div class="node-title">Goal Check-in</div><div class="node-desc">Revisit Why I Joined Card. "You said X — here is where you are." 14 days to batch start.</div></div>
+  <div class="node milestone"><div class="node-day">D14</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Coins — Exceptional</div><div class="node-desc">Award coins to standouts. Public WA recognition — name them by name.</div></div>
+  <div class="node psa"><div class="node-day">D14</div><div class="node-owner">PSA</div><div class="node-title">Weekly Check-in</div><div class="node-desc">Second weekly log. Flag non-responders to BDA — 14 days left before batch.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 15 ★</div>
+<div class="row single">
+  <div class="node milestone" style="max-width:460px"><div class="node-day">D15</div><div class="node-owner">Shreyashi</div><div class="node-title"><span class="star">★</span> Manager Check-in</div><div class="node-desc">Drops into WA group: "Halfway through — proud of this batch." Leadership trust signal before batch starts.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 21</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D21</div><div class="node-owner">LPA</div><div class="node-title">Task 4 — MG Prep</div><div class="node-desc">Reference Goal Track Card. "Here is how far you have come." 1 week to batch start.</div></div>
+  <div class="node bda"><div class="node-day">D21</div><div class="node-owner">BDA</div><div class="node-title">Second Touch — Silent Learners</div><div class="node-desc">Anyone not engaged since D7 — personal message. Sales relationship only. No template.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner">Day 28 — Final Pre-Batch</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D28</div><div class="node-owner">LPA</div><div class="node-title">Week 4 Momentum</div><div class="node-desc">"Here is what is coming in Week 1 of class." Reduce end-of-waiting anxiety. Build anticipation.</div></div>
+  <div class="node lpa"><div class="node-day">D28</div><div class="node-owner">LPA</div><div class="node-title">Handoff Log</div><div class="node-desc">Log: Active / At-risk / Churned. Share with PSA + BDA before Day 29.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="phase-banner batch">Day 29 — Batch Starts | Refund Window Opens (14 days)</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D29</div><div class="node-owner">LPA</div><div class="node-title">Welcome to Batch</div><div class="node-desc">WA message. MG details. Set weekly class expectation.</div></div>
+  <div class="node psa"><div class="node-day">D29+</div><div class="node-owner">PSA</div><div class="node-title">Daily Engagement Flag</div><div class="node-desc">Class attendance checked daily. Non-attendees flagged within 24hrs to BDA.</div></div>
+  <div class="node bda"><div class="node-day">D29+</div><div class="node-owner">BDA</div><div class="node-title">Act on Escalations</div><div class="node-desc">Use sales relationship to pull back at-risk learners. Reference why they joined.</div></div>
+</div>
+
+<div class="arrow"></div>
+<div class="row">
+  <div class="node psa"><div class="node-day">D36</div><div class="node-owner">PSA</div><div class="node-title">Mid-Refund Check</div><div class="node-desc">D7 of classes. Escalate reds to Shreyashi.</div></div>
+  <div class="node all"><div class="node-day">D43</div><div class="node-owner">All Three</div><div class="node-title"><span class="star">★</span> Refund Window Closes</div><div class="node-desc">Final push. Log: Active / At-risk / Churned. Feed back to pipeline review.</div></div>
+</div>
+
+<div class="esc-track">
+  <div class="esc-title">Escalation Track — triggers any time a learner goes silent</div>
+  <div class="esc-steps">
+    <div class="esc-step"><div class="esc-dot" style="background:#f39c12">D1</div><div class="esc-label">Soft flag — LPA marks yellow. PSA informal heads-up.</div></div>
+    <div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#e67e22">D3</div><div class="esc-label">Formal flag — LPA to PSA. PSA sends WA message.</div></div>
+    <div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#c0392b">D5</div><div class="esc-label">PSA direct call — not WA. One attempt.</div></div>
+    <div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#922b21">D7</div><div class="esc-label">BDA outreach — sales relationship. Not a script.</div></div>
+    <div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#641e16">D10</div><div class="esc-label">Shreyashi — high refund risk. Case closed.</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════ W2 ══════════════════════════════ -->
+<div class="cohort-panel" id="p-w2">
+
+<div style="background:#f0f7f4;border:1.5px solid #2d7a5a;border-radius:10px;padding:14px 18px;width:100%;max-width:900px;margin-bottom:18px">
+  <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#1d4e3a;font-family:'DM Mono',monospace;margin-bottom:10px">
+    Completion Team — Parallel Ops Track (runs throughout, all cohorts)
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">D1–D7</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Order Completion Check</div>
+      <div class="node-desc">Ensure order is fully completed within 7 days of sale closing. Flag incomplete orders to BDA immediately. Manager-level verification.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Post session</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Recording Availability Check</div>
+      <div class="node-desc">Ensure all session recordings are present and accessible within 24hrs of each session. Coordinate with BDA if recordings are missing or incomplete.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Daily</div>
+      <div class="node-owner">Completion Team → BDA</div>
+      <div class="node-title">Incomplete / Un-engaged Order Flag</div>
+      <div class="node-desc">Daily visibility of incomplete orders and non-engaging learners. Surface to BDA for personal outreach using sales relationship. Synced with LPA data.</div>
+    </div>
+  </div>
+  <div style="font-size:9px;color:#5a5950;margin-top:8px;font-style:italic">All Completion Team operations report to Shreyashi. Data stays in sync with LPA team throughout learner journey.</div>
+</div>
+
+<div class="timeline"><div class="tl-pre" style="flex:21">PRE-BATCH WINDOW — 21 DAYS</div><div class="tl-batch">BATCH START D29</div><div class="tl-refund" style="flex:14">REFUND WINDOW 14 DAYS</div></div>
+<div class="flow">
+<div class="phase-banner">Sale Closed — Day 1</div>
+<div class="row">
+  <div class="node psa"><div class="node-day">D1</div><div class="node-owner">PSA</div><div class="node-title">Intro Call within 48hrs</div><div class="node-desc">Warm handoff. 21 days to batch — set clear timeline.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Why I Joined Card</div><div class="node-desc">Capture goal + situation. WA group created.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title">Pre-Batch Content</div><div class="node-desc">What to expect Week 1. Success stories. Batch preview.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 3</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D3</div><div class="node-owner">LPA</div><div class="node-title">Task 1 + Check-in</div><div class="node-desc">Career Profile eval + personal check-in combined. Award coins.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 5</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D5</div><div class="node-owner">LPA</div><div class="node-title">Task 2 + Peer Intro</div><div class="node-desc">AI Mock + Cortex. Intro 2–3 same-track learners via WA.</div></div>
+  <div class="node psa"><div class="node-day">D5</div><div class="node-owner">PSA</div><div class="node-title">Non-Responder Flag</div><div class="node-desc">Silent since D1 — flag to BDA for personal outreach.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 7 — Week 1 Close ★</div>
+<div class="row">
+  <div class="node bda"><div class="node-day">D7</div><div class="node-owner">BDA</div><div class="node-title">Personal Reach Out</div><div class="node-desc">"How are you feeling?" Sales relationship. Not a script.</div></div>
+  <div class="node milestone"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Progress Celebration</div><div class="node-desc">Top coin earners named. Standout response shared. Cohort identity.</div></div>
+  <div class="node psa"><div class="node-day">D7</div><div class="node-owner">PSA</div><div class="node-title">Weekly Check-in</div><div class="node-desc">Log: positive / neutral / negative. 14 days left before batch.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 10</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D10</div><div class="node-owner">LPA</div><div class="node-title">Task 3 — Resume Review</div><div class="node-desc">Connect to Why I Joined goal. Personal relevance.</div></div>
+  <div class="node lpa"><div class="node-day">D10</div><div class="node-owner">LPA</div><div class="node-title">Coins — Exceptional</div><div class="node-desc">Award standouts publicly in WA group.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 14 — Urgency Point (1 Week to Batch) ★</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D14</div><div class="node-owner">LPA</div><div class="node-title">Goal Check-in</div><div class="node-desc">Revisit Why I Joined. "1 week to batch — here is where you are."</div></div>
+  <div class="node bda"><div class="node-day">D14</div><div class="node-owner">BDA</div><div class="node-title">Second Touch — Silent</div><div class="node-desc">Personal message for anyone not engaged since D7. Batch in 7 days.</div></div>
+  <div class="node psa"><div class="node-day">D14</div><div class="node-owner">PSA</div><div class="node-title">Non-Responder Escalation</div><div class="node-desc">Final flag before batch. Escalate to Shreyashi if still unresponsive.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 15 ★</div>
+<div class="row single">
+  <div class="node milestone" style="max-width:460px"><div class="node-day">D15</div><div class="node-owner">Shreyashi</div><div class="node-title"><span class="star">★</span> Manager Check-in</div><div class="node-desc">"6 days to batch — proud of this group." Leadership signal before class starts.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 21 — Final Pre-Batch</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D21</div><div class="node-owner">LPA</div><div class="node-title">Task 4 + Handoff Log</div><div class="node-desc">"Here is what is coming." Log: Active / At-risk / Churned. Share with PSA + BDA.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner batch">Day 29 — Batch Starts | Refund Window Opens</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D29</div><div class="node-owner">LPA</div><div class="node-title">Welcome to Batch</div><div class="node-desc">WA message. MG details. Weekly class expectation.</div></div>
+  <div class="node psa"><div class="node-day">D29+</div><div class="node-owner">PSA</div><div class="node-title">Daily Engagement Flag</div><div class="node-desc">Non-attendees flagged within 24hrs throughout refund window.</div></div>
+  <div class="node all"><div class="node-day">D43</div><div class="node-owner">All Three</div><div class="node-title"><span class="star">★</span> Refund Window Closes</div><div class="node-desc">Final status log. Feed back to LPA → BDA pipeline review.</div></div>
+</div>
+<div class="esc-track">
+  <div class="esc-title">Escalation Track</div>
+  <div class="esc-steps">
+    <div class="esc-step"><div class="esc-dot" style="background:#f39c12">D1</div><div class="esc-label">Soft flag — yellow</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#e67e22">D3</div><div class="esc-label">Formal → PSA WA</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#c0392b">D5</div><div class="esc-label">PSA direct call</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#922b21">D7</div><div class="esc-label">BDA outreach</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#641e16">D10</div><div class="esc-label">Shreyashi</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════ W3 ══════════════════════════════ -->
+<div class="cohort-panel" id="p-w3">
+
+<div style="background:#f0f7f4;border:1.5px solid #2d7a5a;border-radius:10px;padding:14px 18px;width:100%;max-width:900px;margin-bottom:18px">
+  <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#1d4e3a;font-family:'DM Mono',monospace;margin-bottom:10px">
+    Completion Team — Parallel Ops Track (runs throughout, all cohorts)
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">D1–D7</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Order Completion Check</div>
+      <div class="node-desc">Ensure order is fully completed within 7 days of sale closing. Flag incomplete orders to BDA immediately. Manager-level verification.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Post session</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Recording Availability Check</div>
+      <div class="node-desc">Ensure all session recordings are present and accessible within 24hrs of each session. Coordinate with BDA if recordings are missing or incomplete.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Daily</div>
+      <div class="node-owner">Completion Team → BDA</div>
+      <div class="node-title">Incomplete / Un-engaged Order Flag</div>
+      <div class="node-desc">Daily visibility of incomplete orders and non-engaging learners. Surface to BDA for personal outreach using sales relationship. Synced with LPA data.</div>
+    </div>
+  </div>
+  <div style="font-size:9px;color:#5a5950;margin-top:8px;font-style:italic">All Completion Team operations report to Shreyashi. Data stays in sync with LPA team throughout learner journey.</div>
+</div>
+
+<div class="timeline"><div class="tl-pre" style="flex:14">PRE-BATCH — 14 DAYS</div><div class="tl-batch">BATCH D29</div><div class="tl-refund" style="flex:14">REFUND WINDOW 14 DAYS</div></div>
+<div class="flow">
+<div class="phase-banner refund">Sale Closed — Day 1 (Front-load everything — 14 days only)</div>
+<div class="row">
+  <div class="node risk"><div class="node-day">D1</div><div class="node-owner">PSA — 24hr SLA</div><div class="node-title">Intro Call within 24hrs</div><div class="node-desc">SLA tightened. 14 days only. Set full timeline immediately. Introduce LPA by name.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Why I Joined Card</div><div class="node-desc">Capture immediately. WA group same day. No delay.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title">Pre-Batch Content + Preview</div><div class="node-desc">Everything combined — what to expect, success stories, syllabus highlight.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 3 — No Time to Wait</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D3</div><div class="node-owner">LPA</div><div class="node-title">Task 1 + Check-in + Peer Intro</div><div class="node-desc">Career Profile + check-in + peer intro in combined message. Award coins. Build cohort identity early.</div></div>
+  <div class="node risk"><div class="node-day">D3</div><div class="node-owner">PSA</div><div class="node-title">Non-Responder — Escalate Immediately</div><div class="node-desc">Silent since D1 — escalate to BDA today. No time to wait for D5.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 5</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D5</div><div class="node-owner">LPA</div><div class="node-title">Task 2 — AI Mock</div><div class="node-desc">Assign AI Mock + Cortex. Keep momentum.</div></div>
+  <div class="node bda"><div class="node-day">D5</div><div class="node-owner">BDA</div><div class="node-title">Personal Reach Out (earlier than usual)</div><div class="node-desc">"Batch starts soon, you good?" Only 9 days left — earlier than normal cadence.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 7 — Mid-Point (Batch in 1 Week) ★</div>
+<div class="row">
+  <div class="node milestone"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Progress Celebration</div><div class="node-desc">Top coin earners. "1 week to batch start." Build excitement.</div></div>
+  <div class="node lpa"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title">Final Pre-Batch Message</div><div class="node-desc">What to expect Day 1 of class. MG preview. Reduce anxiety.</div></div>
+  <div class="node psa"><div class="node-day">D7</div><div class="node-owner">PSA</div><div class="node-title">Final Flag — Escalate Reds Now</div><div class="node-desc">7 days left — no more time. Escalate to Shreyashi immediately.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 10</div>
+<div class="row">
+  <div class="node milestone"><div class="node-day">D10</div><div class="node-owner">Shreyashi</div><div class="node-title"><span class="star">★</span> Manager Check-in</div><div class="node-desc">"4 days to batch — nearly there." Leadership signal before class starts.</div></div>
+  <div class="node lpa"><div class="node-day">D10</div><div class="node-owner">LPA</div><div class="node-title">Goal Check-in + Handoff Prep</div><div class="node-desc">Revisit Why I Joined. Log Active / At-risk. Share before D14.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner batch">Day 14 — Batch Starts | Refund Window Opens (14 days)</div>
+<div class="row">
+  <div class="node all"><div class="node-day">D14</div><div class="node-owner">All Three</div><div class="node-title">Batch Starts — Handoff Log Shared</div><div class="node-desc">Log finalised: Active / At-risk / Churned. All 3 teams briefed. Refund window opens.</div></div>
+  <div class="node psa"><div class="node-day">D14+</div><div class="node-owner">PSA</div><div class="node-title">Daily Attendance Flag</div><div class="node-desc">Non-attendees flagged within 24hrs throughout 14-day refund window.</div></div>
+  <div class="node bda"><div class="node-day">D14+</div><div class="node-owner">BDA</div><div class="node-title">Escalation Response</div><div class="node-desc">Act on PSA flags immediately. Sales relationship is the lever.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="row single">
+  <div class="node all" style="max-width:460px"><div class="node-day">D28</div><div class="node-owner">All Three</div><div class="node-title"><span class="star">★</span> Refund Window Closes</div><div class="node-desc">Final status log. Feed back to pipeline review.</div></div>
+</div>
+<div class="esc-track">
+  <div class="esc-title">Escalation Track — compressed for W3</div>
+  <div class="esc-steps">
+    <div class="esc-step"><div class="esc-dot" style="background:#f39c12">D1</div><div class="esc-label">Soft flag</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#e67e22">D3</div><div class="esc-label">Formal → PSA immediately</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#c0392b">D5</div><div class="esc-label">PSA call</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#922b21">D7</div><div class="esc-label">BDA outreach</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#641e16">D10</div><div class="esc-label">Shreyashi</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════ W4 ══════════════════════════════ -->
+<div class="cohort-panel" id="p-w4">
+
+<div style="background:#f0f7f4;border:1.5px solid #2d7a5a;border-radius:10px;padding:14px 18px;width:100%;max-width:900px;margin-bottom:18px">
+  <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#1d4e3a;font-family:'DM Mono',monospace;margin-bottom:10px">
+    Completion Team — Parallel Ops Track (runs throughout, all cohorts)
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">D1–D7</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Order Completion Check</div>
+      <div class="node-desc">Ensure order is fully completed within 7 days of sale closing. Flag incomplete orders to BDA immediately. Manager-level verification.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Post session</div>
+      <div class="node-owner">Completion Team</div>
+      <div class="node-title">Recording Availability Check</div>
+      <div class="node-desc">Ensure all session recordings are present and accessible within 24hrs of each session. Coordinate with BDA if recordings are missing or incomplete.</div>
+    </div>
+    <div class="node lpa" style="max-width:none">
+      <div class="node-day">Daily</div>
+      <div class="node-owner">Completion Team → BDA</div>
+      <div class="node-title">Incomplete / Un-engaged Order Flag</div>
+      <div class="node-desc">Daily visibility of incomplete orders and non-engaging learners. Surface to BDA for personal outreach using sales relationship. Synced with LPA data.</div>
+    </div>
+  </div>
+  <div style="font-size:9px;color:#5a5950;margin-top:8px;font-style:italic">All Completion Team operations report to Shreyashi. Data stays in sync with LPA team throughout learner journey.</div>
+</div>
+
+<div class="timeline"><div class="tl-pre" style="flex:7;min-width:120px">PRE-BATCH — 7 DAYS</div><div class="tl-batch">BATCH D7</div><div class="tl-refund" style="flex:14">REFUND WINDOW 14 DAYS</div></div>
+<div class="risk-warning">⚠ W4 is the highest-refund-risk cohort. Only 7 days of pre-batch runway. PSA intro call SLA is <strong>same day if possible</strong> (not 48hrs). BDA enters on D3 instead of D7. Escalation track accelerated — Shreyashi by D5.</div>
+<div class="flow">
+<div class="phase-banner refund">Sale Closed — Day 1 (Act Immediately)</div>
+<div class="row">
+  <div class="node risk"><div class="node-day">D1</div><div class="node-owner">PSA — Same Day</div><div class="node-title">Intro Call — same day if possible</div><div class="node-desc">7 days only. Ideally same day. Set full expectations. Introduce LPA by name.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Why I Joined Card</div><div class="node-desc">Capture immediately. WA group same day. 7 days is the entire window.</div></div>
+  <div class="node lpa"><div class="node-day">D1</div><div class="node-owner">LPA</div><div class="node-title">Pre-Batch Content + Preview</div><div class="node-desc">Everything in one message. Batch in 7 days — be explicit about the timeline.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner refund">Day 3 — BDA Enters Early</div>
+<div class="row">
+  <div class="node bda"><div class="node-day">D3</div><div class="node-owner">BDA — Earlier than usual</div><div class="node-title">Personal Reach Out</div><div class="node-desc">"4 days to batch, you good?" Sales relationship. Reference original conversation. Not a script.</div></div>
+  <div class="node lpa"><div class="node-day">D3</div><div class="node-owner">LPA</div><div class="node-title">Task 1 + Peer Intro (combined)</div><div class="node-desc">Career Profile + intro 2–3 same-track learners. Award coins.</div></div>
+  <div class="node risk"><div class="node-day">D3</div><div class="node-owner">PSA</div><div class="node-title">Non-Responder — Escalate Immediately</div><div class="node-desc">Silent since D1 — escalate to BDA today. No waiting for D5.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner">Day 5</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D5</div><div class="node-owner">LPA</div><div class="node-title">Task 2 + Final Pre-Batch Hype</div><div class="node-desc">AI Mock assigned. "2 days to batch — here is what Day 1 looks like." Reduce anxiety.</div></div>
+  <div class="node psa"><div class="node-day">D5</div><div class="node-owner">PSA</div><div class="node-title">Status Check + Handoff Prep</div><div class="node-desc">Log all learners: Active / At-risk. Share with BDA and LPA before D7.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="phase-banner batch">Day 7 — Batch Starts | Refund Window Opens (14 days)</div>
+<div class="row">
+  <div class="node lpa"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title"><span class="star">★</span> Welcome to Batch</div><div class="node-desc">WA welcome. MG details. "You made it." Celebrate joining.</div></div>
+  <div class="node milestone"><div class="node-day">D7</div><div class="node-owner">Shreyashi</div><div class="node-title"><span class="star">★</span> Manager Check-in — Day 1 of Class</div><div class="node-desc">"Proud to have you here." Leadership signal at the highest-risk moment of the entire program.</div></div>
+  <div class="node lpa"><div class="node-day">D7</div><div class="node-owner">LPA</div><div class="node-title">Handoff Log Finalised</div><div class="node-desc">Active / At-risk / Churned. All 3 teams briefed. Refund window open.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="row">
+  <div class="node psa"><div class="node-day">D7+</div><div class="node-owner">PSA — Priority</div><div class="node-title">Daily Attendance Flag</div><div class="node-desc">Every non-attendee flagged within 24hrs. W4 is highest risk — no delay acceptable.</div></div>
+  <div class="node bda"><div class="node-day">D7+</div><div class="node-owner">BDA — Priority</div><div class="node-title">Act on All Escalations</div><div class="node-desc">Every escalation treated as urgent. Sales relationship is the primary lever.</div></div>
+</div>
+<div class="arrow"></div>
+<div class="row single">
+  <div class="node all" style="max-width:460px"><div class="node-day">D21</div><div class="node-owner">All Three</div><div class="node-title"><span class="star">★</span> Refund Window Closes</div><div class="node-desc">Final status log. Feed outcomes back to LPA → BDA pipeline review.</div></div>
+</div>
+<div class="esc-track">
+  <div class="esc-title">Escalation Track — ACCELERATED for W4 (7-day window only)</div>
+  <div class="esc-steps">
+    <div class="esc-step"><div class="esc-dot" style="background:#f39c12">D1 EOD</div><div class="esc-label">Soft flag — LPA yellow immediately</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#e67e22">D2</div><div class="esc-label">Formal flag — no waiting for D3</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#c0392b">D3</div><div class="esc-label">PSA call + BDA same day</div></div><div class="esc-arr">→</div>
+    <div class="esc-step"><div class="esc-dot" style="background:#641e16">D5</div><div class="esc-label">Shreyashi — high refund risk</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+</div><!-- end panel-wrap -->
+
+<!-- FEEDBACK LOOPS -->
+<div style="margin-top:20px">
+<p class="subtitle" style="margin-bottom:10px">Feedback Loops — Insights Flow Back Upstream</p>
+<div class="fb-grid" style="max-width:900px">
+  <div class="fb-card"><div class="fb-from">LPA → BDA</div><div class="fb-name">Pitch Quality</div><div class="fb-desc">Wrong expectations logged. BDA name + what was mis-sold.</div><div class="fb-freq">Weekly</div></div>
+  <div class="fb-card"><div class="fb-from">LPA → Marketing</div><div class="fb-name">Lead Quality</div><div class="fb-desc">Lead source of unresponsive learners. Lowest W1 engagement by source.</div><div class="fb-freq">Monthly</div></div>
+  <div class="fb-card"><div class="fb-from">PSA → LPA</div><div class="fb-name">Re-engagement</div><div class="fb-desc">Which escalated learners came back. What worked: call / WA / BDA.</div><div class="fb-freq">Monthly</div></div>
+  <div class="fb-card"><div class="fb-from">LPA → Shreyashi</div><div class="fb-name">Cohort Health</div><div class="fb-desc">Active %, at-risk %, coins completed, tasks done per cohort.</div><div class="fb-freq">Weekly</div></div>
+</div>
+</div>
+
+<p style="font-size:9px;color:#9b9890;font-family:'DM Mono',monospace;margin-top:18px;text-align:center">
+★ = Key initiatives: Why I Joined Card (D1), Progress Celebration (D7), Manager Check-in (D15 for W1/W2 · D10 for W3 · D7 for W4) &nbsp;|&nbsp; LPA = Launchpad Associate &nbsp;|&nbsp; PSA = Post Sales Associate &nbsp;|&nbsp; BDA = Business Development Associate &nbsp;|&nbsp; Completion Team = Order + Recording ops — all under Shreyashi
+</p>
+
+<script>
+function show(id, el){
+  document.querySelectorAll('.cohort-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
 </body>
 </html>
